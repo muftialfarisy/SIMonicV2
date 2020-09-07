@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#359BA9">
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:gravity="left"
+        android:textSize="@dimen/_20sdp"
+        android:textColor="#FFFFFF"
+        android:text="LOGIN PENGAWAS" />
+
+    <ImageView
+        android:id="@+id/img_login"
+        android:layout_width="@dimen/_140sdp"
+        android:layout_height="@dimen/_140sdp"
+        android:layout_toRightOf="@+id/login"
+        android:layout_gravity="left"
+        android:src="@mipmap/ic_pengawas" />
+    <LinearLayout
+        android:id="@+id/ln_profile"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/img_login"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_43sdp">
+        <ImageView
+            android:id="@+id/profile_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_person_24px"/>
+
+        <EditText
+            android:id="@+id/username_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/profile_logo"
+            android:backgroundTint="#FFFFFF"
+            android:hint="Username"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
+            android:textSize="@dimen/_15sdp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ln_password"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/ln_profile"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_30sdp">
+        <ImageView
+            android:id="@+id/password_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_lock_24"/>
+
+        <EditText
+            android:id="@+id/password_input"
+            android:layout_width="@dimen/_230sdp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/profile_logo"
+            android:hint="Password"
+            android:ems="10"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:textSize="@dimen/_15sdp"
+            android:inputType="textPassword"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_below="@+id/ln_password"
+        android:gravity="center"
+        android:background="#3BE57F"
+        android:text="Login"
+        android:textSize="@dimen/_20sdp"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_marginLeft="100px"/>
+
+
+</RelativeLayout>

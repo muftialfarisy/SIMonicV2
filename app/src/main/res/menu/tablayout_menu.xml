@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/profile_menu"
+        android:checked="false"
+        android:title="Report CheckUp" />
+    <item
+        android:id="@+id/report_menu"
+        android:checked="false"
+        android:title="Report CheckUp" />
+    <item
+        android:id="@+id/masalah_menu"
+        android:checked="true"
+        android:title="Report Masalah" />
+    <item
+        android:id="@+id/suhu_menu"
+        android:checked="false"
+        android:title="Suhu Tubuh" />
+    <item
+        android:id="@+id/posisi_menu"
+        android:checked="false"
+        android:title="Posisi Individu" />
+</menu>

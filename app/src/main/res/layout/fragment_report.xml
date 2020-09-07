@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/jdl_mc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MEDICAL CHECKUP"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/_20sdp"
+        android:textColor="#000000"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_reportc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/jdl_mc"
+        android:layout_marginTop="@dimen/_25sdp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

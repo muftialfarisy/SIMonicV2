@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#359BA9">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/exit_edit"
+            android:layout_width="100px"
+            android:background="#359BA9"
+            android:layout_height="100px"
+            android:src="@drawable/ic_close"/>
+        <TextView
+            android:id="@+id/jdl_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:text="EDIT DATA INDIVIDU DALAM \n PENGAWASAN"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:textSize="@dimen/_15sdp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/jdl_edit">
+
+            <TextView
+                android:id="@+id/jdl_nama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Nama"
+                android:textColor="#ffffff"
+                />
+            <EditText
+                android:id="@+id/txt_nama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40px"
+                android:hint="                                                                 "
+                android:layout_below="@+id/jdl_nama"
+                android:textColorHint="#FFFFFF"
+                android:backgroundTint="#FFFFFF"/>
+            <TextView
+                android:id="@+id/jdl_nik"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="NIK"
+                android:layout_below="@+id/txt_nama"
+                android:textColor="#ffffff"
+                />
+            <EditText
+                android:id="@+id/txt_nik"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40px"
+                android:hint="                                                                 "
+                android:layout_below="@+id/jdl_nik"
+                android:textColorHint="#FFFFFF"
+                android:backgroundTint="#FFFFFF"/>
+            <TextView
+                android:id="@+id/jdl_alamat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Alamat"
+                android:layout_below="@+id/txt_nik"
+                android:textColor="#ffffff"
+                />
+            <EditText
+                android:id="@+id/txt_alamat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40px"
+                android:hint="                                                                 "
+                android:layout_below="@+id/jdl_alamat"
+                android:textColorHint="#FFFFFF"
+                android:backgroundTint="#FFFFFF"/>
+            <TextView
+                android:id="@+id/jdl_jk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Jenis Kelamin"
+                android:layout_below="@+id/txt_alamat"
+                android:textColor="#ffffff"
+                />
+            <RadioGroup
+                android:id="@+id/group_jk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40px"
+                android:layout_below="@+id/jdl_jk"
+                android:textColorHint="#FFFFFF"
+                android:orientation="horizontal"
+                android:backgroundTint="#FFFFFF">
+                <RadioButton
+                    android:id="@+id/pria"
+                    android:textColor="#ffffff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pria"/>
+                <RadioButton
+                    android:id="@+id/wanita"
+                    android:textColor="#ffffff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wanita"/>
+            </RadioGroup>
+            <TextView
+                android:id="@+id/jdl_device"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Device ID"
+                android:layout_below="@+id/group_jk"
+                android:textColor="#ffffff"
+                />
+            <EditText
+                android:id="@+id/txt_device"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40px"
+                android:hint="                                                                 "
+                android:layout_below="@+id/jdl_device"
+                android:textColorHint="#FFFFFF"
+                android:backgroundTint="#FFFFFF"/>
+            <TextView
+                android:id="@+id/jdl_durasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Durasi Pengawasan"
+                android:layout_below="@+id/txt_device"
+                android:textColor="#ffffff"
+                />
+            <EditText
+                android:id="@+id/txt_durasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40px"
+                android:hint="                                                                 "
+                android:layout_below="@+id/jdl_durasi"
+                android:textColorHint="#FFFFFF"
+                android:backgroundTint="#FFFFFF"/>
+            <TextView
+                android:id="@+id/jdl_riwayat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Riwayat Kesehatan"
+                android:layout_below="@+id/txt_durasi"
+                android:textColor="#ffffff"
+                />
+            <EditText
+                android:id="@+id/txt_riwayat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40px"
+                android:hint="                                                                 "
+                android:layout_below="@+id/jdl_riwayat"
+                android:textColorHint="#FFFFFF"
+                android:backgroundTint="#FFFFFF"/>
+            <TextView
+                android:id="@+id/jdl_coordinate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Coordinate"
+                android:layout_below="@+id/txt_riwayat"
+                android:textColor="#ffffff"
+                />
+            <EditText
+                android:id="@+id/txt_coordinate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40px"
+                android:hint="                                                                 "
+                android:layout_below="@+id/jdl_coordinate"
+                android:textColorHint="#FFFFFF"
+                android:backgroundTint="#FFFFFF"/>
+            <TextView
+                android:id="@+id/jdl_provinsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Provinsi"
+                android:layout_below="@+id/txt_coordinate"
+                android:textColor="#ffffff" />
+            <Spinner
+                android:padding="@dimen/_10sdp"
+                android:id="@+id/sp_name"
+                android:spinnerMode="dropdown"
+                android:entries="@array/provinsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/jdl_provinsi"></Spinner>
+            <TextView
+                android:id="@+id/jdl_kota"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Kota/Kabupaten"
+                android:layout_marginStart="100dp"
+                android:layout_toRightOf="@+id/jdl_provinsi"
+                android:layout_below="@+id/txt_coordinate"
+                android:textColor="#ffffff" />
+            <Spinner
+                android:padding="10dp"
+                android:id="@+id/sp_name2"
+                android:spinnerMode="dropdown"
+                android:entries="@array/provinsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/sp_name"
+                android:layout_below="@+id/jdl_provinsi"></Spinner>
+
+            <TextView
+                android:id="@+id/jdl_kecamatan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Kecamatan"
+                android:layout_below="@+id/sp_name"
+                android:textColor="#ffffff" />
+            <Spinner
+                android:padding="10dp"
+                android:id="@+id/sp_name3"
+                android:spinnerMode="dropdown"
+                android:entries="@array/provinsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/jdl_kecamatan"></Spinner>
+            <TextView
+                android:id="@+id/jdl_kelurahan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Kelurahan"
+                android:layout_marginStart="100dp"
+                android:layout_toRightOf="@+id/jdl_kecamatan"
+                android:layout_below="@+id/sp_name2"
+                android:textColor="#ffffff" />
+            <Spinner
+                android:padding="10dp"
+                android:id="@+id/sp_name4"
+                android:spinnerMode="dropdown"
+                android:entries="@array/provinsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/sp_name3"
+                android:layout_below="@+id/jdl_kelurahan"></Spinner>
+            <TextView
+                android:id="@+id/jdl_uuid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="UUID"
+                android:layout_below="@+id/sp_name4"
+                android:textColor="#ffffff" />
+            <Spinner
+                android:padding="10dp"
+                android:id="@+id/sp_name5"
+                android:spinnerMode="dropdown"
+                android:entries="@array/provinsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/jdl_uuid"></Spinner>
+            <Button
+                android:id="@+id/btn_edit"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sp_name5"
+                android:gravity="center"
+                android:background="#3BE57F"
+                android:text="Edit"
+                android:textSize="50px"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginLeft="100px"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

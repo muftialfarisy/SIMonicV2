@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/jdl_suhu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SUHU TUBUH HARI INI"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="20dp"/>
+        <LinearLayout
+            android:id="@+id/ln_suhu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/jdl_suhu">
+            <TextView
+                android:id="@+id/lingkaran_suhu"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/circle"
+                android:text="35"
+                android:textSize="25dp"
+                android:layout_marginLeft="400px"
+                android:gravity="center"/>
+        </LinearLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/ln_suhu">
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="400dp" />
+</RelativeLayout>
+</RelativeLayout>

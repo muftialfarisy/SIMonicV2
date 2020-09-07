@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout
+        android:id = "@+id/relativeLayout1"
+        android:layout_width = "fill_parent"
+        android:layout_height = "wrap_content"
+        android:background = "#C4C4C4" >
+
+        <TextView
+            android:id = "@+id/hari_tgl"
+            android:layout_width = "0dp"
+            android:layout_height = "match_parent"
+            android:layout_weight = "1.5"
+            android:background = "@drawable/cell_shape"
+            android:ellipsize = "end"
+            android:padding = "5dp"
+            android:text = "Hari, Tanggal"
+            android:singleLine = "true" />
+
+        <TextView
+            android:id="@+id/pukul"
+            android:layout_width="71dp"
+            android:layout_height="match_parent"
+            android:layout_weight = "1"
+            android:gravity="center"
+            android:background="@drawable/cell_shape"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="Pukul" />
+
+        <TextView
+            android:id = "@+id/keterangan"
+            android:layout_width = "0dp"
+            android:layout_height = "match_parent"
+            android:layout_weight = "1.5"
+            android:background = "@drawable/cell_shape"
+            android:ellipsize = "end"
+            android:padding = "5dp"
+            android:text = "Keterangan"
+            android:singleLine = "true" />
+
+    </LinearLayout>
+
+</RelativeLayout>

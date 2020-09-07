@@ -1,0 +1,13 @@
+yg harus dikerjakan backend :
+
+1. radar
+2. registrasi ke db
+3. ngambil informasi dari db buat di tampilin di list individu(sekalian masukin ke tampilan ya)
+4. di detail ada profile ngambil dari database jg
+5. report checkup ngambil dari database 
+6. Report masalah jg ngambil dari database
+7. suhu tubuh ngambil dari db terus di implementasikan ke chart dan lingkaran, batas suhu atasnya 37 derajat jadi klo udah nyentuh 37 warna 
+merah lingkarannya
+8. maps, jika keluar zona maka jadi warna merah
+9. time remaining dari tgl mulai sampe tgl selesai
+10. fitur search individu di tampilan informasi

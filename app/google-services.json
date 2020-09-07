@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "729156600979",
+    "firebase_url": "https://simonicv2.firebaseio.com",
+    "project_id": "simonicv2",
+    "storage_bucket": "simonicv2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729156600979:android:f28e31ae64db3d14f1f966",
+        "android_client_info": {
+          "package_name": "com.KP.simonicv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729156600979-ehpg3toaptnap2d644l3qqeik1b25vsp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgeV970WNFzaiwmCZgwjVQdCcl9P_mqKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729156600979-ehpg3toaptnap2d644l3qqeik1b25vsp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,191 @@
+package com.wildan.firebasecrud.adapter;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.wildan.firebasecrud.R;
+import com.wildan.firebasecrud.models.data_mahasiswa;
+
+import java.util.ArrayList;
+
+//Class Adapter ini Digunakan Untuk Mengatur Bagaimana Data akan Ditampilkan
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+
+
+    //Deklarasi Variable
+    private ArrayList<data_mahasiswa> listMahasiswa;
+    private Context context;
+
+    //Membuat Konstruktor, untuk menerima input dari Database
+    public RecyclerViewAdapter(ArrayList<data_mahasiswa> listMahasiswa, Context context) {
+        this.listMahasiswa = listMahasiswa;
+        this.context = context;
+    }
+
+    //ViewHolder Digunakan Untuk Menyimpan Referensi Dari View-View
+    class ViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView NIM, Nama, Jurusan;
+        private LinearLayout ListItem;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            //Menginisialisasi View-View yang terpasang pada layout RecyclerView kita
+            NIM = itemView.findViewById(R.id.nim);
+            Nama = itemView.findViewById(R.id.nama);
+            Jurusan = itemView.findViewById(R.id.jurusan);
+            ListItem = itemView.findViewById(R.id.list_item);
+        }
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //Membuat View untuk Menyiapkan dan Memasang Layout yang Akan digunakan pada RecyclerView
+        View V = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_design, parent, false);
+        return new ViewHolder(V);
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        //Mengambil Nilai/Value yenag terdapat pada RecyclerView berdasarkan Posisi Tertentu
+        final String NIM = listMahasiswa.get(position).getNim();
+        final String Nama = listMahasiswa.get(position).getNama();
+        final String Jurusan = listMahasiswa.get(position).getJurusan();
+
+        //Memasukan Nilai/Value kedalam View (TextView: NIM, Nama, Jurusan)
+        holder.NIM.setText("NIM: "+NIM);
+        holder.Nama.setText("Nama: "+Nama);
+        holder.Jurusan.setText("Jurusan: "+Jurusan);
+        
+        holder.ListItem.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                /*
+                  Kodingan untuk membuat fungsi Edit dan Delete,
+                  yang akan dibahas pada Tutorial Berikutnya.
+                 */
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        //Menghitung Ukuran/Jumlah Data Yang Akan Ditampilkan Pada RecyclerView
+        return listMahasiswa.size();
+    }
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+
+package com.wildan.firebasecrud.ui;
+
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.wildan.firebasecrud.R;
+import com.wildan.firebasecrud.adapter.RecyclerViewAdapter;
+import com.wildan.firebasecrud.models.data_mahasiswa;
+
+import java.util.ArrayList;
+
+public class MyListData extends AppCompatActivity {
+
+    //Deklarasi Variable untuk RecyclerView
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    //Deklarasi Variable Database Reference dan ArrayList dengan Parameter Class Model kita.
+    private DatabaseReference reference;
+    private ArrayList<data_mahasiswa> dataMahasiswa;
+
+    private FirebaseAuth auth;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R .layout.activity_my_list_data);
+        recyclerView = findViewById(R.id.datalist);
+        getSupportActionBar().setTitle("Data Mahasiswa");
+        auth = FirebaseAuth.getInstance();
+        MyRecyclerView();
+        GetData();
+    }
+
+    //Berisi baris kode untuk mengambil data dari Database dan menampilkannya kedalam Adapter
+    private void GetData(){
+        Toast.makeText(getApplicationContext(),"Mohon Tunggu Sebentar...", Toast.LENGTH_LONG).show();
+        //Mendapatkan Referensi Database
+        reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("Admin").child(auth.getUid()).child("Mahasiswa")
+                 .addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Inisialisasi ArrayList
+                dataMahasiswa = new ArrayList<>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    //Mapping data pada DataSnapshot ke dalam objek mahasiswa
+                    data_mahasiswa mahasiswa = snapshot.getValue(data_mahasiswa.class);
+
+                    //Mengambil Primary Key, digunakan untuk proses Update dan Delete
+                    mahasiswa.setKey(snapshot.getKey());
+                    dataMahasiswa.add(mahasiswa);
+                }
+
+                //Inisialisasi Adapter dan data Mahasiswa dalam bentuk Array
+                adapter = new RecyclerViewAdapter(dataMahasiswa, MyListData.this);
+
+                //Memasang Adapter pada RecyclerView
+                recyclerView.setAdapter(adapter);
+
+                Toast.makeText(getApplicationContext(),"Data Berhasil Dimuat", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+              /*
+                Kode ini akan dijalankan ketika ada error dan
+                pengambilan data error tersebut lalu memprint error nya
+                ke LogCat
+               */
+                Toast.makeText(getApplicationContext(),"Data Gagal Dimuat", Toast.LENGTH_LONG).show();
+                Log.e("MyListActivity", databaseError.getDetails()+" "+databaseError.getMessage());
+            }
+        });
+    }
+
+    //Methode yang berisi kumpulan baris kode untuk mengatur RecyclerView
+    private void MyRecyclerView(){
+        //Menggunakan Layout Manager, Dan Membuat List Secara Vertical
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+
+        //Membuat Underline pada Setiap Item Didalam List
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.line));
+        recyclerView.addItemDecoration(itemDecoration);
+    }
+}
