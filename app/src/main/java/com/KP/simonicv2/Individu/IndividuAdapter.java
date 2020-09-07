@@ -41,9 +41,13 @@ public class IndividuAdapter extends RecyclerView.Adapter<IndividuAdapter.indVie
     }
     @Override
     public void onBindViewHolder(@NonNull final IndividuAdapter.indViewHolder holder, int position) {
+        String provinsi = dataList.get(position).getProvinsi();
+        String kota = dataList.get(position).getKota();
+        String kecamatan = dataList.get(position).getKecamatan();
+        String kelurahan = dataList.get(position).getKelurahan();
         holder.txtNama.setText(dataList.get(position).getNama());
-        holder.txtwilayah.setText(dataList.get(position).getAlamat());
-
+        holder.txtwilayah.setText(""+provinsi+","+kota);
+        holder.txtwilayah.setText(""+kelurahan+","+kecamatan+","+kota+","+provinsi);
 
     }
     @Override

@@ -7,7 +7,7 @@ public class Individu implements Parcelable {
     String nama;
     String wilayah;
     String alamat;
-
+    String provinsi,kota,kecamatan,kelurahan;
     public String getKey() {
         return key;
     }
@@ -18,7 +18,37 @@ public class Individu implements Parcelable {
     public void setAlamat(String alamat) {
         this.alamat = alamat;
     }
+    public String getProvinsi() {
+        return provinsi;
+    }
 
+    public void setProvinsi(String provinsi) {
+        this.provinsi = provinsi;
+    }
+
+    public String getKota() {
+        return kota;
+    }
+
+    public void setKota(String kota) {
+        this.kota = kota;
+    }
+
+    public String getKecamatan() {
+        return kecamatan;
+    }
+
+    public void setKecamatan(String kecamatan) {
+        this.kecamatan = kecamatan;
+    }
+
+    public String getKelurahan() {
+        return kelurahan;
+    }
+
+    public void setKelurahan(String kelurahan) {
+        this.kelurahan = kelurahan;
+    }
     public Individu(){
     }
     public void setKey(String key) {
