@@ -56,6 +56,7 @@
         <activity android:name=".Individu.Informasi" />
         <activity android:name=".Individu.Detail_Individu" />
         <activity android:name=".Settings" />
+
     </application>
 
 </manifest>

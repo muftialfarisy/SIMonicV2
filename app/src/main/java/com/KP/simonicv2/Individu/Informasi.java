@@ -155,7 +155,7 @@ getdata();
         intent.putExtra("wilayah", dataList.get(position).getWilayah());
         startActivity(intent);
 
-        Intent intent2 = new Intent(Informasi.this, ProfileFragment.class);
+        /*Intent intent2 = new Intent(getApplicationContext(), ProfileFragment.class);
         intent2.putExtra("nama",dataList.get(position).getNama());
         intent2.putExtra("nik",dataList.get(position).getNik());
         intent2.putExtra("alamat",dataList.get(position).getAlamat());
@@ -165,7 +165,7 @@ getdata();
         intent2.putExtra("kelurahan",dataList.get(position).getKelurahan());
         intent2.putExtra("tgl_mulai",dataList.get(position).getDurasi());
         intent2.putExtra("tgl_selesai",dataList.get(position).getSelesai());
-        startActivity(intent2);
+        startActivity(intent2);*/
     }
 
 }
