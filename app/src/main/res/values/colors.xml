@@ -8,4 +8,9 @@
     <color name="red">#FB0000</color>
     <color name="green">#4CAF50</color>
     <color name="backgroundprimary">#359BA9</color>
+
+    <color name="primary">#607D8C</color>
+    <color name="primary_dark">#455A65</color>
+    <color name="primary_light">#CFD8DD</color>
+    <color name="accent">#FF5723</color>
 </resources>

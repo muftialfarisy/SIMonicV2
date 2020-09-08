@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.KP.simonicv2.Individu.Informasi;
 import com.KP.simonicv2.Login.Login;
+import com.KP.simonicv2.Radar.Radar;
 import com.KP.simonicv2.Registrasi.Registrasi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                Intent intent= new Intent(MainActivity.this, Radar.class);
+                startActivity(intent);
 
             }
         });
