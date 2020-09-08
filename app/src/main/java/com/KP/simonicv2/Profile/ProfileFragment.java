@@ -70,6 +70,11 @@ public class ProfileFragment extends Fragment {
         nik = (TextView) view.findViewById(R.id.text_nik);
         alamat = (TextView) view.findViewById(R.id.text_alamat_individu);
         provinsi = (TextView) view.findViewById(R.id.text_provinsi);
+        kota = (TextView) view.findViewById(R.id.text_kota);
+        kecamatan =(TextView) view.findViewById(R.id.text_kecamatan);
+        kelurahan = (TextView) view.findViewById(R.id.text_kelurahan);
+        tgl_mulai = (TextView) view.findViewById(R.id.text_tglmulai);
+        tgl_selesai = (TextView) view.findViewById(R.id.text_tglselesai);
         getIncomingIntent();
         return view;
     }
@@ -77,10 +82,24 @@ public class ProfileFragment extends Fragment {
     private void getIncomingIntent(){
         if (getActivity().getIntent().hasExtra("nama")&& getActivity().getIntent().hasExtra("wilayah")){
             String nama = getActivity().getIntent().getStringExtra("nama");
-
+            String nikk = getActivity().getIntent().getStringExtra("nik");
+            String alamatt = getActivity().getIntent().getStringExtra("alamat");
+            String prov = getActivity().getIntent().getStringExtra("provinsi");
+            String kotaa = getActivity().getIntent().getStringExtra("kota");
+            String kec = getActivity().getIntent().getStringExtra("kecamatan");
+            String kel = getActivity().getIntent().getStringExtra("kelurahan");
+            String mulai = getActivity().getIntent().getStringExtra("tgl_mulai");
+            String selesai = getActivity().getIntent().getStringExtra("tgl_selesai");
             Log.d(TAG,"On Create:" +nama.toString());
             namaa.setText(""+nama);
-
+            nik.setText(""+nikk);
+            alamat.setText(""+alamatt);
+            provinsi.setText(""+prov);
+            kota.setText(""+kotaa);
+            kecamatan.setText(""+kec);
+            kelurahan.setText(""+kel);
+            tgl_mulai.setText(""+mulai);
+            tgl_selesai.setText(""+selesai);
         }
     }
 }

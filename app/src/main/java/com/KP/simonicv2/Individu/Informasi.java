@@ -76,10 +76,7 @@ getdata();
 
     }
 
-    private void addData(){
-        dataList = new ArrayList<>();
-        dataList.add(new Individu("Mufti Alfarisy","Cijerah, Bandung, Jawa Barat"));
-    }
+
     public void getdata(){
         String getUserID = auth.getCurrentUser().getUid();
         reference = FirebaseDatabase.getInstance().getReference();
@@ -160,6 +157,14 @@ getdata();
 
         Intent intent2 = new Intent(Informasi.this, ProfileFragment.class);
         intent2.putExtra("nama",dataList.get(position).getNama());
+        intent2.putExtra("nik",dataList.get(position).getNik());
+        intent2.putExtra("alamat",dataList.get(position).getAlamat());
+        intent2.putExtra("provinsi",dataList.get(position).getProvinsi());
+        intent2.putExtra("kota",dataList.get(position).getKota());
+        intent2.putExtra("kecamatan",dataList.get(position).getKecamatan());
+        intent2.putExtra("kelurahan",dataList.get(position).getKelurahan());
+        intent2.putExtra("tgl_mulai",dataList.get(position).getDurasi());
+        intent2.putExtra("tgl_selesai",dataList.get(position).getSelesai());
         startActivity(intent2);
     }
 

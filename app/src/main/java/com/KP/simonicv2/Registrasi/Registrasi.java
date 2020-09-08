@@ -65,6 +65,7 @@ public class Registrasi extends AppCompatActivity {
     Spinner spProvinsi,jeniskelamin,spinner,spKota,spKecamatan,spKeluruhan;
     private String TAG = Registrasi.class.getSimpleName();
     ArrayList <Registrasi_gs> registerlist = new ArrayList<>();
+    private ArrayList<Individu> dataList = new ArrayList<>();
     ArrayList <String> List = new ArrayList<>();
     TextView tglmulai,tglselesai;
     ImageButton exit;
@@ -198,7 +199,7 @@ public class Registrasi extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Object o) {
                                     //Peristiwa ini terjadi saat user berhasil menyimpan datanya kedalam Database
-
+                                    dataList.add(new Individu(namaa,nikk,alamatt,provinsi,kota,kecamatan,kelurahan,tglmulai.getText().toString(),tglselesai.getText().toString()));
 
                                     emptydata();
                                     DynamicToast.makeSuccess(Registrasi.this, "Data Tersimpan", Toast.LENGTH_SHORT).show();

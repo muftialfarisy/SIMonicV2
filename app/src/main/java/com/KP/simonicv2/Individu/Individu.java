@@ -7,7 +7,56 @@ public class Individu implements Parcelable {
     String nama;
     String wilayah;
     String alamat;
-    String provinsi,kota,kecamatan,kelurahan;
+    String provinsi;
+    String kota;
+    String kecamatan;
+    String kelurahan;
+    String uuid;
+    String nik;
+    String device;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getNik() {
+        return nik;
+    }
+
+    public void setNik(String nik) {
+        this.nik = nik;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public String getDurasi() {
+        return durasi;
+    }
+
+    public void setDurasi(String durasi) {
+        this.durasi = durasi;
+    }
+
+    public String getSelesai() {
+        return selesai;
+    }
+
+    public void setSelesai(String selesai) {
+        this.selesai = selesai;
+    }
+
+    String durasi;
+    String selesai;
     public String getKey() {
         return key;
     }
@@ -56,9 +105,16 @@ public class Individu implements Parcelable {
     }
 
     String key;
-    public Individu(String nama, String wilayah){
+    public Individu(String nama, String nik,String alamat, String provinsi, String kota, String kecamatan, String kelurahan,String durasi, String selesai ){
         this.nama = nama;
-        this.wilayah = wilayah;
+        this.nik = nik;
+        this.alamat = alamat;
+        this.provinsi = provinsi;
+        this.kota = kota;
+        this.kecamatan = kecamatan;
+        this.kelurahan = kelurahan;
+        this.durasi = durasi;
+        this.selesai = selesai;
     }
     protected Individu(Parcel in) {
         nama = in.readString();
