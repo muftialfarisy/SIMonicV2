@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.KP.simonicv2.Profile.ProfileFragment;
 import com.KP.simonicv2.Registrasi.Registrasi;
 import com.KP.simonicv2.Registrasi.Registrasi_gs;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -156,6 +157,10 @@ getdata();
         intent.putExtra("nama", dataList.get(position).getNama());
         intent.putExtra("wilayah", dataList.get(position).getWilayah());
         startActivity(intent);
+
+        Intent intent2 = new Intent(Informasi.this, ProfileFragment.class);
+        intent2.putExtra("nama",dataList.get(position).getNama());
+        startActivity(intent2);
     }
 
 }
