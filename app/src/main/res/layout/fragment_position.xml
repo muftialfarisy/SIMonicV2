@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <org.osmdroid.views.MapView
+    <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapview2"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:enabled="true"
         android:clickable="true"
+        app:mapbox_cameraZoom="12"
         />
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="@dimen/_250sdp"
+        android:enabled="false"
+        android:text="Start Navigating" />
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_below="@+id/mapview2">
     <TextView
+        android:id="@+id/zona"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:gravity="center"
@@ -24,6 +35,6 @@
         android:layout_marginLeft="300px"
         android:textStyle="bold"
         android:textColor="#000000"
-        android:background="@drawable/kotak_posisi"/>
+        android:background="@color/green"/>
 </LinearLayout>
 </RelativeLayout>
