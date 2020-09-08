@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">SIMonicV2</string>
     <string-array name="provinsi">
-    <item>Jawa Barat</item>
-    <item>Jawa Tengah</item>
-    <item>Jawa Timur</item>
-</string-array>
+        <item>Jawa Barat</item>
+        <item>Jawa Tengah</item>
+        <item>Jawa Timur</item>
+    </string-array>
     <string-array name="Jenis_Kelamin">
         <item>Pria</item>
         <item>Wanita</item>
