@@ -60,13 +60,16 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    TextView namaa;
+    TextView namaa,nik,alamat,provinsi,kota,kecamatan,kelurahan,tgl_mulai,tgl_selesai;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate (R.layout.fragment_profile,container,false);
         namaa = (TextView) view.findViewById(R.id.text_nama_lengkap);
+        nik = (TextView) view.findViewById(R.id.text_nik);
+        alamat = (TextView) view.findViewById(R.id.text_alamat_individu);
+        provinsi = (TextView) view.findViewById(R.id.text_provinsi);
         getIncomingIntent();
         return view;
     }
