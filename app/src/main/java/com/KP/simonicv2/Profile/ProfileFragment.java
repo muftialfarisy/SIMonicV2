@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.osmdroid.util.GeoPoint;
 
+import java.util.Objects;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -93,13 +95,13 @@ public class ProfileFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         //Mendapatkan User ID dari akun yang terautentikasi
-        getdata();
-        //getIncomingIntent();
+        //getdata();
+        getIncomingIntent();
         return view;
     }
 
     private void getIncomingIntent(){
-
+        if (getActivity().getIntent().hasExtra("nama")) {
             String nama = getActivity().getIntent().getStringExtra("nama");
             String nikk = getActivity().getIntent().getStringExtra("nik");
             String alamatt = getActivity().getIntent().getStringExtra("alamat");
@@ -109,17 +111,22 @@ public class ProfileFragment extends Fragment {
             String kel = getActivity().getIntent().getStringExtra("kelurahan");
             String mulai = getActivity().getIntent().getStringExtra("tgl_mulai");
             String selesai = getActivity().getIntent().getStringExtra("tgl_selesai");
-            Log.d(TAG,"On Create:" +nama.toString());
-            //namaa.setText(""+nama);
-            nik.setText(""+nikk);
-            alamat.setText(""+alamatt);
-            provinsi.setText(""+prov);
-            kota.setText(""+kotaa);
-            kecamatan.setText(""+kec);
-            kelurahan.setText(""+kel);
-            tgl_mulai.setText(""+mulai);
-            tgl_selesai.setText(""+selesai);
 
+            namaa.setText("" + nama);
+            nik.setText("" + nikk);
+            alamat.setText("" + alamatt);
+            provinsi.setText("" + prov);
+            kota.setText("" + kotaa);
+            kecamatan.setText("" + kec);
+            kelurahan.setText("" + kel);
+            tgl_mulai.setText("" + mulai);
+            tgl_selesai.setText("" + selesai);
+
+
+        }
+        /*Bundle bundle = getArguments();
+        String bnama = Objects.requireNonNull(bundle).getString("nama");
+        namaa.setText(bnama);*/
     }
 
     private void getdata(){
@@ -129,12 +136,12 @@ public class ProfileFragment extends Fragment {
         getDatabase = FirebaseDatabase.getInstance();
         getRefenence = getDatabase.getReference();
 
-        getRefenence.child("Data ODP").child("alfa").addValueEventListener(new ValueEventListener() {
+        getRefenence.child("Data ODP").child(auth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot Snapshot : snapshot.getChildren()) {
-                    Individu individu = Snapshot.getValue(Individu.class);
-                    namaa.setText(individu.getNama());
+                    Profile profile = Snapshot.getValue(Profile.class);
+                    namaa.setText(profile.getNama());
 
                 }}
 

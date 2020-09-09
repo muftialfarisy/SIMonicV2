@@ -18,9 +18,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.KP.simonicv2.Profile.Profile;
 import com.KP.simonicv2.Profile.ProfileFragment;
 import com.KP.simonicv2.Registrasi.Registrasi;
 import com.KP.simonicv2.Registrasi.Registrasi_gs;
@@ -28,6 +31,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.KP.simonicv2.R;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +50,9 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
     private DatabaseReference reference;
     private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseAuth auth;
+    private String GetUserID;
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +60,7 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         setContentView(R.layout.informasi);
         //addData();
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         auth = FirebaseAuth.getInstance();
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -72,12 +79,12 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);*/
-getdata();
+        getdata();
 
     }
 
 
-    public void getdata(){
+    public void getdata() {
         String getUserID = auth.getCurrentUser().getUid();
         reference = FirebaseDatabase.getInstance().getReference();
 
@@ -86,15 +93,12 @@ getdata();
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dataList = new ArrayList<>();
 
-                for(DataSnapshot Snapshot : snapshot.getChildren()){
+                for (DataSnapshot Snapshot : snapshot.getChildren()) {
                     Individu individu = Snapshot.getValue(Individu.class);
 
                     dataList.add(individu);
 
-                    adapter = new IndividuAdapter(dataList,Informasi.this);
-
-
-
+                    adapter = new IndividuAdapter(dataList, Informasi.this);
 
 
                     recyclerView.setAdapter(adapter);
@@ -105,7 +109,7 @@ getdata();
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                DynamicToast.makeError(Informasi.this,"eror");
+                DynamicToast.makeError(Informasi.this, "eror");
             }
         });
         /*FirebaseRecyclerOptions<Individu> options=
@@ -119,6 +123,7 @@ getdata();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);*/
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
@@ -132,6 +137,7 @@ getdata();
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
 
@@ -141,6 +147,7 @@ getdata();
         return super.onCreateOptionsMenu(menu);
 
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         finish(); // close this activity as oppose to navigating up
@@ -153,19 +160,53 @@ getdata();
         Intent intent = new Intent(Informasi.this, Detail_Individu.class);
         intent.putExtra("nama", dataList.get(position).getNama());
         intent.putExtra("wilayah", dataList.get(position).getWilayah());
+        intent.putExtra("nik", dataList.get(position).getNik());
+        intent.putExtra("alamat", dataList.get(position).getAlamat());
+        intent.putExtra("provinsi", dataList.get(position).getProvinsi());
+        intent.putExtra("kota", dataList.get(position).getKota());
+        intent.putExtra("kecamatan", dataList.get(position).getKecamatan());
+        intent.putExtra("kelurahan", dataList.get(position).getKelurahan());
+        intent.putExtra("tgl_mulai", dataList.get(position).getDurasi());
+        intent.putExtra("tgl_selesai", dataList.get(position).getSelesai());
         startActivity(intent);
+/*
+        Intent intent2 = new Intent(getApplicationContext(), ProfileFragment.class);
+        intent2.putExtra("nama", dataList.get(position).getNama());
+        intent2.putExtra("nik", dataList.get(position).getNik());
+        intent2.putExtra("alamat", dataList.get(position).getAlamat());
+        intent2.putExtra("provinsi", dataList.get(position).getProvinsi());
+        intent2.putExtra("kota", dataList.get(position).getKota());
+        intent2.putExtra("kecamatan", dataList.get(position).getKecamatan());
+        intent2.putExtra("kelurahan", dataList.get(position).getKelurahan());
+        intent2.putExtra("tgl_mulai", dataList.get(position).getDurasi());
+        intent2.putExtra("tgl_selesai", dataList.get(position).getSelesai());
+        startActivity(intent2);
+*/
+        FirebaseUser user = auth.getCurrentUser();
+        GetUserID = user.getUid();
+        ProfileFragment fragmentB = new ProfileFragment();
+        reference.child("Data ODP").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot Snapshot : snapshot.getChildren()) {
+                    Profile profile = Snapshot.getValue(Profile.class);
+                    /*Intent intent2 = new Intent(getApplicationContext(), ProfileFragment.class);
+                    intent2.putExtra("nama", profile.getNama());
+                    intent2.putExtra("nik", profile.getNik());
+                    startActivity(intent2);*/
 
-        /*Intent intent2 = new Intent(getApplicationContext(), ProfileFragment.class);
-        intent2.putExtra("nama",dataList.get(position).getNama());
-        intent2.putExtra("nik",dataList.get(position).getNik());
-        intent2.putExtra("alamat",dataList.get(position).getAlamat());
-        intent2.putExtra("provinsi",dataList.get(position).getProvinsi());
-        intent2.putExtra("kota",dataList.get(position).getKota());
-        intent2.putExtra("kecamatan",dataList.get(position).getKecamatan());
-        intent2.putExtra("kelurahan",dataList.get(position).getKelurahan());
-        intent2.putExtra("tgl_mulai",dataList.get(position).getDurasi());
-        intent2.putExtra("tgl_selesai",dataList.get(position).getSelesai());
-        startActivity(intent2);*/
+                    Bundle bundle = new Bundle();
+                    bundle.getString("nama",dataList.get(position).getNama());
+                    fragmentB.setArguments(bundle);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
-
 }
+

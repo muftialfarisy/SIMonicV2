@@ -14,6 +14,9 @@ import com.KP.simonicv2.R;
 import com.KP.simonicv2.Reportc.ReportcFragment;
 import com.KP.simonicv2.TabAdapter;
 import com.google.android.material.tabs.TabLayout;
+
+import java.time.LocalDate;
+
 public class Detail_Individu extends AppCompatActivity {
     private static final String TAG = "detail";
     ViewPager viewPager;
@@ -67,6 +70,13 @@ public class Detail_Individu extends AppCompatActivity {
             txtnama.setText(""+nama);
 
         }
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void durasi(){
+        String awal = getIntent().getStringExtra("tgl_mulai").;
+        String selesai = getIntent().getStringExtra("tgl_selesai");
+        LocalDate birthDate = LocalDate.of(awal);
     }
     }
 
