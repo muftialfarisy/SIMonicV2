@@ -74,9 +74,9 @@ public class Detail_Individu extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void durasi(){
-        String awal = getIntent().getStringExtra("tgl_mulai").;
+        String awal = getIntent().getStringExtra("tgl_mulai");
         String selesai = getIntent().getStringExtra("tgl_selesai");
-        LocalDate birthDate = LocalDate.of(awal);
+
     }
     }
 
