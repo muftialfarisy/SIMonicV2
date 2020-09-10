@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -23,6 +24,9 @@ import com.KP.simonicv2.TabAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+
+import cn.hugeterry.coordinatortablayout.CoordinatorTabLayout;
 
 public class Detail_Individu extends AppCompatActivity {
     private static final String TAG = "detail";
@@ -53,6 +57,7 @@ public class Detail_Individu extends AppCompatActivity {
         reportm = new ReportmFragment();
         suhu = new SuhuFragment();
         posisi = new PositionFragment();
+
         tabLayout.addTab(tabLayout.newTab().setText("Profile"));
         tabLayout.addTab(tabLayout.newTab().setText("Report CheckUp"));
         tabLayout.addTab(tabLayout.newTab().setText("Report Masalah"));
@@ -77,6 +82,7 @@ public class Detail_Individu extends AppCompatActivity {
             }
         });
         getIncomingIntent();
+        setCurrentTabFragment(0);
     }
 
 
@@ -125,5 +131,7 @@ public class Detail_Individu extends AppCompatActivity {
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.commit();
     }
+
+
     }
 
