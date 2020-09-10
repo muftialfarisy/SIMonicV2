@@ -27,13 +27,16 @@
         android:textColor="#FFFF"
         />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.cooltechworks.views.shimmer.ShimmerRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="50dp"
+            app:shimmer_demo_layout="@layout/custom_listview"
+            app:shimmer_demo_grid_child_count="1"
+            app:shimmer_demo_layout_manager_type="grid"
             android:layout_below="@id/jdl_list">
 
-        </androidx.recyclerview.widget.RecyclerView>
+        </com.cooltechworks.views.shimmer.ShimmerRecyclerView>
 
 </RelativeLayout>

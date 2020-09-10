@@ -56,6 +56,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'cn.hugeterry.coordinatortablayout:coordinatortablayout:1.2.2'
+    implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
     //end
 
     //mapbox

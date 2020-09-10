@@ -27,6 +27,7 @@ import com.KP.simonicv2.Profile.Profile;
 import com.KP.simonicv2.Profile.ProfileFragment;
 import com.KP.simonicv2.Registrasi.Registrasi;
 import com.KP.simonicv2.Registrasi.Registrasi_gs;
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.KP.simonicv2.R;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -45,7 +46,7 @@ import java.util.ArrayList;
 public class Informasi extends AppCompatActivity implements IndividuAdapter.OnindListener {
     private ArrayList<Individu> dataList = new ArrayList<>();
     private ArrayList<Registrasi_gs> registrasilist = new ArrayList<>();
-    private RecyclerView recyclerView;
+    private ShimmerRecyclerView recyclerView;
     private IndividuAdapter adapter;
     private DatabaseReference reference;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -60,7 +61,7 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         setContentView(R.layout.informasi);
         //addData();
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = (ShimmerRecyclerView) findViewById(R.id.recycler_view);
         auth = FirebaseAuth.getInstance();
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -69,6 +70,7 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Informasi.this);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.showShimmerAdapter();
         /*FirebaseRecyclerOptions<Individu> options=
                 new FirebaseRecyclerOptions.Builder<Individu>()
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("Data ODP").child(auth.getUid()),Individu.class)

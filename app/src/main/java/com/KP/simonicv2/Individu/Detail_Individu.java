@@ -26,7 +26,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import cn.hugeterry.coordinatortablayout.CoordinatorTabLayout;
+
 
 public class Detail_Individu extends AppCompatActivity {
     private static final String TAG = "detail";
