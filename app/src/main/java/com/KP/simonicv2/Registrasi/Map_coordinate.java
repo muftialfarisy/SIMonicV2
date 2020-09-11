@@ -9,6 +9,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +29,11 @@ import com.mapbox.android.core.location.LocationEngineRequest;
 import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.api.geocoding.v5.GeocodingCriteria;
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
 import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
+import com.mapbox.core.exceptions.ServicesException;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
@@ -45,12 +51,19 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
+import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
+import com.mapbox.mapboxsdk.plugins.places.picker.model.PlacePickerOptions;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
@@ -59,7 +72,7 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     private PermissionsManager permissionsManager;
     private MapView mapView;
     private MapboxMap map;
-
+    TextView txtlat,txtlng;
     private LocationEngine locationEngine;
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
     private static final String TAG = "detail rumah sakit";
@@ -88,23 +101,33 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
         mapView = findViewById(R.id.mapcoordinate);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(Map_coordinate.this);
+        txtlat = (TextView) findViewById(R.id.txtlat);
+        txtlng = (TextView) findViewById(R.id.txtlng);
+
         Log.d(TAG, "onCreate: started.");
     }
+
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
 
         map = mapboxMap;
+        mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/mapbox/cjf4m44iw0uza2spb3q0a7s41")
 
-                mapboxMap.setStyle(Style.MAPBOX_STREETS,
+                        .withImage(symbolIconId, BitmapFactory.decodeResource(
+                                Map_coordinate.this.getResources(), R.drawable.mapbox_marker_icon_default)),
+                //mapboxMap.setStyle(Style.MAPBOX_STREETS,
                         new Style.OnStyleLoaded() {
                             @Override public void onStyleLoaded(@NonNull Style style) {
                                 enableLocationComponent(style);
                                 initSearchFab();
                                 addUserLocations();
-
+                                MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
+                                        .accessToken(Mapbox.getAccessToken())
+                                        .query("1600 Pennsylvania Ave NW")
+                                        .build();
 // Add the symbol layer icon to map for future use
-                                style.addImage(symbolIconId, BitmapFactory.decodeResource(
-                                        getResources(), R.drawable.ic_marker));
+                                /*style.addImage(symbolIconId, BitmapFactory.decodeResource(
+                                        getResources(), R.drawable.ic_marker));*/
 
 // Create an empty GeoJSON source using the empty feature collection
                                 setUpSource(style);
@@ -114,10 +137,10 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
 
                             }
                         });
-
-
-
     }
+
+
+
     private void initSearchFab() {
         findViewById(R.id.fab_location_search).setOnClickListener(new View.OnClickListener() {
             @Override

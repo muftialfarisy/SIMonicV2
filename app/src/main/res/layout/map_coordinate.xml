@@ -7,7 +7,7 @@
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapcoordinate"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/_450sdp"
         android:enabled="true"
         android:clickable="true"
         app:mapbox_cameraZoom="12"
@@ -21,4 +21,21 @@
         android:tint="@android:color/white"
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_search_category_default" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/mapcoordinate">
+        <TextView
+            android:id="@+id/txtlat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="sadasds"/>
+        <TextView
+            android:id="@+id/txtlng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="sadasds"/>
+    </LinearLayout>
 </RelativeLayout>
