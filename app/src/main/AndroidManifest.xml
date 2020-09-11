@@ -55,8 +55,9 @@
         <activity android:name=".Registrasi.Registrasi" />
         <activity android:name=".Individu.Informasi" />
         <activity android:name=".Individu.Detail_Individu" />
+        <activity android:name=".Individu.Edit_Profile"/>
         <activity android:name=".Settings" />
-
+        <activity android:name=".Registrasi.Map_coordinate"/>
     </application>
 
 </manifest>

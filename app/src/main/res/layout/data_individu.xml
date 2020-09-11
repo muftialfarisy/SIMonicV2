@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorPrimary">
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/my_toolbar"
+        android:id="@+id/toolbar_data"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_18sdp"
         android:background="?attr/colorPrimary"
@@ -69,7 +69,7 @@
                 android:id="@+id/txt_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="14 hari"
+                android:text=""
                 android:textColor="#000000"
                 android:textSize="@dimen/_13sdp"
                 android:layout_gravity="center" />

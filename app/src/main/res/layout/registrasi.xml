@@ -214,7 +214,9 @@
                 android:layout_marginLeft="40px"
                 android:backgroundTint="#FFFFFF"
                 android:hint="                                                                 "
-                android:textColorHint="#FFFFFF" />
+                android:textColorHint="#FFFFFF"
+                android:onClick="onClick"
+                android:clickable="true"/>
 
             <TextView
                 android:id="@+id/jdl_provinsi"
@@ -323,7 +325,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:background="#3BE57F"
                 android:gravity="center"
-                android:text="Edit"
+                android:text="Registrasi"
                 android:textColor="#FFFFFF"
                 android:textSize="50px" />
 

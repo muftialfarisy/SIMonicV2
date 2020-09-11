@@ -52,9 +52,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +70,7 @@ public class Registrasi extends AppCompatActivity {
     ArrayList <Registrasi_gs> registerlist = new ArrayList<>();
     private ArrayList<Individu> dataList = new ArrayList<>();
     ArrayList <String> List = new ArrayList<>();
-    TextView tglmulai,tglselesai;
+    TextView tglmulai,tglselesai,jdl_coordinate;
     ImageButton exit;
     Button registrasi;
     EditText nama,nik,alamat,id,riwayat,coordinate,uuid;
@@ -107,6 +110,15 @@ public class Registrasi extends AppCompatActivity {
         pDialog.setCancelable(false);
         riwayat = (EditText) findViewById(R.id.txt_riwayat);
         coordinate = (EditText) findViewById(R.id.txt_coordinate);
+        jdl_coordinate = (TextView) findViewById(R.id.jdl_coordinate);
+        coordinate.setFocusable(false);
+        coordinate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Registrasi.this, Map_coordinate.class);
+                startActivity(intent);
+            }
+        });
         uuid = (EditText) findViewById(R.id.txt_uuid);
         exit = (ImageButton) findViewById(R.id.exit_regis);
         exit.setOnClickListener(new View.OnClickListener() {
@@ -184,7 +196,6 @@ public class Registrasi extends AppCompatActivity {
                     String kelurahan = spKeluruhan.getSelectedItem().toString();
 
                     String getUserID = mAuth.getCurrentUser().getUid();
-
                     registerlist = new ArrayList<>();
                     /*registerlist.add(new Registrasi_gs(alamatt, coordinatee, idd, tglmulai.getText().toString(), text, namaa, nikk,
                             riwayatt, tglselesai.getText().toString(), uuid.getText().toString()

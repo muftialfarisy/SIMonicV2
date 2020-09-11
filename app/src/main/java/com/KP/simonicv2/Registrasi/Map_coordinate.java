@@ -1,49 +1,34 @@
-package com.KP.simonicv2;
+package com.KP.simonicv2.Registrasi;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.model.MarkerOptions;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+import com.KP.simonicv2.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mapbox.android.core.location.LocationEngine;
-
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
 import com.mapbox.android.core.location.LocationEngineRequest;
 import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
-
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
-import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.annotations.IconFactory;
-import com.mapbox.mapboxsdk.annotations.PolygonOptions;
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
@@ -56,22 +41,12 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
-import com.mapbox.mapboxsdk.style.layers.FillLayer;
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
-import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
 import org.jetbrains.annotations.NotNull;
-import org.osmdroid.views.overlay.Marker;
-import org.w3c.dom.Text;
-
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillColor;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillOpacity;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -82,11 +57,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.os.Looper.getMainLooper;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
-public class PositionFragment extends Fragment implements OnMapReadyCallback, PermissionsListener {
+public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallback, PermissionsListener {
     private PermissionsManager permissionsManager;
     private MapView mapView;
     private MapboxMap map;
@@ -110,23 +82,18 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
     private NavigationMapRoute navigationMapRoute;
     private static final String RED_PIN_ICON_ID = "red-pin-icon-id";
     private LocationChangeListeningActivityLocationCallback callback =
-            new LocationChangeListeningActivityLocationCallback(this);
+            new LocationChangeListeningActivityLocationCallback(Map_coordinate.this);
     DatabaseReference reff,zona;
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(getContext(),getString(R.string.mapbox_access_token));
-        View view = inflater.inflate (R.layout.fragment_position,container,false);
-
-        mapView = view.findViewById(R.id.mapview2);
         mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
+        setContentView(R.layout.map_coordinate);
+        mapView = findViewById(R.id.mapcoordinate);
+
+        mapView.getMapAsync(Map_coordinate.this);
         Log.d(TAG, "onCreate: started.");
-
-        startButton = view.findViewById(R.id.startButton);
-        return view;
-
     }
-
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
 
@@ -161,12 +128,7 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         Double lat2 = (Double) dataSnapshot.child("Lat").getValue();
                                         Double lng2 = (Double) dataSnapshot.child("Lng").getValue();
-                                        mapboxMap.addPolygon(generatePerimeter(
-                                                new LatLng(lat2, lng2),
-                                                1,
-                                                64,
-                                                lat,
-                                                lng));
+
                                     }
 
                                     @Override
@@ -188,62 +150,8 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
 
     }
 
-    @SuppressLint("ResourceAsColor")
-    private PolygonOptions generatePerimeter(LatLng centerCoordinates, double radiusInKilometers, int numberOfSides, double lat, double lng) {
-        List<LatLng> positions = new ArrayList<>();
-        TextView background;
-        double distanceX = radiusInKilometers / (111.319 * Math.cos(centerCoordinates.getLatitude() * Math.PI / 180));
-        double distanceY = radiusInKilometers / 110.574;
-
-        double slice = (2 * Math.PI) / numberOfSides;
-        double theta,theta2;
-        double x,y,x1,y1,a1,b1,a2,b2;
-        LatLng position;
-        for (int i = 0; i < numberOfSides; ++i) {
-            theta = i * slice;
-            theta2 = 64 * slice;
-            x = distanceX * Math.cos(theta);
-            y = distanceY * Math.sin(theta);
-            x1 = distanceX * Math.cos(theta2);
-            y1 = distanceY * Math.sin(theta2);
-            /*
-            if(((centerCoordinates.getLatitude() + y1) >= lat) && ((centerCoordinates.getLongitude() + x1) >= lng) ||
-                    ((centerCoordinates.getLatitude() - y1) <= lat) && ((centerCoordinates.getLongitude() - x1) <= lng) ||
-                    ((centerCoordinates.getLatitude() + y1) >= lat) && ((centerCoordinates.getLongitude() - x1) <= lng) ||
-                    ((centerCoordinates.getLatitude() - y1) <= lat) && ((centerCoordinates.getLongitude() + x1) >= lng) ||
-                    ((centerCoordinates.getLatitude() + y1) >= lat) && ((centerCoordinates.getLongitude() - x1) <= lng) ||
-                    ((centerCoordinates.getLongitude() + x1) >= lng) && ((centerCoordinates.getLatitude() - y1) <= lat) ||
-                    ((centerCoordinates.getLongitude() + x1) >= lng) && ((centerCoordinates.getLongitude() - x1) <= lng) ||
-                    ((centerCoordinates.getLatitude() + y1) >= lat) && ((centerCoordinates.getLatitude() - y1) <= lat)){
-
-             */
-            a1 = centerCoordinates.getLatitude() + y1;
-            a2 = centerCoordinates.getLatitude() - y1;
-            b1 = centerCoordinates.getLongitude() + x1;
-            b2 = centerCoordinates.getLongitude() - x1;
-            if((a1 < lat) && (lat > a2) || ((b1 < lng) && (lng > b2)))
-            {
-                background = (TextView) getView().findViewById(R.id.zona);
-                background.setBackgroundColor(getResources().getColor(R.color.green));
-                background.setText("Di dalam zona");
-            } else {
-                background = (TextView) getView().findViewById(R.id.zona);
-                background.setBackgroundColor(getResources().getColor(R.color.red));
-                background.setText("Di luar Zona");
-            }
-            position = new LatLng(centerCoordinates.getLatitude() + y,
-                    centerCoordinates.getLongitude() + x);
-            positions.add(position);
-        }
-        return new PolygonOptions()
-                .addAll(positions)
-                .fillColor(Color.RED)
-                .alpha(0.4f);
-    }
-
-
     private void getRoute(Point origin, Point destination){
-        NavigationRoute.builder(getContext())
+        NavigationRoute.builder(Map_coordinate.this)
                 .accessToken(Mapbox.getAccessToken())
                 .origin(origin)
                 .destination(destination)
@@ -282,7 +190,7 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
                         .directionsRoute(currentRoute)
                         .shouldSimulateRoute(false)
                         .build();
-                NavigationLauncher.startNavigation(getActivity(), options);
+                NavigationLauncher.startNavigation(Map_coordinate.this, options);
             }
         });
     }
@@ -290,10 +198,10 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
 
     @SuppressWarnings( {"MissingPermission"})
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-        if (PermissionsManager.areLocationPermissionsGranted(getContext())) {
+        if (PermissionsManager.areLocationPermissionsGranted(Map_coordinate.this)) {
             LocationComponent locationComponent = map.getLocationComponent();
             locationComponent.activateLocationComponent(
-                    LocationComponentActivationOptions.builder(getContext(), loadedMapStyle).build());
+                    LocationComponentActivationOptions.builder(Map_coordinate.this, loadedMapStyle).build());
             locationComponent.setLocationComponentEnabled(true);
             locationComponent.setCameraMode(CameraMode.TRACKING);
             locationComponent.setRenderMode(RenderMode.NORMAL);
@@ -301,12 +209,12 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
 
         } else {
             permissionsManager = new PermissionsManager(this);
-            permissionsManager.requestLocationPermissions(getActivity());
+            permissionsManager.requestLocationPermissions(Map_coordinate.this);
         }
     }
     @SuppressLint("MissingPermission")
     private void initLocationEngine() {
-        locationEngine = LocationEngineProvider.getBestLocationEngine(getContext());
+        locationEngine = LocationEngineProvider.getBestLocationEngine(Map_coordinate.this);
 
         LocationEngineRequest request = new LocationEngineRequest.Builder(DEFAULT_INTERVAL_IN_MILLISECONDS)
                 .setPriority(LocationEngineRequest.PRIORITY_HIGH_ACCURACY)
@@ -318,9 +226,9 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
     private class LocationChangeListeningActivityLocationCallback
             implements LocationEngineCallback<LocationEngineResult> {
 
-        private final WeakReference<PositionFragment> activityWeakReference;
+        private final WeakReference<Map_coordinate> activityWeakReference;
 
-        LocationChangeListeningActivityLocationCallback(PositionFragment activity) {
+        LocationChangeListeningActivityLocationCallback(Map_coordinate activity) {
             this.activityWeakReference = new WeakReference<>(activity);
         }
 
@@ -328,7 +236,7 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
 
         @Override
         public void onSuccess(LocationEngineResult result) {
-            PositionFragment activity = activityWeakReference.get();
+            Map_coordinate activity = activityWeakReference.get();
 
             if (activity != null) {
                 Location location = result.getLastLocation();
