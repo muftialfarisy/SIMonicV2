@@ -1,16 +1,17 @@
 package com.KP.simonicv2.Registrasi;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.KP.simonicv2.R;
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.JsonObject;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -25,10 +27,13 @@ import com.mapbox.android.core.location.LocationEngineRequest;
 import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
-import com.mapbox.api.directions.v5.models.DirectionsResponse;
-import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions;
@@ -38,39 +43,28 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
-import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
-import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
-import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.os.Looper.getMainLooper;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallback, PermissionsListener {
     private PermissionsManager permissionsManager;
     private MapView mapView;
     private MapboxMap map;
-    private Button startButton;
-    TextView nama,alamat;
+
     private LocationEngine locationEngine;
-    private Point originPosition;
-    private Point destinationPosition;
-    private SymbolManager symbolManager;
-    private List<Symbol> symbols = new ArrayList<>();
+    private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
     private static final String TAG = "detail rumah sakit";
-    private static final String SA = "rs";
+    private CarmenFeature home;
+    private CarmenFeature work;
     private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
     private static final String TURF_CALCULATION_FILL_LAYER_ID = "TURF_CALCULATION_FILL_LAYER_ID";
@@ -80,6 +74,8 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     private static final String TURF_CALCULATION_FILL_LAYER_GEOJSON_SOURCE_ID
             = "TURF_CALCULATION_FILL_LAYER_GEOJSON_SOURCE_ID";
     private NavigationMapRoute navigationMapRoute;
+    private String geojsonSourceLayerId = "geojsonSourceLayerId";
+    private String symbolIconId = "symbolIconId";
     private static final String RED_PIN_ICON_ID = "red-pin-icon-id";
     private LocationChangeListeningActivityLocationCallback callback =
             new LocationChangeListeningActivityLocationCallback(Map_coordinate.this);
@@ -106,34 +102,18 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
                         new Style.OnStyleLoaded() {
                             @Override public void onStyleLoaded(@NonNull Style style) {
                                 enableLocationComponent(style);
+                                initSearchFab();
+                                addUserLocations();
 
-                                final LatLng mapTargetLatLng = mapboxMap.getCameraPosition().target;
-                                Double lat = (Double) dataSnapshot.child("Lat").getValue();
-                                Double lng = (Double) dataSnapshot.child("Lng").getValue();
-                                SymbolManager symbolManager = new SymbolManager(mapView, mapboxMap, style);
-                                symbolManager.create(new SymbolOptions()
-                                        .withLatLng(new LatLng(lat, lng))
-                                        .withIconImage(RED_PIN_ICON_ID)
-                                        .withTextField("lokasi")
-                                        .withIconSize(2.0f));
-                                destinationPosition = Point.fromLngLat(lng,lat);
-                                originPosition = Point.fromLngLat(mapTargetLatLng.getLongitude(),mapTargetLatLng.getLatitude());
-                                getRoute(originPosition,destinationPosition);
+// Add the symbol layer icon to map for future use
+                                style.addImage(symbolIconId, BitmapFactory.decodeResource(
+                                        getResources(), R.drawable.ic_marker));
 
-                                zona = FirebaseDatabase.getInstance().getReference().child("Zona");
-                                zona.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        Double lat2 = (Double) dataSnapshot.child("Lat").getValue();
-                                        Double lng2 = (Double) dataSnapshot.child("Lng").getValue();
+// Create an empty GeoJSON source using the empty feature collection
+                                setUpSource(style);
 
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
+// Set up a new symbol layer for displaying the searched location's feature coordinates
+                                setupLayer(style);
 
                             }
                         });
@@ -147,51 +127,49 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
 
 
     }
-
-    private void getRoute(Point origin, Point destination){
-        NavigationRoute.builder(Map_coordinate.this)
-                .accessToken(Mapbox.getAccessToken())
-                .origin(origin)
-                .destination(destination)
-                .build()
-                .getRoute(new Callback<DirectionsResponse>() {
-                    @Override
-                    public void onResponse(@NotNull Call<DirectionsResponse> call, @NotNull Response<DirectionsResponse> response) {
-                        if (response.body() == null) {
-                            Log.e(SA, "tidak ada rute,tolong check kembali wisata tujuan");
-                            return;
-                        } else if (response.body().routes().size() == 0) {
-                            Log.e(SA, "tidak ditemukan rute");
-                            return;
-                        }
-
-                        DirectionsRoute currentRoute = response.body().routes().get(0);
-                        navigationMapRoute = new NavigationMapRoute(null, mapView, map);
-                        navigationMapRoute.addRoute(currentRoute);
-                        getNavigation(currentRoute);
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<DirectionsResponse> call, Throwable t) {
-                        Log.e(TAG, "Error: "+t.getMessage());
-                    }
-                });
-    }
-
-    private void getNavigation(DirectionsRoute currentRoute){
-        startButton.setOnClickListener(new View.OnClickListener() {
+    private void initSearchFab() {
+        findViewById(R.id.fab_location_search).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                        .directionsRoute(currentRoute)
-                        .shouldSimulateRoute(false)
-                        .build();
-                NavigationLauncher.startNavigation(Map_coordinate.this, options);
+            public void onClick(View view) {
+                Intent intent = new PlaceAutocomplete.IntentBuilder()
+                        .accessToken(Mapbox.getAccessToken() != null ? Mapbox.getAccessToken() : getString(R.string.mapbox_access_token))
+                        .placeOptions(PlaceOptions.builder()
+                                .backgroundColor(Color.parseColor("#EEEEEE"))
+                                .limit(10)
+                                .addInjectedFeature(home)
+                                .addInjectedFeature(work)
+                                .build(PlaceOptions.MODE_CARDS))
+                        .build(Map_coordinate.this);
+                startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
             }
         });
     }
+    private void addUserLocations() {
+        home = CarmenFeature.builder().text("Mapbox SF Office")
+                .geometry(Point.fromLngLat(-122.3964485, 37.7912561))
+                .placeName("50 Beale St, San Francisco, CA")
+                .id("mapbox-sf")
+                .properties(new JsonObject())
+                .build();
+
+        work = CarmenFeature.builder().text("Mapbox DC Office")
+                .placeName("740 15th Street NW, Washington DC")
+                .geometry(Point.fromLngLat(-77.0338348, 38.899750))
+                .id("mapbox-dc")
+                .properties(new JsonObject())
+                .build();
+    }
+    private void setUpSource(@NonNull Style loadedMapStyle) {
+        loadedMapStyle.addSource(new GeoJsonSource(geojsonSourceLayerId));
+    }
+    private void setupLayer(@NonNull Style loadedMapStyle) {
+        loadedMapStyle.addLayer(new SymbolLayer("SYMBOL_LAYER_ID", geojsonSourceLayerId).withProperties(
+                iconImage(symbolIconId),
+                iconOffset(new Float[] {0f, -8f})
+        ));
+    }
+
+
 
 
     @SuppressWarnings( {"MissingPermission"})
@@ -221,7 +199,7 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
         locationEngine.getLastLocation(callback);
 
     }
-    private class LocationChangeListeningActivityLocationCallback
+    private static class LocationChangeListeningActivityLocationCallback
             implements LocationEngineCallback<LocationEngineResult> {
 
         private final WeakReference<Map_coordinate> activityWeakReference;
@@ -282,7 +260,37 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
         //finish();
         //}
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
 
+// Retrieve selected location's CarmenFeature
+            CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
+
+// Create a new FeatureCollection and add a new Feature to it using selectedCarmenFeature above.
+// Then retrieve and update the source designated for showing a selected location's symbol layer icon
+
+            if (map != null) {
+                Style style = map.getStyle();
+                if (style != null) {
+                    GeoJsonSource source = style.getSourceAs(geojsonSourceLayerId);
+                    if (source != null) {
+                        source.setGeoJson(FeatureCollection.fromFeatures(
+                                new Feature[] {Feature.fromJson(selectedCarmenFeature.toJson())}));
+                    }
+
+// Move map camera to the selected location
+                    map.animateCamera(CameraUpdateFactory.newCameraPosition(
+                            new CameraPosition.Builder()
+                                    .target(new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),
+                                            ((Point) selectedCarmenFeature.geometry()).longitude()))
+                                    .zoom(14)
+                                    .build()), 4000);
+                }
+            }
+        }
+    }
     @Override
     @SuppressWarnings( {"MissingPermission"})
     public void onStart() {

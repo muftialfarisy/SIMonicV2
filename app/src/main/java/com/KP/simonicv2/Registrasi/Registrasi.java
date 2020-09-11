@@ -112,6 +112,7 @@ public class Registrasi extends AppCompatActivity {
         coordinate = (EditText) findViewById(R.id.txt_coordinate);
         jdl_coordinate = (TextView) findViewById(R.id.jdl_coordinate);
         coordinate.setFocusable(false);
+
         coordinate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
