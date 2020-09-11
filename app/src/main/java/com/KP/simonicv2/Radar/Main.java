@@ -1,4 +1,4 @@
-package com.KP.simonicv2;
+package com.KP.simonicv2.Radar;
 
 import android.os.Bundle;
 import android.widget.RelativeLayout;
@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.KP.simonicv2.R;
 import com.KP.simonicv2.Radar.BeaconRadar;
 
 

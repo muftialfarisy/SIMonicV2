@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.KP.simonicv2.Individu.Informasi;
 import com.KP.simonicv2.Login.Login;
 import com.KP.simonicv2.Radar.MCrypt;
+import com.KP.simonicv2.Radar.Main;
 import com.KP.simonicv2.Radar.SharedPreference;
 import com.KP.simonicv2.Registrasi.Registrasi;
 import com.google.android.gms.common.ConnectionResult;
