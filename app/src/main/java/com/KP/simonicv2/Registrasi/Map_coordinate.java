@@ -94,10 +94,7 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
 
         map = mapboxMap;
-        reff = FirebaseDatabase.getInstance().getReference().child("Data ODP").child("alfa").child("coordinate");
-        reff.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 mapboxMap.setStyle(Style.MAPBOX_STREETS,
                         new Style.OnStyleLoaded() {
                             @Override public void onStyleLoaded(@NonNull Style style) {
@@ -117,13 +114,7 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
 
                             }
                         });
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
 
     }
