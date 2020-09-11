@@ -43,7 +43,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Radar.Radar"></activity>
         <activity android:name=".Login.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,6 +57,7 @@
         <activity android:name=".Individu.Edit_Profile"/>
         <activity android:name=".Settings" />
         <activity android:name=".Registrasi.Map_coordinate"/>
+        <activity android:name=".Main"/>
     </application>
 
 </manifest>
