@@ -87,10 +87,10 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mapView.onCreate(savedInstanceState);
+        Mapbox.getInstance(Map_coordinate.this,getString(R.string.mapbox_access_token));
         setContentView(R.layout.map_coordinate);
         mapView = findViewById(R.id.mapcoordinate);
-
+        mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(Map_coordinate.this);
         Log.d(TAG, "onCreate: started.");
     }
@@ -120,8 +120,6 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
                                 originPosition = Point.fromLngLat(mapTargetLatLng.getLongitude(),mapTargetLatLng.getLatitude());
                                 getRoute(originPosition,destinationPosition);
 
-                                startButton.setEnabled(true);
-                                startButton.setBackgroundResource(R.color.mapbox_blue);
                                 zona = FirebaseDatabase.getInstance().getReference().child("Zona");
                                 zona.addValueEventListener(new ValueEventListener() {
                                     @Override
