@@ -8,12 +8,17 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.KP.simonicv2.R;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +43,7 @@ import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -49,12 +55,15 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.markerview.MarkerView;
+import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker;
 import com.mapbox.mapboxsdk.plugins.places.picker.model.PlacePickerOptions;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 
 import java.lang.ref.WeakReference;
@@ -65,19 +74,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
-public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallback, PermissionsListener {
+public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallback, PermissionsListener,
+        MapboxMap.OnMapClickListener {
     private PermissionsManager permissionsManager;
     private MapView mapView;
     private MapboxMap map;
-    TextView txtlat,txtlng;
+    TextView txtlat,txtlng,geocode;
+    Button btnlatlng;
     private LocationEngine locationEngine;
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
     private static final String TAG = "detail rumah sakit";
-    private CarmenFeature home;
-    private CarmenFeature work;
+
+    private MarkerView markerView;
     private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
     private static final String TURF_CALCULATION_FILL_LAYER_ID = "TURF_CALCULATION_FILL_LAYER_ID";
@@ -93,6 +107,7 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     private LocationChangeListeningActivityLocationCallback callback =
             new LocationChangeListeningActivityLocationCallback(Map_coordinate.this);
     DatabaseReference reff,zona;
+    private LocationComponent locationComponent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +118,20 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
         mapView.getMapAsync(Map_coordinate.this);
         txtlat = (TextView) findViewById(R.id.txtlat);
         txtlng = (TextView) findViewById(R.id.txtlng);
+        geocode = (TextView) findViewById(R.id.geocode_result);
+        btnlatlng = (Button) findViewById(R.id.btn_latlng);
+        btnlatlng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LatLng target = map.getCameraPosition().target;
 
+// Fill the coordinate EditTexts with the target's coordinates
+                setCoordinateEditTexts(target);
+
+// Make a geocoding search with the target's coordinates
+                makeGeocodeSearch(target);
+            }
+        });
         Log.d(TAG, "onCreate: started.");
     }
 
@@ -111,6 +139,7 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
 
         map = mapboxMap;
+        MarkerViewManager markerViewManager = new MarkerViewManager(mapView, mapboxMap);
         mapboxMap.setStyle(new Style.Builder().fromUri("mapbox://styles/mapbox/cjf4m44iw0uza2spb3q0a7s41")
 
                         .withImage(symbolIconId, BitmapFactory.decodeResource(
@@ -120,14 +149,18 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
                             @Override public void onStyleLoaded(@NonNull Style style) {
                                 enableLocationComponent(style);
                                 initSearchFab();
-                                addUserLocations();
-                                MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
-                                        .accessToken(Mapbox.getAccessToken())
-                                        .query("1600 Pennsylvania Ave NW")
-                                        .build();
-// Add the symbol layer icon to map for future use
-                                /*style.addImage(symbolIconId, BitmapFactory.decodeResource(
-                                        getResources(), R.drawable.ic_marker));*/
+                                mapboxMap.addOnMapClickListener(Map_coordinate.this);
+                                // Use an XML layout to create a View object
+                                /*View customView = LayoutInflater.from(Map_coordinate.this).inflate(R.layout.marker_view_bubble, null);
+                                customView.setLayoutParams(new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+                                TextView titleTextView = customView.findViewById(R.id.marker_window_title);
+                                titleTextView.setText("ini judul");
+                                TextView snippetTextView = customView.findViewById(R.id.marker_window_snippet);
+                                snippetTextView.setText("ini isinya");
+// Use the View to create a MarkerView which will eventually be given to
+// the plugin's MarkerViewManager class
+                                markerView = new MarkerView(new LatLng(-6.919696, 107.567286), customView);
+                                markerViewManager.addMarker(markerView);*/
 
 // Create an empty GeoJSON source using the empty feature collection
                                 setUpSource(style);
@@ -138,9 +171,79 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
                             }
                         });
     }
+    @Override
+    public boolean onMapClick(@NonNull LatLng point) {
+        MarkerViewManager markerViewManager = new MarkerViewManager(mapView, map);
+        View customView = LayoutInflater.from(Map_coordinate.this).inflate(R.layout.marker_view_bubble, null);
+        customView.setLayoutParams(new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+        markerView = new MarkerView(new LatLng(-6.919696, 107.567286), customView);
+        TextView titleTextView = customView.findViewById(R.id.marker_window_title);
+        titleTextView.setText("ini judul");
+        TextView snippetTextView = customView.findViewById(R.id.marker_window_snippet);
+        snippetTextView.setText("ini isinya");
+        markerViewManager.addMarker(markerView);
+        return true;
+    }
+    private void addDestinationIconSymbolLayer(@NonNull Style loadedMapStyle) {
+        loadedMapStyle.addImage("destination-icon-id",
+                BitmapFactory.decodeResource(this.getResources(), R.drawable.mapbox_marker_icon_default));
+        GeoJsonSource geoJsonSource = new GeoJsonSource("destination-source-id");
+        loadedMapStyle.addSource(geoJsonSource);
+        SymbolLayer destinationSymbolLayer = new SymbolLayer("destination-symbol-layer-id", "destination-source-id");
+        destinationSymbolLayer.withProperties(
+                iconImage("destination-icon-id"),
+                iconAllowOverlap(true),
+                iconIgnorePlacement(true)
+        );
+        loadedMapStyle.addLayer(destinationSymbolLayer);
+    }
+    private void makeGeocodeSearch(final LatLng latLng) {
+        try {
+// Build a Mapbox geocoding request
+            MapboxGeocoding client = MapboxGeocoding.builder()
+                    .accessToken(getString(R.string.mapbox_access_token))
+                    .query(Point.fromLngLat(latLng.getLongitude(), latLng.getLatitude()))
+                    .geocodingTypes(GeocodingCriteria.TYPE_PLACE)
+                    .mode(GeocodingCriteria.MODE_PLACES)
+                    .build();
+            client.enqueueCall(new Callback<GeocodingResponse>() {
+                @Override
+                public void onResponse(Call<GeocodingResponse> call,
+                                       Response<GeocodingResponse> response) {
+                    if (response.body() != null) {
+                        List<CarmenFeature> results = response.body().features();
+                        if (results.size() > 0) {
 
+// Get the first Feature from the successful geocoding response
+                            animateCameraToNewPosition(latLng);
+                        } else {
+                            Toast.makeText(Map_coordinate.this, "no result",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
 
-
+                @Override
+                public void onFailure(Call<GeocodingResponse> call, Throwable throwable) {
+                    Timber.e("Geocoding Failure: " + throwable.getMessage());
+                }
+            });
+        } catch (ServicesException servicesException) {
+            Timber.e("Error geocoding: " + servicesException.toString());
+            servicesException.printStackTrace();
+        }
+    }
+    private void animateCameraToNewPosition(LatLng latLng) {
+        map.animateCamera(CameraUpdateFactory
+                .newCameraPosition(new CameraPosition.Builder()
+                        .target(latLng)
+                        .zoom(13)
+                        .build()), 1500);
+    }
+    private void setCoordinateEditTexts(LatLng latLng) {
+        txtlat.setText(String.valueOf(latLng.getLatitude()));
+        txtlng.setText(String.valueOf(latLng.getLongitude()));
+    }
     private void initSearchFab() {
         findViewById(R.id.fab_location_search).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,29 +253,15 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
                         .placeOptions(PlaceOptions.builder()
                                 .backgroundColor(Color.parseColor("#EEEEEE"))
                                 .limit(10)
-                                .addInjectedFeature(home)
-                                .addInjectedFeature(work)
                                 .build(PlaceOptions.MODE_CARDS))
                         .build(Map_coordinate.this);
                 startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
+
             }
         });
-    }
-    private void addUserLocations() {
-        home = CarmenFeature.builder().text("Mapbox SF Office")
-                .geometry(Point.fromLngLat(-122.3964485, 37.7912561))
-                .placeName("50 Beale St, San Francisco, CA")
-                .id("mapbox-sf")
-                .properties(new JsonObject())
-                .build();
 
-        work = CarmenFeature.builder().text("Mapbox DC Office")
-                .placeName("740 15th Street NW, Washington DC")
-                .geometry(Point.fromLngLat(-77.0338348, 38.899750))
-                .id("mapbox-dc")
-                .properties(new JsonObject())
-                .build();
     }
+
     private void setUpSource(@NonNull Style loadedMapStyle) {
         loadedMapStyle.addSource(new GeoJsonSource(geojsonSourceLayerId));
     }
@@ -213,6 +302,9 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
         locationEngine.getLastLocation(callback);
 
     }
+
+
+
     private static class LocationChangeListeningActivityLocationCallback
             implements LocationEngineCallback<LocationEngineResult> {
 

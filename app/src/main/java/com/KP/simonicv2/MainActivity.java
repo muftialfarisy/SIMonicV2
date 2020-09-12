@@ -17,9 +17,10 @@ import android.widget.Toast;
 
 import com.KP.simonicv2.Individu.Informasi;
 import com.KP.simonicv2.Login.Login;
-import com.KP.simonicv2.Radar.MCrypt;
-import com.KP.simonicv2.Radar.Main;
-import com.KP.simonicv2.Radar.SharedPreference;
+
+//import com.KP.simonicv2.Radar.MCrypt;
+//import com.KP.simonicv2.Radar.Main;
+//import com.KP.simonicv2.Radar.SharedPreference;
 import com.KP.simonicv2.Registrasi.Registrasi;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder alertdialogsettingRadius;
     AlertDialog.Builder alertdialogsettingInterval;
 
-    MCrypt mcrypt;
+    //MCrypt mcrypt;
     private static final Integer request= 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent intent= new Intent(MainActivity.this, Main.class);
-                startActivity(intent);
+                //Intent intent= new Intent(MainActivity.this, Main.class);
+                //startActivity(intent);
 
             }
         });
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             if (this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 //Constant.statuspermission = true;
-                startServices();
+               // startServices();
                 //BeaconRadar.mLocationProvider.connect();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if (this.checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     {
                         //Constant.statuspermission = true;
                         //BeaconRadar.mLocationProvider.connect();
-                        startServices();
+                        //startServices();
                     }
                 }
             } else {
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            startServices();
+            //startServices();
         }
     }
 
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
                     //Log.d(TAG, "fine location permission granted");
                     //Constant.statuspermission = true;
                     //BeaconRadar.mLocationProvider.connect();
-                    startServices();
+                    //startServices();
                 } else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Functionality limited");
@@ -234,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "background location permission granted");
                     //Constant.statuspermission = true;
                     //BeaconRadar.mLocationProvider.connect();
-                    startServices();
+                    //startServices();
                 } else {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Functionality limited");
@@ -255,11 +256,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void startServices()
+    /*private void startServices()
     {
         if(!SharedPreference.getEnablepermission(getApplicationContext()))
             SharedPreference.setEnablepermission(getApplicationContext(),true);
-    }
+    }*/
 
     private void verifyBluetooth() {
 
