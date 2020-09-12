@@ -261,7 +261,7 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
         });
 
     }
-
+//test
     private void setUpSource(@NonNull Style loadedMapStyle) {
         loadedMapStyle.addSource(new GeoJsonSource(geojsonSourceLayerId));
     }
