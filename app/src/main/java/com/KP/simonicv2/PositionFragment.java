@@ -90,7 +90,7 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
         Log.d(TAG, "onCreate: started.");
-
+//test
         startButton = view.findViewById(R.id.startButton);
         return view;
 
