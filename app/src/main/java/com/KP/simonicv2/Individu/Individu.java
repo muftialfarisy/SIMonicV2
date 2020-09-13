@@ -14,7 +14,7 @@ public class Individu implements Parcelable {
     String uuid;
     String nik;
     String device;
-
+    public Individu() {}
     public String getUuid() {
         return uuid;
     }
