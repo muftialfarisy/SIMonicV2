@@ -98,7 +98,7 @@ public class Individu implements Parcelable {
     public void setKelurahan(String kelurahan) {
         this.kelurahan = kelurahan;
     }
-    public Individu(){
+    public Individu(String nama){
     }
     public void setKey(String key) {
         this.key = key;

@@ -33,18 +33,18 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'org.osmdroid:osmdroid-android:6.1.8'
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+
     //implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.github.mahimrocky:ExpandableCardView:1.0.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.pranavpandey.android:dynamic-toasts:3.2.0'
-    implementation 'com.google.firebase:firebase-database:19.4.0'
+
     testImplementation 'junit:junit:4.13'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.firebaseui:firebase-ui-database:6.2.1'
+
     //radar
     implementation 'com.github.mik3y:usb-serial-for-android:2.3.0'
     implementation 'com.android.volley:volley:1.1.1'
@@ -58,7 +58,11 @@ dependencies {
     implementation 'cn.hugeterry.coordinatortablayout:coordinatortablayout:1.2.2'
     implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
     //end
-
+//firebase
+    implementation 'com.google.firebase:firebase-database:19.4.0'
+    implementation 'com.firebaseui:firebase-ui-database:6.2.1'
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.2'
     //mapbox
     implementation 'com.mapbox.mapboxsdk:mapbox-android-core:3.0.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.1'

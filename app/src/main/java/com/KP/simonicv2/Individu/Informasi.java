@@ -47,7 +47,7 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
     private ArrayList<Individu> dataList = new ArrayList<>();
     private ArrayList<Registrasi_gs> registrasilist = new ArrayList<>();
     private ShimmerRecyclerView recyclerView;
-    private IndividuAdapter adapter;
+     IndividuAdapter adapter;
     private DatabaseReference reference;
     private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseAuth auth;
@@ -210,5 +210,7 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
             }
         });
     }
+
+
 }
 

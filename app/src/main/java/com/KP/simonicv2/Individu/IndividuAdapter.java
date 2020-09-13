@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,17 +16,18 @@ import com.KP.simonicv2.R;
 import com.KP.simonicv2.Registrasi.Registrasi_gs;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
 public class IndividuAdapter extends RecyclerView.Adapter<IndividuAdapter.indViewHolder>  {
     private ArrayList<Individu> dataList = new ArrayList<>();
-
+    private List<String> itemsFiltered;
     private OnindListener mOnindListener;
     private Context context;
+    private IndividuAdapter listener;
     public IndividuAdapter(ArrayList<Individu> dataList ,OnindListener OnindListener) {
         this.dataList = dataList;
-
         this.context = context;
         this.mOnindListener = OnindListener;
     }
@@ -39,6 +41,7 @@ public class IndividuAdapter extends RecyclerView.Adapter<IndividuAdapter.indVie
         return new indViewHolder(view,mOnindListener);
 
     }
+
     @Override
     public void onBindViewHolder(@NonNull final IndividuAdapter.indViewHolder holder, int position) {
         String provinsi = dataList.get(position).getProvinsi();
@@ -50,6 +53,8 @@ public class IndividuAdapter extends RecyclerView.Adapter<IndividuAdapter.indVie
         holder.txtwilayah.setText(""+kelurahan+","+kecamatan+","+kota+","+provinsi);
 
     }
+
+
     @Override
     public int getItemCount() {
         return (dataList != null) ? dataList.size() : 0;
@@ -68,7 +73,8 @@ public class IndividuAdapter extends RecyclerView.Adapter<IndividuAdapter.indVie
             txtwilayah = (TextView) itemView.findViewById(R.id.txt_wilayah);
             parentLayout = itemView.findViewById(R.id.parent_layout);
             mOnindListener = OnindListener;
-            itemView.setOnClickListener(this);
+
+
         }
 
 
@@ -77,10 +83,11 @@ public class IndividuAdapter extends RecyclerView.Adapter<IndividuAdapter.indVie
         public void onClick(View v) {
             Log.d(TAG, "onClick: " + getAdapterPosition());
             mOnindListener.onindClick(getAdapterPosition());
+
         }
     }
     public interface OnindListener{
         void onindClick(int position);
-    }
 
+    }
 }
