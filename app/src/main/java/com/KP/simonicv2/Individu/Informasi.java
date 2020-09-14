@@ -136,18 +136,27 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         mSearchView.setQueryHint("Search");
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(String s) {
+                processsearch(s);
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-
+            public boolean onQueryTextChange(String s) {
+                processsearch(s);
                 return true;
             }
         });
         return super.onCreateOptionsMenu(menu);
 
+
+    }
+
+    private void processsearch(String s) {
+        FirebaseRecyclerOptions<Individu>options=
+                new FirebaseRecyclerOptions.Builder<Individu>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Data ODP").orderByChild("name").startAt(s).endAt(s+"\uf8ff"), Individu.class)
+                        .build();
     }
 
     @Override
