@@ -87,10 +87,10 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     private MapboxMap map;
     TextView txtlat,txtlng,geocode;
     Button btnlatlng;
+    String nama,nik,alamat,jk,id,tglmulai,tglselesai,riwayat,provinsi,kota,kecamatan,kelurahan,uuid;
     private LocationEngine locationEngine;
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
     private static final String TAG = "detail rumah sakit";
-
     private Point destinationPosition;
     private Marker destinationMarker;
     private MarkerView markerView;
@@ -122,6 +122,25 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
         txtlng = (TextView) findViewById(R.id.txtlng);
         geocode = (TextView) findViewById(R.id.geocode_result);
         btnlatlng = (Button) findViewById(R.id.btn_latlng);
+        Intent intent2 = this.getIntent();
+        Bundle a = intent2.getExtras();
+        if(a != null){
+            nama = a.getString("nama");
+            nik = a.getString("nik");
+            alamat = a.getString("alamat");
+            jk = a.getString("jk");
+            id = a.getString("id");
+            tglmulai = a.getString("tglmulai");
+            tglselesai = a.getString("tglselesai");
+            riwayat = a.getString("riwayat");
+            provinsi = a.getString("provinsi");
+            kota = a.getString("kota");
+            kecamatan = a.getString("kecamatan");
+            kelurahan = a.getString("kelurahan");
+            uuid = a.getString("uuid");
+        }
+        txtlat.setText(provinsi);
+        /*
         btnlatlng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,6 +153,8 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
                 makeGeocodeSearch(target);
             }
         });
+
+         */
         Log.d(TAG, "onCreate: started.");
     }
 
@@ -254,6 +275,39 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     private void setCoordinateEditTexts(LatLng latLng) {
         txtlat.setText(String.valueOf(latLng.getLatitude()));
         txtlng.setText(String.valueOf(latLng.getLongitude()));
+        btnlatlng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //LatLng target = map.getCameraPosition().target;
+
+// Fill the coordinate EditTexts with the target's coordinates
+                //setCoordinateEditTexts(latLng);
+
+// Make a geocoding search with the target's coordinates
+                //makeGeocodeSearch(latLng);
+                double lat = latLng.getLatitude();
+                double lng = latLng.getLongitude();
+                Intent intent = new Intent(Map_coordinate.this, Registrasi.class);
+                intent.putExtra("lat",lat);
+                intent.putExtra("lng", lng);
+                intent.putExtra("nama", nama);
+                intent.putExtra("nik",nik);
+                intent.putExtra("alamat",alamat);
+                intent.putExtra("jk",jk);
+                intent.putExtra("id",id);
+                intent.putExtra("tglmulai",tglmulai);
+                intent.putExtra("tglselesai",tglselesai);
+                intent.putExtra("riwayat",riwayat);
+                intent.putExtra("provinsi",provinsi);
+                intent.putExtra("kota",kota);
+                intent.putExtra("kecamatan",kecamatan);
+                intent.putExtra("kelurahan",kelurahan);
+                intent.putExtra("uuid",uuid);
+                //nama,nik,alamat,jk,id,tglmulai,tglselesai,riwayat,provinsi,kota,kecamatan,kelurahan,uuid
+
+                startActivity(intent);
+            }
+        });
     }
     private void initSearchFab() {
         findViewById(R.id.fab_location_search).setOnClickListener(new View.OnClickListener() {

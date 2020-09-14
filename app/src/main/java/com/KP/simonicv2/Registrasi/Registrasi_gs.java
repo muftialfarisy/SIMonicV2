@@ -4,7 +4,7 @@ public class Registrasi_gs {
     public String getUuid() {
         return uuid;
     }
-    public Registrasi_gs(){
+    public Registrasi_gs(String alamatt, String lat, String lng, String idd, String s, String text, String namaa, String nikk, String riwayatt, String toString, String string, String provinsi, String kota, String kecamatan, String kelurahan){
 
     }
     public void setUuid(String uuid) {

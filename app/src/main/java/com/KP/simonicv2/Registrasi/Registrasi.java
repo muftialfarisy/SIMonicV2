@@ -73,7 +73,9 @@ public class Registrasi extends AppCompatActivity {
     TextView tglmulai,tglselesai,jdl_coordinate;
     ImageButton exit;
     Button registrasi;
+    String namaa,nikk,alamatt,jk,idd,tgl1,tgl2,riwayatt,provinsii,kotaa,kecamatann,kelurahann,uuidd,text;
     EditText nama,nik,alamat,id,riwayat,coordinate,uuid;
+    double lat2,lng2;
 
     private ProgressDialog pDialog;
     private static String url = "https://dev.farizdotid.com/api/daerahindonesia/provinsi";
@@ -102,33 +104,71 @@ public class Registrasi extends AppCompatActivity {
         makeJsonArrayRequest();
         //makeJsonObjectRequest();
 
-        final String text = spinner.getSelectedItem().toString();
+        text = spinner.getSelectedItem().toString();
         pDialog = new ProgressDialog(Registrasi.this);
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
         riwayat = (EditText) findViewById(R.id.txt_riwayat);
         coordinate = (EditText) findViewById(R.id.txt_coordinate);
         jdl_coordinate = (TextView) findViewById(R.id.jdl_coordinate);
+        uuid = (EditText) findViewById(R.id.txt_uuid);
         coordinate.setFocusable(false);
         Intent intent = this.getIntent();
         if(intent != null) {
             Bundle b = intent.getExtras();
             if(b != null) {
-                //double lat = intent.getDoubleExtra("lat", 0.00);
-                //double lng = intent.getDoubleExtra("lng", 0.00);
-                double lat = b.getDouble("lat");
-                double lng = b.getDouble("lng");
-                coordinate.setText(lat+" ,"+lng);
+                lat2 = b.getDouble("lat");
+                lng2 = b.getDouble("lng");
+                namaa = b.getString("nama");
+                nikk = b.getString("nik");
+                alamatt = b.getString("alamat");
+                jk = b.getString("jk");
+                idd = b.getString("id");
+                tgl1 = b.getString("tglmulai");
+                tgl2 = b.getString("tglselesai");
+                riwayatt = b.getString("riwayat");
+                provinsii = b.getString("provinsi");
+                kotaa = b.getString("kota");
+                kecamatann = b.getString("kecamatan");
+                kelurahann = b.getString("kelurahan");
+                uuidd = b.getString("uuid");
+                coordinate.setText(lat2+" ,"+lng2);
+                nama.setText(namaa);
+                nik.setText(nikk);
+                alamat.setText(alamatt);
+                spinner.setSelection(getIndex(spinner, jk));
+                id.setText(idd);
+                tglmulai.setText(tgl1);
+                tglselesai.setText(tgl2);
+                riwayat.setText(riwayatt);
+                spProvinsi.setSelection(getIndex(spProvinsi,provinsii));
+                spKota.setSelection(getIndex(spKota,kotaa));
+                spKecamatan.setSelection(getIndex(spKecamatan,kecamatann));
+                spKeluruhan.setSelection(getIndex(spKeluruhan,kelurahann));
+                uuid.setText(uuidd);
             }
         }
+
         coordinate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Registrasi.this, Map_coordinate.class);
+                intent.putExtra("nama", nama.getText().toString());
+                intent.putExtra("nik", nik.getText().toString());
+                intent.putExtra("alamat", alamat.getText().toString());
+                intent.putExtra("jk", spinner.getSelectedItem().toString());
+                intent.putExtra("id", id.getText().toString());
+                intent.putExtra("tglmulai", tglmulai.getText().toString());
+                intent.putExtra("tglselesai", tglselesai.getText().toString());
+                intent.putExtra("riwayat", riwayat.getText().toString());
+                intent.putExtra("provinsi", spProvinsi.getSelectedItem().toString());
+                intent.putExtra("kota", spKota.getSelectedItem().toString());
+                intent.putExtra("kecamatan", spKecamatan.getSelectedItem().toString());
+                intent.putExtra("keluruhan", spKeluruhan.getSelectedItem().toString());
+                intent.putExtra("uuid", uuid.getText().toString());
                 startActivity(intent);
             }
         });
-        uuid = (EditText) findViewById(R.id.txt_uuid);
         exit = (ImageButton) findViewById(R.id.exit_regis);
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +227,8 @@ public class Registrasi extends AppCompatActivity {
                 String idd = id.getText().toString();
                 String riwayatt = riwayat.getText().toString();
                 String coordinatee = coordinate.getText().toString();
+                String lat = String.valueOf(lat2);
+                String lng = String.valueOf(lng2);
                 if (namaa.isEmpty() || nikk.isEmpty() || alamatt.isEmpty() ||
                         idd.isEmpty() || riwayatt.isEmpty() || coordinatee.isEmpty() ||
                         (tglmulai.getText().equals("Show Calendar")) ||
@@ -212,7 +254,7 @@ public class Registrasi extends AppCompatActivity {
                     //Mendapatkan Instance dari Database
 
                     getReference.child("Data ODP").child(namaa)
-                            .setValue(new Registrasi_gs(alamatt, coordinatee, idd, tglmulai.getText().toString(), text, namaa, nikk,
+                            .setValue(new Registrasi_gs(alamatt, lat, lng, idd, tglmulai.getText().toString(), text, namaa, nikk,
                                     riwayatt, tglselesai.getText().toString(), uuid.getText().toString()
                                     , provinsi, kota, kecamatan, kelurahan))
                             .addOnSuccessListener(Registrasi.this, new OnSuccessListener() {
@@ -231,6 +273,16 @@ public class Registrasi extends AppCompatActivity {
         });
         //new GetData().execute();
 
+    }
+
+    //get JK
+    private int getIndex(Spinner spinner, String myString){
+        for(int i = 0;i<spinner.getCount();i++){
+            if(spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+        return 0;
     }
 
 
