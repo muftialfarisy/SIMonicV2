@@ -1,5 +1,4 @@
 package com.KP.simonicv2.Registrasi;
-//>.<
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -187,13 +186,9 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
         snippetTextView.setText("ini isinya");
         markerViewManager.addMarker(markerView);
          */
-        /*
         if(destinationMarker != null){
             map.removeMarker(destinationMarker);
-        }else if ((geojsonSourceLayerId != null)){
-            map.removeMarker(geojsonSourceLayerId);
         }
-        */
         destinationMarker = map.addMarker(new MarkerOptions().position(point));
         destinationPosition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         LatLng target = new LatLng(point.getLatitude(),point.getLongitude());
