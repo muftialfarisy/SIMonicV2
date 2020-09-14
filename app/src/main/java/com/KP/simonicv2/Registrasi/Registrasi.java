@@ -1,5 +1,5 @@
 package com.KP.simonicv2.Registrasi;
-//>.<pppp
+
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -88,7 +88,6 @@ public class Registrasi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registrasi);
         registerlist = new ArrayList<>();
-
         spProvinsi = (Spinner) findViewById(R.id.sp_name);
         spKota =(Spinner) findViewById(R.id.sp_name2);
         spKecamatan=(Spinner) findViewById(R.id.sp_name3);
@@ -102,9 +101,8 @@ public class Registrasi extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.sp_jk);
         makeJsonArrayRequest();
         //makeJsonObjectRequest();
+
         final String text = spinner.getSelectedItem().toString();
-
-
         pDialog = new ProgressDialog(Registrasi.this);
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
@@ -112,7 +110,17 @@ public class Registrasi extends AppCompatActivity {
         coordinate = (EditText) findViewById(R.id.txt_coordinate);
         jdl_coordinate = (TextView) findViewById(R.id.jdl_coordinate);
         coordinate.setFocusable(false);
-
+        Intent intent = this.getIntent();
+        if(intent != null) {
+            Bundle b = intent.getExtras();
+            if(b != null) {
+                //double lat = intent.getDoubleExtra("lat", 0.00);
+                //double lng = intent.getDoubleExtra("lng", 0.00);
+                double lat = b.getDouble("lat");
+                double lng = b.getDouble("lng");
+                coordinate.setText(lat+" ,"+lng);
+            }
+        }
         coordinate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -224,6 +232,8 @@ public class Registrasi extends AppCompatActivity {
         //new GetData().execute();
 
     }
+
+
     public void emptydata(){
         nama.setText("");
         nik.setText("");

@@ -1,5 +1,5 @@
 package com.KP.simonicv2.Registrasi;
-
+//>.<
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -44,6 +44,7 @@ import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -91,6 +92,8 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
     private static final String TAG = "detail rumah sakit";
 
+    private Point destinationPosition;
+    private Marker destinationMarker;
     private MarkerView markerView;
     private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
@@ -173,6 +176,7 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     }
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
+        /*
         MarkerViewManager markerViewManager = new MarkerViewManager(mapView, map);
         View customView = LayoutInflater.from(Map_coordinate.this).inflate(R.layout.marker_view_bubble, null);
         customView.setLayoutParams(new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
@@ -182,6 +186,18 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
         TextView snippetTextView = customView.findViewById(R.id.marker_window_snippet);
         snippetTextView.setText("ini isinya");
         markerViewManager.addMarker(markerView);
+         */
+        /*
+        if(destinationMarker != null){
+            map.removeMarker(destinationMarker);
+        }else if ((geojsonSourceLayerId != null)){
+            map.removeMarker(geojsonSourceLayerId);
+        }
+        */
+        destinationMarker = map.addMarker(new MarkerOptions().position(point));
+        destinationPosition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
+        LatLng target = new LatLng(point.getLatitude(),point.getLongitude());
+        setCoordinateEditTexts(target);
         return true;
     }
     private void addDestinationIconSymbolLayer(@NonNull Style loadedMapStyle) {
@@ -384,6 +400,9 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
                     if (source != null) {
                         source.setGeoJson(FeatureCollection.fromFeatures(
                                 new Feature[] {Feature.fromJson(selectedCarmenFeature.toJson())}));
+                    }
+                    if(destinationMarker != null){
+                        map.removeMarker(destinationMarker);
                     }
 
 // Move map camera to the selected location
