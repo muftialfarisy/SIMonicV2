@@ -196,20 +196,23 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     }
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
-        /*
-        MarkerViewManager markerViewManager = new MarkerViewManager(mapView, map);
-        View customView = LayoutInflater.from(Map_coordinate.this).inflate(R.layout.marker_view_bubble, null);
-        customView.setLayoutParams(new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-        markerView = new MarkerView(new LatLng(-6.919696, 107.567286), customView);
-        TextView titleTextView = customView.findViewById(R.id.marker_window_title);
-        titleTextView.setText("ini judul");
-        TextView snippetTextView = customView.findViewById(R.id.marker_window_snippet);
-        snippetTextView.setText("ini isinya");
-        markerViewManager.addMarker(markerView);
-         */
-        if(destinationMarker != null){
-            map.removeMarker(destinationMarker);
-        }
+        //MarkerViewManager markerViewManager = new MarkerViewManager(mapView, map);
+        map.getStyle(new Style.OnStyleLoaded() {
+            @Override
+            public void onStyleLoaded(@NonNull Style style) {
+                if(destinationMarker != null){
+                    map.removeMarker(destinationMarker);
+                }
+                /*
+                else if (style != null){
+                    style.removeLayer("SYMBOL_LAYER_ID");
+                    style.removeImage(symbolIconId);
+                    setupLayer(style);
+                }
+
+                 */
+            }
+        });
         destinationMarker = map.addMarker(new MarkerOptions().position(point));
         destinationPosition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         LatLng target = new LatLng(point.getLatitude(),point.getLongitude());
@@ -435,7 +438,6 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
-
 // Retrieve selected location's CarmenFeature
             CarmenFeature selectedCarmenFeature = PlaceAutocomplete.getPlace(data);
 
@@ -454,7 +456,7 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
                         map.removeMarker(destinationMarker);
                     }
 
-// Move map camera to the selected location
+// Move map camera to the selected
                     map.animateCamera(CameraUpdateFactory.newCameraPosition(
                             new CameraPosition.Builder()
                                     .target(new LatLng(((Point) selectedCarmenFeature.geometry()).latitude(),

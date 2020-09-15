@@ -4,13 +4,16 @@ public class Registrasi_gs {
     public String getUuid() {
         return uuid;
     }
-    public Registrasi_gs(String alamatt, String lat, String lng, String idd, String s, String text, String namaa, String nikk, String riwayatt, String toString, String string, String provinsi, String kota, String kecamatan, String kelurahan){
+    public Registrasi_gs(String alamat, String lat, String lng, String device, String durasi,String jenis_kelamin,
+                         String nama, String nik, String riwayat,String selesai,String uuid,String provinsi, String kota, String kecamatan, String kelurahan){
+
         this.uuid =uuid;
         this.nik =nik;
         this.device =device;
         this.nama =nama;
         this.alamat =alamat;
-        this.coordinate =coordinate;
+        this.lat = lat;
+        this.lng = lng;
         this.riwayat =riwayat;
         this.durasi =durasi;
 
@@ -20,10 +23,9 @@ public class Registrasi_gs {
         this.kota = kota;
         this.kecamatan = kecamatan;
         this.kelurahan = kelurahan;
-    }
-    public Registrasi_gs(){
 
     }
+
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
@@ -60,14 +62,6 @@ public class Registrasi_gs {
         this.alamat = alamat;
     }
 
-    public String getCoordinate() {
-        return coordinate;
-    }
-
-    public void setCoordinate(String coordinate) {
-        this.coordinate = coordinate;
-    }
-
     public String getRiwayat() {
         return riwayat;
     }
@@ -84,12 +78,29 @@ public class Registrasi_gs {
         this.durasi = durasi;
     }
 
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
     String  uuid;
     String nik;
     String device;
     String nama;
     String alamat;
-    String coordinate;
+    String lat;
+    String lng;
     String riwayat;
     String durasi;
     String provinsi;

@@ -111,7 +111,7 @@ public class Registrasi extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.sp_jk);
         makeJsonArrayRequest();
         //makeJsonObjectRequest();
-        SetDataSpinner();
+        //SetDataSpinner();
         spinnerAdapter = new ArrayAdapter<>(Registrasi.this, R.layout.simple_spinner_item, deviceidlist);
         text = spinner.getSelectedItem().toString();
         pDialog = new ProgressDialog(Registrasi.this);
@@ -146,7 +146,8 @@ public class Registrasi extends AppCompatActivity {
                 nik.setText(nikk);
                 alamat.setText(alamatt);
                 spinner.setSelection(getIndex(spinner, jk));
-                //id.setText(idd);
+                //id masih error
+                id.getSelectedItem();
                 tglmulai.setText(tgl1);
                 tglselesai.setText(tgl2);
                 riwayat.setText(riwayatt);
@@ -239,16 +240,17 @@ public class Registrasi extends AppCompatActivity {
         registrasi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String namaa = nama.getText().toString();
-                String nikk = nik.getText().toString();
-                String alamatt = alamat.getText().toString();
-                String idd = id.getSelectedItem().toString();
-                String riwayatt = riwayat.getText().toString();
+                String nama2 = nama.getText().toString();
+                String nik2 = nik.getText().toString();
+                String alamat2 = alamat.getText().toString();
+                //String id2 = id.getSelectedItem().toString();
+                String riwayat2 = riwayat.getText().toString();
                 String coordinatee = coordinate.getText().toString();
                 String lat = String.valueOf(lat2);
                 String lng = String.valueOf(lng2);
-                if (namaa.isEmpty() || nikk.isEmpty() || alamatt.isEmpty() ||
-                        idd.isEmpty() || riwayatt.isEmpty() || coordinatee.isEmpty() ||
+                if (nama2.isEmpty() || nik2.isEmpty() || alamat2.isEmpty() ||
+                       //idd.isEmpty() ||
+                        riwayat2.isEmpty() || coordinatee.isEmpty() ||
                         (tglmulai.getText().equals("Show Calendar")) ||
                         (tglselesai.getText().equals("Show Calendar"))) {
                     DynamicToast.makeError(Registrasi.this, "Harus Diisi semua!").show();
