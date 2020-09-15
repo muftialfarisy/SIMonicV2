@@ -1,8 +1,10 @@
 package com.KP.simonicv2.Registrasi;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,12 +23,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.KP.simonicv2.AppController;
 import com.KP.simonicv2.HttpHandler;
 import com.KP.simonicv2.Individu.Detail_Individu;
 import com.KP.simonicv2.Individu.Individu;
+import com.KP.simonicv2.Individu.IndividuAdapter;
 import com.KP.simonicv2.Individu.Informasi;
 import com.KP.simonicv2.Login.Login;
 import com.KP.simonicv2.MainActivity;
@@ -43,9 +47,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.ValueEventListener;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import org.json.JSONArray;
@@ -65,16 +72,16 @@ import java.util.Map;
 import static android.text.TextUtils.isEmpty;
 
 public class Registrasi extends AppCompatActivity {
-    Spinner spProvinsi,jeniskelamin,spinner,spKota,spKecamatan,spKeluruhan;
+    Spinner spProvinsi,jeniskelamin,spinner,spKota,spKecamatan,spKeluruhan,id;
     private String TAG = Registrasi.class.getSimpleName();
     ArrayList <Registrasi_gs> registerlist = new ArrayList<>();
     private ArrayList<Individu> dataList = new ArrayList<>();
-    ArrayList <String> List = new ArrayList<>();
+    ArrayList <String> deviceidlist = new ArrayList<String>();
     TextView tglmulai,tglselesai,jdl_coordinate;
     ImageButton exit;
     Button registrasi;
     String namaa,nikk,alamatt,jk,idd,tgl1,tgl2,riwayatt,provinsii,kotaa,kecamatann,kelurahann,uuidd,text;
-    EditText nama,nik,alamat,id,riwayat,coordinate,uuid;
+    EditText nama,nik,alamat,riwayat,coordinate,uuid;
     double lat2,lng2;
 
     private ProgressDialog pDialog;
@@ -85,6 +92,7 @@ public class Registrasi extends AppCompatActivity {
     private String jsonResponse;
     ArrayList<String> categories = new ArrayList<>();
     ArrayList<String> categories2 = new ArrayList<>();
+    ArrayAdapter<String> spinnerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,11 +107,12 @@ public class Registrasi extends AppCompatActivity {
         nama = (EditText) findViewById(R.id.txt_nama);
         nik = (EditText) findViewById(R.id.txt_nik);
         alamat = (EditText) findViewById(R.id.txt_alamat);
-        id = (EditText) findViewById(R.id.txt_device);
+        id = (Spinner) findViewById(R.id.txt_device);
         spinner = (Spinner) findViewById(R.id.sp_jk);
         makeJsonArrayRequest();
         //makeJsonObjectRequest();
-
+        SetDataSpinner();
+        spinnerAdapter = new ArrayAdapter<>(Registrasi.this, R.layout.simple_spinner_item, deviceidlist);
         text = spinner.getSelectedItem().toString();
         pDialog = new ProgressDialog(Registrasi.this);
         pDialog.setMessage("Please wait...");
@@ -137,7 +146,7 @@ public class Registrasi extends AppCompatActivity {
                 nik.setText(nikk);
                 alamat.setText(alamatt);
                 spinner.setSelection(getIndex(spinner, jk));
-                id.setText(idd);
+                //id.setText(idd);
                 tglmulai.setText(tgl1);
                 tglselesai.setText(tgl2);
                 riwayat.setText(riwayatt);
@@ -157,7 +166,7 @@ public class Registrasi extends AppCompatActivity {
                 intent.putExtra("nik", nik.getText().toString());
                 intent.putExtra("alamat", alamat.getText().toString());
                 intent.putExtra("jk", spinner.getSelectedItem().toString());
-                intent.putExtra("id", id.getText().toString());
+                //intent.putExtra("id", id.getText().toString());
                 intent.putExtra("tglmulai", tglmulai.getText().toString());
                 intent.putExtra("tglselesai", tglselesai.getText().toString());
                 intent.putExtra("riwayat", riwayat.getText().toString());
@@ -173,8 +182,17 @@ public class Registrasi extends AppCompatActivity {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Registrasi.this, MainActivity.class);
-                startActivity(intent);
+                new AlertDialog.Builder(Registrasi.this)
+                        .setTitle("KEMBALI")
+                        .setMessage("Apakah Anda Yakin?")
+                        .setNegativeButton(android.R.string.no, null)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                Registrasi.super.onBackPressed();
+
+                            }
+                        }).create().show();
             }
         });
 
@@ -224,7 +242,7 @@ public class Registrasi extends AppCompatActivity {
                 String namaa = nama.getText().toString();
                 String nikk = nik.getText().toString();
                 String alamatt = alamat.getText().toString();
-                String idd = id.getText().toString();
+                String idd = id.getSelectedItem().toString();
                 String riwayatt = riwayat.getText().toString();
                 String coordinatee = coordinate.getText().toString();
                 String lat = String.valueOf(lat2);
@@ -274,7 +292,20 @@ public class Registrasi extends AppCompatActivity {
         //new GetData().execute();
 
     }
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("KEMBALI")
+                .setMessage("Apakah Anda Yakin?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Registrasi.super.onBackPressed();
+
+                    }
+                }).create().show();
+    }
     //get JK
     private int getIndex(Spinner spinner, String myString){
         for(int i = 0;i<spinner.getCount();i++){
@@ -285,12 +316,42 @@ public class Registrasi extends AppCompatActivity {
         return 0;
     }
 
+public void SetDataSpinner(){
+    mAuth = FirebaseAuth.getInstance();
+    String getUserID = mAuth.getCurrentUser().getUid();
+    mFirebaseAnalytics = FirebaseAnalytics.getInstance(Registrasi.this);
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference getReference;
+    getReference = FirebaseDatabase.getInstance().getReference();
+    //getReference = database.getReference();
+    getReference.child("Data ODP").addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            // Is better to use a List, because you don't know the size
+            // of the iterator returned by dataSnapshot.getChildren() to
+            // initialize the array
+             registerlist = new ArrayList<>();
+             final ArrayList<String> list = new ArrayList<String>();
+            for (DataSnapshot Snapshot : snapshot.getChildren()) {
+                Registrasi_gs rg = snapshot.getValue(Registrasi_gs.class);
+                //deviceidlist.add(rg.getDevice());
+                deviceidlist.add(Snapshot.getValue().toString());
 
+            }
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            id.setAdapter(spinnerAdapter);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    });
+}
     public void emptydata(){
         nama.setText("");
         nik.setText("");
         alamat.setText("");
-        id.setText("");
         riwayat.setText("");
         coordinate.setText("");
 

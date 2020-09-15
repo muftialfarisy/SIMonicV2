@@ -5,6 +5,23 @@ public class Registrasi_gs {
         return uuid;
     }
     public Registrasi_gs(String alamatt, String lat, String lng, String idd, String s, String text, String namaa, String nikk, String riwayatt, String toString, String string, String provinsi, String kota, String kecamatan, String kelurahan){
+        this.uuid =uuid;
+        this.nik =nik;
+        this.device =device;
+        this.nama =nama;
+        this.alamat =alamat;
+        this.coordinate =coordinate;
+        this.riwayat =riwayat;
+        this.durasi =durasi;
+
+        this.jenis_kelamin =jenis_kelamin;
+        this.selesai = selesai;
+        this.provinsi = provinsi;
+        this.kota = kota;
+        this.kecamatan = kecamatan;
+        this.kelurahan = kelurahan;
+    }
+    public Registrasi_gs(){
 
     }
     public void setUuid(String uuid) {
@@ -135,24 +152,5 @@ public class Registrasi_gs {
 
     String jenis_kelamin;
 
-    public Registrasi_gs(String alamat, String coordinate, String device, String durasi,String jenis_kelamin,
-                         String nama, String nik, String riwayat,String selesai,String uuid,String provinsi, String kota, String kecamatan, String kelurahan){
 
-        this.uuid =uuid;
-        this.nik =nik;
-        this.device =device;
-        this.nama =nama;
-        this.alamat =alamat;
-        this.coordinate =coordinate;
-        this.riwayat =riwayat;
-        this.durasi =durasi;
-
-        this.jenis_kelamin =jenis_kelamin;
-        this.selesai = selesai;
-        this.provinsi = provinsi;
-        this.kota = kota;
-        this.kecamatan = kecamatan;
-        this.kelurahan = kelurahan;
-
-    }
 }

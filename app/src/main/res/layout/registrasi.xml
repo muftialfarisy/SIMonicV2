@@ -125,15 +125,13 @@
                 android:text="Device ID"
                 android:textColor="#ffffff" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/txt_device"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/jdl_device"
                 android:layout_marginLeft="40px"
-                android:backgroundTint="#FFFFFF"
-                android:hint="                                                                 "
-                android:textColorHint="#FFFFFF" />
+                android:spinnerMode="dropdown" />
 
             <TextView
                 android:id="@+id/jdl_durasi"
