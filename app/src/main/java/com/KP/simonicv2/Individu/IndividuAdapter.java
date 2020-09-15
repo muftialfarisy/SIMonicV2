@@ -73,6 +73,7 @@ public class IndividuAdapter extends RecyclerView.Adapter<IndividuAdapter.indVie
             txtwilayah = (TextView) itemView.findViewById(R.id.txt_wilayah);
             parentLayout = itemView.findViewById(R.id.parent_layout);
             mOnindListener = OnindListener;
+            itemView.setOnClickListener(this);
 
 
         }
