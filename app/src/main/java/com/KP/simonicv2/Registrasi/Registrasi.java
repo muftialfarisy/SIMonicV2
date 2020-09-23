@@ -53,6 +53,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.JsonObject;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import org.json.JSONArray;
@@ -66,6 +67,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -112,6 +114,7 @@ public class Registrasi extends AppCompatActivity {
         makeJsonArrayRequest();
         //makeJsonObjectRequest();
         //SetDataSpinner();
+        setdata();
         spinnerAdapter = new ArrayAdapter<>(Registrasi.this, R.layout.simple_spinner_item, deviceidlist);
         text = spinner.getSelectedItem().toString();
         pDialog = new ProgressDialog(Registrasi.this);
@@ -243,7 +246,7 @@ public class Registrasi extends AppCompatActivity {
                 String nama2 = nama.getText().toString();
                 String nik2 = nik.getText().toString();
                 String alamat2 = alamat.getText().toString();
-                //String id2 = id.getSelectedItem().toString();
+                String id2 = id.getSelectedItem().toString();
                 String riwayat2 = riwayat.getText().toString();
                 String coordinatee = coordinate.getText().toString();
                 String lat = String.valueOf(lat2);
@@ -273,10 +276,10 @@ public class Registrasi extends AppCompatActivity {
                             , provinsi, kota, kecamatan, kelurahan));*/
                     //Mendapatkan Instance dari Database
 
-                    getReference.child("Data ODP").child(namaa)
+                    getReference.child("Data ODP").child(id2)
                             .setValue(new Registrasi_gs(alamatt, lat, lng, idd, tglmulai.getText().toString(), text, namaa, nikk,
                                     riwayatt, tglselesai.getText().toString(), uuid.getText().toString()
-                                    , provinsi, kota, kecamatan, kelurahan))
+                                    , provinsi, kota, kecamatan, kelurahan,id2))
                             .addOnSuccessListener(Registrasi.this, new OnSuccessListener() {
                                 @Override
                                 public void onSuccess(Object o) {
@@ -318,15 +321,16 @@ public class Registrasi extends AppCompatActivity {
         return 0;
     }
 
-public void SetDataSpinner(){
+/*public void SetDataSpinner(){
     mAuth = FirebaseAuth.getInstance();
     String getUserID = mAuth.getCurrentUser().getUid();
     mFirebaseAnalytics = FirebaseAnalytics.getInstance(Registrasi.this);
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference getReference;
     getReference = FirebaseDatabase.getInstance().getReference();
-    //getReference = database.getReference();
-    getReference.child("Data ODP").addValueEventListener(new ValueEventListener() {
+    DatabaseReference ref = FirebaseDatabase.getInstance()
+            .getReferenceFromUrl("https://simonicv2.firebaseio.com/Data ODP");
+    ref.child("alfa").addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             // Is better to use a List, because you don't know the size
@@ -349,6 +353,53 @@ public void SetDataSpinner(){
 
         }
     });
+}*/
+
+public void setdata(){
+    String url = "https://simonicv2.firebaseio.com/Data ODP.json";
+
+    StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+            try {
+                /*JSONObject jsonObject = new JSONObject(response);
+                JSONObject data = jsonObject.getJSONObject("Data ODP");
+                //String odp = jsonObject.getString("Data ODP");
+                //JSONArray jsonArray = jsonObject.getJSONArray("Data ODP");
+                //for (int i = 0; i < jsonArray.length(); i++) {
+                    //JSONObject jo = jsonArray.getJSONObject(i);
+                    // Do you fancy stuff
+                    // Example: String gifUrl = jo.getString("url");
+                    String nama2 = data.getString("alfa");
+                    deviceidlist.add(nama2);
+                    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    id.setAdapter(spinnerAdapter);*/
+                JSONObject jsonObject = new JSONObject(response);
+                Iterator keys = jsonObject.keys();
+                while (keys.hasNext()) {
+                    try {
+                        String dynamicKey = (String) keys.next();//Your dynamic key
+                        JSONObject item = jsonObject.getJSONObject(dynamicKey);//Your json object for that dynamic key
+                        deviceidlist.add(dynamicKey);
+                        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        id.setAdapter(spinnerAdapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //}
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            // Anything you want
+        }
+    });
+    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+    requestQueue.add(stringRequest);
 }
     public void emptydata(){
         nama.setText("");
