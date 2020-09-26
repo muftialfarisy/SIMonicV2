@@ -14,6 +14,8 @@ public class Individu implements Parcelable {
     String uuid;
     String nik;
     String device;
+    String lat;
+    String lng;
     public Individu() {}
     public String getUuid() {
         return uuid;
@@ -105,7 +107,8 @@ public class Individu implements Parcelable {
     }
 
     String key;
-    public Individu(String nama, String nik,String alamat, String provinsi, String kota, String kecamatan, String kelurahan,String durasi, String selesai ){
+    public Individu(String nama, String nik,String alamat, String provinsi, String kota, String kecamatan,
+                    String kelurahan,String durasi, String selesai ,String lat ,String lng){
         this.nama = nama;
         this.nik = nik;
         this.alamat = alamat;
@@ -115,10 +118,28 @@ public class Individu implements Parcelable {
         this.kelurahan = kelurahan;
         this.durasi = durasi;
         this.selesai = selesai;
+        this.lat = lat;
+        this.lng = lng;
     }
     protected Individu(Parcel in) {
         nama = in.readString();
         wilayah = in.readString();
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
     public static final Creator<Individu> CREATOR = new Creator<Individu>() {

@@ -98,63 +98,45 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
 
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-
         map = mapboxMap;
-        reff = FirebaseDatabase.getInstance().getReference().child("Data ODP").child("alfa").child("coordinate");
-        reff.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mapboxMap.setStyle(Style.MAPBOX_STREETS,
-                        new Style.OnStyleLoaded() {
-                            @Override public void onStyleLoaded(@NonNull Style style) {
-                                enableLocationComponent(style);
+        if (getActivity().getIntent().hasExtra("nama")) {
+            String latt = getActivity().getIntent().getStringExtra("lat");
+            String lngg = getActivity().getIntent().getStringExtra("lng");
+            mapboxMap.setStyle(Style.MAPBOX_STREETS,
+                    new Style.OnStyleLoaded() {
+                        @Override
+                        public void onStyleLoaded(@NonNull Style style) {
+                            enableLocationComponent(style);
 
-                                final LatLng mapTargetLatLng = mapboxMap.getCameraPosition().target;
-                                Double lat = (Double) dataSnapshot.child("Lat").getValue();
-                                Double lng = (Double) dataSnapshot.child("Lng").getValue();
-                                SymbolManager symbolManager = new SymbolManager(mapView, mapboxMap, style);
-                                symbolManager.create(new SymbolOptions()
-                                        .withLatLng(new LatLng(lat, lng))
-                                        .withIconImage(RED_PIN_ICON_ID)
-                                        .withTextField("lokasi")
-                                        .withIconSize(2.0f));
-                                destinationPosition = Point.fromLngLat(lng,lat);
-                                originPosition = Point.fromLngLat(mapTargetLatLng.getLongitude(),mapTargetLatLng.getLatitude());
-                                getRoute(originPosition,destinationPosition);
+                            final LatLng mapTargetLatLng = mapboxMap.getCameraPosition().target;
 
-                                startButton.setEnabled(true);
-                                startButton.setBackgroundResource(R.color.mapbox_blue);
-                                zona = FirebaseDatabase.getInstance().getReference().child("Zona");
-                                zona.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        Double lat2 = (Double) dataSnapshot.child("Lat").getValue();
-                                        Double lng2 = (Double) dataSnapshot.child("Lng").getValue();
-                                        mapboxMap.addPolygon(generatePerimeter(
-                                                new LatLng(lat2, lng2),
-                                                1,
-                                                64,
-                                                lat,
-                                                lng));
-                                    }
+                            Double lat = -7.049804;
+                            Double lng = 107.535462;
+                            SymbolManager symbolManager = new SymbolManager(mapView, mapboxMap, style);
+                            symbolManager.create(new SymbolOptions()
+                                    .withLatLng(new LatLng(lat, lng))
+                                    .withIconImage(RED_PIN_ICON_ID)
+                                    .withTextField("lokasi")
+                                    .withIconSize(2.0f));
+                            destinationPosition = Point.fromLngLat(lng, lat);
+                            originPosition = Point.fromLngLat(mapTargetLatLng.getLongitude(), mapTargetLatLng.getLatitude());
+                            getRoute(originPosition, destinationPosition);
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
+                            startButton.setEnabled(true);
+                            startButton.setBackgroundResource(R.color.mapbox_blue);
+                                    Double lat2 = Double.valueOf(latt);
+                                    Double lng2 = Double.valueOf(lngg);
+                                    mapboxMap.addPolygon(generatePerimeter(
+                                            new LatLng(lat2, lng2),
+                                            1,
+                                            64,
+                                            lat,
+                                            lng));
 
-                                    }
-                                });
+                        }
+                    });
 
-                            }
-                        });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
+        }
     }
 
     @SuppressLint("ResourceAsColor")
@@ -175,22 +157,12 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
             y = distanceY * Math.sin(theta);
             x1 = distanceX * Math.cos(theta2);
             y1 = distanceY * Math.sin(theta2);
-            /*
-            if(((centerCoordinates.getLatitude() + y1) >= lat) && ((centerCoordinates.getLongitude() + x1) >= lng) ||
-                    ((centerCoordinates.getLatitude() - y1) <= lat) && ((centerCoordinates.getLongitude() - x1) <= lng) ||
-                    ((centerCoordinates.getLatitude() + y1) >= lat) && ((centerCoordinates.getLongitude() - x1) <= lng) ||
-                    ((centerCoordinates.getLatitude() - y1) <= lat) && ((centerCoordinates.getLongitude() + x1) >= lng) ||
-                    ((centerCoordinates.getLatitude() + y1) >= lat) && ((centerCoordinates.getLongitude() - x1) <= lng) ||
-                    ((centerCoordinates.getLongitude() + x1) >= lng) && ((centerCoordinates.getLatitude() - y1) <= lat) ||
-                    ((centerCoordinates.getLongitude() + x1) >= lng) && ((centerCoordinates.getLongitude() - x1) <= lng) ||
-                    ((centerCoordinates.getLatitude() + y1) >= lat) && ((centerCoordinates.getLatitude() - y1) <= lat)){
 
-             */
             a1 = centerCoordinates.getLatitude() + y1;
             a2 = centerCoordinates.getLatitude() - y1;
             b1 = centerCoordinates.getLongitude() + x1;
             b2 = centerCoordinates.getLongitude() - x1;
-            if((a1 < lat) && (lat > a2) || ((b1 < lng) && (lng > b2)))
+            if(((a1 > lat) && (lat > a2)) || ((b1 > lng) && (lng > b2)))
             {
                 background = (TextView) getView().findViewById(R.id.zona);
                 background.setBackgroundColor(getResources().getColor(R.color.green));

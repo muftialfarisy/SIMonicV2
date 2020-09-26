@@ -179,6 +179,8 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         intent.putExtra("kelurahan", dataList.get(position).getKelurahan());
         intent.putExtra("tgl_mulai", dataList.get(position).getDurasi());
         intent.putExtra("tgl_selesai", dataList.get(position).getSelesai());
+        intent.putExtra("lat", dataList.get(position).getLat());
+        intent.putExtra("lng", dataList.get(position).getLng());
         startActivity(intent);
 /*
         Intent intent2 = new Intent(getApplicationContext(), ProfileFragment.class);

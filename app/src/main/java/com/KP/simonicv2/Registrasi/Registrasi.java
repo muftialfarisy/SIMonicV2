@@ -111,11 +111,12 @@ public class Registrasi extends AppCompatActivity {
         alamat = (EditText) findViewById(R.id.txt_alamat);
         id = (Spinner) findViewById(R.id.txt_device);
         spinner = (Spinner) findViewById(R.id.sp_jk);
+        uuid = (EditText) findViewById(R.id.txt_uuid);
         makeJsonArrayRequest();
         //makeJsonObjectRequest();
         //SetDataSpinner();
-        setdata();
         spinnerAdapter = new ArrayAdapter<>(Registrasi.this, R.layout.simple_spinner_item, deviceidlist);
+        setdata();
         text = spinner.getSelectedItem().toString();
         pDialog = new ProgressDialog(Registrasi.this);
         pDialog.setMessage("Please wait...");
@@ -123,7 +124,6 @@ public class Registrasi extends AppCompatActivity {
         riwayat = (EditText) findViewById(R.id.txt_riwayat);
         coordinate = (EditText) findViewById(R.id.txt_coordinate);
         jdl_coordinate = (TextView) findViewById(R.id.jdl_coordinate);
-        uuid = (EditText) findViewById(R.id.txt_uuid);
         coordinate.setFocusable(false);
         Intent intent = this.getIntent();
         if(intent != null) {
@@ -284,7 +284,7 @@ public class Registrasi extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Object o) {
                                     //Peristiwa ini terjadi saat user berhasil menyimpan datanya kedalam Database
-                                    dataList.add(new Individu(namaa,nikk,alamatt,provinsi,kota,kecamatan,kelurahan,tglmulai.getText().toString(),tglselesai.getText().toString()));
+                                    dataList.add(new Individu(namaa,nikk,alamatt,provinsi,kota,kecamatan,kelurahan,tglmulai.getText().toString(),tglselesai.getText().toString(),lat,lng));
 
                                     emptydata();
                                     DynamicToast.makeSuccess(Registrasi.this, "Data Tersimpan", Toast.LENGTH_SHORT).show();
@@ -383,6 +383,53 @@ public void setdata(){
                         deviceidlist.add(dynamicKey);
                         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         id.setAdapter(spinnerAdapter);
+                        id.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                String urlz = "https://simonicv2.firebaseio.com/Data ODP.json";
+                                String idx = adapterView.getItemAtPosition(i).toString();
+                                JsonObjectRequest reqz = new JsonObjectRequest(Request.Method.GET,
+                                        urlz,null, new Response.Listener<JSONObject>() {
+
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.d(TAG, response.toString());
+                                        try {
+                                            // Parsing json array response
+                                            // loop through each json object
+                                            JSONObject idz = response.getJSONObject(idx);
+                                            String uuidp = idz.getString("uuid");
+                                            uuid.setText(uuidp);
+
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Error: " + e.getMessage(),
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+
+                                },      new Response.ErrorListener() {
+
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                                        Toast.makeText(getApplicationContext(),
+                                                error.getMessage(), Toast.LENGTH_SHORT).show();
+                                        // hide the progress dialog
+
+                                    }
+                                });
+                                AppController.getInstance().addToRequestQueue(reqz);
+                            }
+
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -534,19 +581,6 @@ public void setdata(){
                                                                                             spinnerAdapter.notifyDataSetChanged();
                                                                                             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                                                                             spKeluruhan.setAdapter(spinnerAdapter);
-                                                                                            spKeluruhan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                                                                                @Override
-                                                                                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                                                                                    //getdata
-                                                                                                    String kelurahan = adapterView.getItemAtPosition(i).toString();
-
-                                                                                                }
-
-                                                                                                @Override
-                                                                                                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                                                                                }
-                                                                                            });
                                                                                         }
 
                                                                                     } catch (JSONException e) {

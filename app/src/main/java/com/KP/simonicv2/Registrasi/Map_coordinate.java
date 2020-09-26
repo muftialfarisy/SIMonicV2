@@ -139,7 +139,6 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
             kelurahan = a.getString("kelurahan");
             uuid = a.getString("uuid");
         }
-        txtlat.setText(provinsi);
         /*
         btnlatlng.setOnClickListener(new View.OnClickListener() {
             @Override
