@@ -110,15 +110,15 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
 
                             final LatLng mapTargetLatLng = mapboxMap.getCameraPosition().target;
 
-                            Double lat = -7.049804;
-                            Double lng = 107.535462;
+                            //Double lat = -7.049804;
+                            //Double lng = 107.535462;
                             SymbolManager symbolManager = new SymbolManager(mapView, mapboxMap, style);
                             symbolManager.create(new SymbolOptions()
-                                    .withLatLng(new LatLng(lat, lng))
+                                    .withLatLng(new LatLng(-6.982182, 107.564030))
                                     .withIconImage(RED_PIN_ICON_ID)
                                     .withTextField("lokasi")
                                     .withIconSize(2.0f));
-                            destinationPosition = Point.fromLngLat(lng, lat);
+                            destinationPosition = Point.fromLngLat(107.564030, -6.982182);
                             originPosition = Point.fromLngLat(mapTargetLatLng.getLongitude(), mapTargetLatLng.getLatitude());
                             getRoute(originPosition, destinationPosition);
 
@@ -130,8 +130,8 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
                                             new LatLng(lat2, lng2),
                                             1,
                                             64,
-                                            lat,
-                                            lng));
+                                            -6.982182,
+                                            107.564030));
 
                         }
                     });

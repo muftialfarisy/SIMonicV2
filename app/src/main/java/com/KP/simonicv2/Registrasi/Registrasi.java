@@ -277,8 +277,8 @@ public class Registrasi extends AppCompatActivity {
                     //Mendapatkan Instance dari Database
 
                     getReference.child("Data ODP").child(id2)
-                            .setValue(new Registrasi_gs(alamatt, lat, lng, idd, tglmulai.getText().toString(), text, namaa, nikk,
-                                    riwayatt, tglselesai.getText().toString(), uuid.getText().toString()
+                            .setValue(new Registrasi_gs(alamat2, lat, lng, idd, tglmulai.getText().toString(), text, nama2, nik2,
+                                    riwayat2, tglselesai.getText().toString(), uuid.getText().toString()
                                     , provinsi, kota, kecamatan, kelurahan,id2))
                             .addOnSuccessListener(Registrasi.this, new OnSuccessListener() {
                                 @Override
