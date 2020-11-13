@@ -27,6 +27,7 @@ import com.KP.simonicv2.Profile.Profile;
 import com.KP.simonicv2.Profile.ProfileFragment;
 import com.KP.simonicv2.Registrasi.Registrasi;
 import com.KP.simonicv2.Registrasi.Registrasi_gs;
+import com.KP.simonicv2.Reportc.ReportcFragment;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.KP.simonicv2.R;
@@ -63,6 +64,8 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         recyclerView = (ShimmerRecyclerView) findViewById(R.id.recycler_view);
         auth = FirebaseAuth.getInstance();
+        getdata();
+
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
@@ -81,7 +84,6 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);*/
-        getdata();
 
     }
 
@@ -93,9 +95,9 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         reference.child("Data ODP").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dataList = new ArrayList<>();
 
                 for (DataSnapshot Snapshot : snapshot.getChildren()) {
+
                     Individu individu = Snapshot.getValue(Individu.class);
 
                     dataList.add(individu);
@@ -125,6 +127,37 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);*/
     }
+
+public void getdata2(){
+    String getUserID = auth.getCurrentUser().getUid();
+    reference = FirebaseDatabase.getInstance().getReference();
+
+    reference.child("Data ODP").push().addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+            for (DataSnapshot Snapshot : snapshot.getChildren()) {
+
+                Individu individu = Snapshot.getValue(Individu.class);
+
+                dataList.add(individu);
+
+                adapter = new IndividuAdapter(dataList, Informasi.this);
+
+
+                recyclerView.setAdapter(adapter);
+            }
+
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            DynamicToast.makeError(Informasi.this, "eror");
+        }
+    });
+
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -181,6 +214,7 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         intent.putExtra("tgl_selesai", dataList.get(position).getSelesai());
         intent.putExtra("lat", dataList.get(position).getLat());
         intent.putExtra("lng", dataList.get(position).getLng());
+        intent.putExtra("uuid", dataList.get(position).getUuid());
         startActivity(intent);
 /*
         Intent intent2 = new Intent(getApplicationContext(), ProfileFragment.class);
@@ -198,6 +232,7 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         FirebaseUser user = auth.getCurrentUser();
         GetUserID = user.getUid();
         ProfileFragment fragmentB = new ProfileFragment();
+        ReportcFragment fragmentC = new ReportcFragment();
         reference.child("Data ODP").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -209,8 +244,11 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
                     startActivity(intent2);*/
 
                     Bundle bundle = new Bundle();
+                    Bundle bundle2 = new Bundle();
                     bundle.getString("nama",dataList.get(position).getNama());
+                    bundle2.getString("device",dataList.get(position).getUuid());
                     fragmentB.setArguments(bundle);
+                    fragmentC.setArguments(bundle2);
                 }
 
             }

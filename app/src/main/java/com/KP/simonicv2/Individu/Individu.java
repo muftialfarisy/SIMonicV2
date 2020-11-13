@@ -13,7 +13,7 @@ public class Individu implements Parcelable {
     String kelurahan;
     String uuid;
     String nik;
-    String device;
+    String device_id;
     String lat;
     String lng;
     public Individu() {}
@@ -34,11 +34,11 @@ public class Individu implements Parcelable {
     }
 
     public String getDevice() {
-        return device;
+        return device_id;
     }
 
     public void setDevice(String device) {
-        this.device = device;
+        this.device_id = device;
     }
 
     public String getDurasi() {
@@ -107,7 +107,7 @@ public class Individu implements Parcelable {
     }
 
     String key;
-    public Individu(String nama, String nik,String alamat, String provinsi, String kota, String kecamatan,
+    public Individu(String device_id,String nama, String nik,String alamat, String provinsi, String kota, String kecamatan,
                     String kelurahan,String durasi, String selesai ,String lat ,String lng){
         this.nama = nama;
         this.nik = nik;
@@ -120,10 +120,12 @@ public class Individu implements Parcelable {
         this.selesai = selesai;
         this.lat = lat;
         this.lng = lng;
+        this.device_id = device_id;
     }
     protected Individu(Parcel in) {
         nama = in.readString();
         wilayah = in.readString();
+        device_id = in.readString();
     }
 
     public String getLat() {
@@ -163,6 +165,7 @@ public class Individu implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(nama);
         parcel.writeString(wilayah);
+        parcel.writeString(device_id);
     }
     public String getNama() {
         return nama;

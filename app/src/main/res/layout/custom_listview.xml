@@ -56,6 +56,26 @@
             android:textStyle="bold"
             android:layout_height="wrap_content" />
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/jdl_device"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Device ID : "
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txt_device"
+                android:layout_width="match_parent"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
         <Button
             android:id="@+id/textViewOptions"
             android:layout_width="51dp"

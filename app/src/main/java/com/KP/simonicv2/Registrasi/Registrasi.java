@@ -284,7 +284,7 @@ public class Registrasi extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Object o) {
                                     //Peristiwa ini terjadi saat user berhasil menyimpan datanya kedalam Database
-                                    dataList.add(new Individu(namaa,nikk,alamatt,provinsi,kota,kecamatan,kelurahan,tglmulai.getText().toString(),tglselesai.getText().toString(),lat,lng));
+                                    dataList.add(new Individu(namaa,nikk,alamatt,provinsi,kota,kecamatan,kelurahan,tglmulai.getText().toString(),tglselesai.getText().toString(),lat,lng,id2));
 
                                     emptydata();
                                     DynamicToast.makeSuccess(Registrasi.this, "Data Tersimpan", Toast.LENGTH_SHORT).show();
