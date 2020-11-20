@@ -268,6 +268,8 @@ public class Registrasi extends AppCompatActivity {
                     String kota = spKota.getSelectedItem().toString();
                     String kecamatan = spKecamatan.getSelectedItem().toString();
                     String kelurahan = spKeluruhan.getSelectedItem().toString();
+                    String lat_me = "-6.865762";
+                    String lng_me = "107.647618";
 
                     String getUserID = mAuth.getCurrentUser().getUid();
                     registerlist = new ArrayList<>();
@@ -277,14 +279,14 @@ public class Registrasi extends AppCompatActivity {
                     //Mendapatkan Instance dari Database
 
                     getReference.child("Data ODP").child(id2)
-                            .setValue(new Registrasi_gs(alamat2, lat, lng, idd, tglmulai.getText().toString(), text, nama2, nik2,
+                            .setValue(new Registrasi_gs(alamat2, lat, lat_me, lng, lng_me, idd, tglmulai.getText().toString(), text, nama2, nik2,
                                     riwayat2, tglselesai.getText().toString(), uuid.getText().toString()
                                     , provinsi, kota, kecamatan, kelurahan,id2))
                             .addOnSuccessListener(Registrasi.this, new OnSuccessListener() {
                                 @Override
                                 public void onSuccess(Object o) {
                                     //Peristiwa ini terjadi saat user berhasil menyimpan datanya kedalam Database
-                                    dataList.add(new Individu(namaa,nikk,alamatt,provinsi,kota,kecamatan,kelurahan,tglmulai.getText().toString(),tglselesai.getText().toString(),lat,lng,id2));
+                                    dataList.add(new Individu(id2,namaa,nikk,alamatt,provinsi,kota,kecamatan,kelurahan,tglmulai.getText().toString(),tglselesai.getText().toString(),lat,lng,lat_me,lng_me));
 
                                     emptydata();
                                     DynamicToast.makeSuccess(Registrasi.this, "Data Tersimpan", Toast.LENGTH_SHORT).show();
@@ -307,7 +309,11 @@ public class Registrasi extends AppCompatActivity {
 
                     public void onClick(DialogInterface arg0, int arg1) {
                         Registrasi.super.onBackPressed();
-
+                        //back problem netnot
+                        Intent intent = new Intent(Registrasi.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                        System.exit(0);
                     }
                 }).create().show();
     }

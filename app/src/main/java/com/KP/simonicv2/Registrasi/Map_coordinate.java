@@ -308,6 +308,8 @@ public class Map_coordinate extends AppCompatActivity implements OnMapReadyCallb
                 //nama,nik,alamat,jk,id,tglmulai,tglselesai,riwayat,provinsi,kota,kecamatan,kelurahan,uuid
 
                 startActivity(intent);
+                finish();
+                System.exit(0);
             }
         });
     }

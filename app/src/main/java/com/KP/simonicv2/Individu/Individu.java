@@ -16,6 +16,8 @@ public class Individu implements Parcelable {
     String device_id;
     String lat;
     String lng;
+    String lat_me;
+    String lng_me;
     public Individu() {}
     public String getUuid() {
         return uuid;
@@ -31,14 +33,6 @@ public class Individu implements Parcelable {
 
     public void setNik(String nik) {
         this.nik = nik;
-    }
-
-    public String getDevice() {
-        return device_id;
-    }
-
-    public void setDevice(String device) {
-        this.device_id = device;
     }
 
     public String getDurasi() {
@@ -108,7 +102,8 @@ public class Individu implements Parcelable {
 
     String key;
     public Individu(String device_id,String nama, String nik,String alamat, String provinsi, String kota, String kecamatan,
-                    String kelurahan,String durasi, String selesai ,String lat ,String lng){
+                    String kelurahan,String durasi, String selesai ,String lat ,String lng, String lat_me, String lng_me){
+        this.device_id = device_id;
         this.nama = nama;
         this.nik = nik;
         this.alamat = alamat;
@@ -119,8 +114,9 @@ public class Individu implements Parcelable {
         this.durasi = durasi;
         this.selesai = selesai;
         this.lat = lat;
+        this.lat_me = lat_me;
         this.lng = lng;
-        this.device_id = device_id;
+        this.lng_me = lng_me;
     }
     protected Individu(Parcel in) {
         nama = in.readString();
@@ -142,6 +138,30 @@ public class Individu implements Parcelable {
 
     public void setLng(String lng) {
         this.lng = lng;
+    }
+
+    public String getDevice_Id() {
+        return device_id;
+    }
+
+    public void setDevice_Id(String device_id) {
+        this.device_id = device_id;
+    }
+
+    public String getLat_Me() {
+        return lat_me;
+    }
+
+    public void setLat_Me(String lat_me) {
+        this.lat_me = lat_me;
+    }
+
+    public String getLng_Me() {
+        return lng_me;
+    }
+
+    public void setLng_Me(String lng_me) {
+        this.lng_me = lng_me;
     }
 
     public static final Creator<Individu> CREATOR = new Creator<Individu>() {

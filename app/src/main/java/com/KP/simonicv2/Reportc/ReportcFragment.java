@@ -85,7 +85,7 @@ public class ReportcFragment extends Fragment   {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_report, container, false);
-        String uuid = getActivity().getIntent().getStringExtra("device");
+        String uuid = getActivity().getIntent().getStringExtra("device_id");
         Rv_reportc = (RecyclerView) view.findViewById(R.id.rv_reportc);
 
         Rv_reportc.setHasFixedSize(true);

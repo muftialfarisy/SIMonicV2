@@ -57,7 +57,13 @@
         <activity android:name=".Individu.Edit_Profile"/>
         <activity android:name=".Settings" />
         <activity android:name=".Registrasi.Map_coordinate"/>
-        <activity android:name=".Radar.Main"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
     </application>
 
 </manifest>

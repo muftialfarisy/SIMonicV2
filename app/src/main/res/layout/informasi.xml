@@ -26,7 +26,10 @@
         android:textSize="25dp"
         android:textColor="#FFFF"
         />
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/jdl_list">
         <com.cooltechworks.views.shimmer.ShimmerRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
@@ -38,5 +41,5 @@
             android:layout_below="@id/jdl_list">
 
         </com.cooltechworks.views.shimmer.ShimmerRecyclerView>
-
+</ScrollView>
 </RelativeLayout>

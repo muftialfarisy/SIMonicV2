@@ -1,8 +1,16 @@
 package com.KP.simonicv2;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +20,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DataSnapshot;
@@ -56,6 +65,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.os.Looper.getMainLooper;
+import static androidx.core.content.ContextCompat.getSystemService;
 
 public class PositionFragment extends Fragment implements OnMapReadyCallback, PermissionsListener {
     private PermissionsManager permissionsManager;
@@ -102,6 +112,8 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
         if (getActivity().getIntent().hasExtra("nama")) {
             String latt = getActivity().getIntent().getStringExtra("lat");
             String lngg = getActivity().getIntent().getStringExtra("lng");
+            String latt_me = getActivity().getIntent().getStringExtra("lat_me");
+            String lngg_me = getActivity().getIntent().getStringExtra("lng_me");
             mapboxMap.setStyle(Style.MAPBOX_STREETS,
                     new Style.OnStyleLoaded() {
                         @Override
@@ -110,15 +122,20 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
 
                             final LatLng mapTargetLatLng = mapboxMap.getCameraPosition().target;
 
-                            //Double lat = -7.049804;
-                            //Double lng = 107.535462;
+                            /*
+                            Double lat_me = Double.valueOf(latt_me);
+                            Double lng_me = Double.valueOf(lngg_me);
+
+                             */
+                            Double lat_me = -6.865762;
+                            Double lng_me = 107.647618;
                             SymbolManager symbolManager = new SymbolManager(mapView, mapboxMap, style);
                             symbolManager.create(new SymbolOptions()
-                                    .withLatLng(new LatLng(-6.982182, 107.564030))
+                                    .withLatLng(new LatLng(lat_me, lng_me))
                                     .withIconImage(RED_PIN_ICON_ID)
                                     .withTextField("lokasi")
                                     .withIconSize(2.0f));
-                            destinationPosition = Point.fromLngLat(107.564030, -6.982182);
+                            destinationPosition = Point.fromLngLat(lng_me, lat_me);
                             originPosition = Point.fromLngLat(mapTargetLatLng.getLongitude(), mapTargetLatLng.getLatitude());
                             getRoute(originPosition, destinationPosition);
 
@@ -130,8 +147,8 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
                                             new LatLng(lat2, lng2),
                                             1,
                                             64,
-                                            -6.982182,
-                                            107.564030));
+                                            lat_me,
+                                            lng_me));
 
                         }
                     });
@@ -171,6 +188,10 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
                 background = (TextView) getView().findViewById(R.id.zona);
                 background.setBackgroundColor(getResources().getColor(R.color.red));
                 background.setText("Di luar Zona");
+
+                //notif
+                show_Notification();
+
             }
             position = new LatLng(centerCoordinates.getLatitude() + y,
                     centerCoordinates.getLongitude() + x);
@@ -181,6 +202,52 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
                 .fillColor(Color.RED)
                 .alpha(0.4f);
     }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+
+    public void show_Notification(){
+        if (getActivity().getIntent().hasExtra("nama")) {
+            String nama = getActivity().getIntent().getStringExtra("nama");
+            Intent intent = new Intent(getContext(), PositionFragment.class);
+            String CHANNEL_ID = "MYCHANNEL";
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "name", NotificationManager.IMPORTANCE_LOW);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 1, intent, 0);
+            Notification notification = new Notification.Builder(getContext(), CHANNEL_ID)
+                    .setContentText("Nama : "+nama+" sedang di luar zona")
+                    .setContentTitle("Alert ODP")
+                    .setContentIntent(pendingIntent)
+                    .addAction(android.R.drawable.sym_action_chat, "Title", pendingIntent)
+                    .setChannelId(CHANNEL_ID)
+                    .setSmallIcon(android.R.drawable.sym_action_chat)
+                    .build();
+
+            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+            notificationManager.notify(1, notification);
+
+            //notifikasi ke 2
+/*
+                NotificationChannel notificationChannel2 = new NotificationChannel(CHANNEL_ID, "name", NotificationManager.IMPORTANCE_LOW);
+                PendingIntent pendingIntent2 = PendingIntent.getActivity(getContext(), 2, intent, 0);
+                Notification notification2 = new Notification.Builder(getContext(), CHANNEL_ID)
+                        .setContentText("Nama : "+nama+" sedang di luar zona 2")
+                        .setContentTitle("Alert ODP")
+                        .setContentIntent(pendingIntent2)
+                        .addAction(android.R.drawable.sym_action_chat, "Title", pendingIntent2)
+                        .setChannelId(CHANNEL_ID)
+                        .setSmallIcon(android.R.drawable.sym_action_chat)
+                        .build();
+
+                NotificationManager notificationManager2 = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager2.createNotificationChannel(notificationChannel2);
+                notificationManager2.notify(2, notification2);
+
+ */
+
+        }
+    }
+
 
 
     private void getRoute(Point origin, Point destination){

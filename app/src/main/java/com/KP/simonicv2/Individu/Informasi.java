@@ -215,6 +215,7 @@ public void getdata2(){
         intent.putExtra("lat", dataList.get(position).getLat());
         intent.putExtra("lng", dataList.get(position).getLng());
         intent.putExtra("uuid", dataList.get(position).getUuid());
+        intent.putExtra("device_id",dataList.get(position).getDevice_Id());
         startActivity(intent);
 /*
         Intent intent2 = new Intent(getApplicationContext(), ProfileFragment.class);

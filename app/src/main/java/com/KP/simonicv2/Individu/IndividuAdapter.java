@@ -50,10 +50,11 @@ public class IndividuAdapter extends RecyclerView.Adapter<IndividuAdapter.indVie
         String kota = dataList.get(position).getKota();
         String kecamatan = dataList.get(position).getKecamatan();
         String kelurahan = dataList.get(position).getKelurahan();
-        String device = dataList.get(position).getDevice();
+        String device = dataList.get(position).getDevice_Id();
+        //holder.txtNama.setText(dataList.get(position).getLat()+" ,"+dataList.get(position).getLat_Me()+" ,"+
+                //dataList.get(position).getLng()+" ,"+dataList.get(position).getLng_Me()+" ,"+dataList.get(position).getDevice_Id());
         holder.txtNama.setText(dataList.get(position).getNama());
         holder.txtdevice.setText(device);
-        holder.txtwilayah.setText(""+provinsi+","+kota);
         holder.txtwilayah.setText(""+kelurahan+","+kecamatan+","+kota+","+provinsi);
 
     }
