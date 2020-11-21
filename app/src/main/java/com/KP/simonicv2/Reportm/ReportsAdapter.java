@@ -29,7 +29,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportmAdapter.ViewHold
     @Override
     public ReportmAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                         int viewType) {
-        // create a new view
+        // create a new views
         /*View itemLayoutView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.custom_reportc,parent, null);*/
         View itemLayoutView= LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_reportm, parent, false);
