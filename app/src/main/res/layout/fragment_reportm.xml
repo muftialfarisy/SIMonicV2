@@ -15,7 +15,47 @@
         android:textSize="@dimen/_20sdp"
         android:textColor="#000000"
         />
+    <LinearLayout
+        android:id="@+id/ln_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/jdl_rm">
 
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/groupchip"
+            android:theme="@style/Platform.MaterialComponents.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:clickable="true"
+            android:paddingLeft="@dimen/_70sdp"
+            app:checkedChip="@id/indonesia"
+            app:chipSpacingHorizontal="@dimen/_10sdp"
+            app:singleLine="false"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/indonesia"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="KESEHATAN"
+                app:chipBackgroundColor="@drawable/chip_selection"
+                app:chipStrokeWidth="1dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/jabar"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="wrap_content"
+                android:text="SOS"
+                app:chipBackgroundColor="@drawable/chip_selection"
+                app:chipStrokeWidth="1dp" />
+        </com.google.android.material.chip.ChipGroup>
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_reportm"
         android:layout_width="match_parent"

@@ -22,14 +22,14 @@ import java.util.ArrayList;
 
 public class ReportmAdapter extends RecyclerView.Adapter<ReportmAdapter.ViewHolder> {
     public ArrayList<Report_m> reportmlist;
-    public ArrayList<Report_sos> reportsoslist;
+    //public ArrayList<Report_sos> reportsoslist;
     Activity activity;
 
-    public ReportmAdapter(Activity activity, ArrayList<Report_m> reportmlist, ArrayList<Report_sos> reportsoslist) {
+    public ReportmAdapter(Activity activity, ArrayList<Report_m> reportmlist) {
         super();
         this.activity = activity;
         this.reportmlist = reportmlist;
-        this.reportsoslist = reportsoslist;
+        //this.reportsoslist = reportsoslist;
     }
 
     @Override
@@ -48,22 +48,22 @@ public class ReportmAdapter extends RecyclerView.Adapter<ReportmAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        holder.chipIn.setOnClickListener(new View.OnClickListener() {
+        /*holder.chipIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {*/
                 holder.masalah.setText(reportmlist.get(position).getMasalah());
-                holder.tglmasalah.setText(reportmlist.get(position).getTgl());
+                holder.tglmasalah.setText(reportmlist.get(position).getTanggal());
                 holder.jammasalah.setText(reportmlist.get(position).getJam());
-            }
-        });
-        holder.chipJb.setOnClickListener(new View.OnClickListener() {
+            //}
+        //});
+        /*holder.chipJb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.masalah.setText(reportsoslist.get(position).getSos());
-                holder.tglmasalah.setText(reportsoslist.get(position).getTgl());
+                holder.masalah.setText(reportsoslist.get(position).getMasalah());
+                holder.tglmasalah.setText(reportsoslist.get(position).getTanggal());
                 holder.jammasalah.setText(reportsoslist.get(position).getJam());
             }
-        });
+        });*/
 
 
     }
@@ -89,8 +89,8 @@ public class ReportmAdapter extends RecyclerView.Adapter<ReportmAdapter.ViewHold
             masalah = (TextView) itemLayoutView.findViewById(R.id.txt_masalah);
             tglmasalah = (TextView) itemLayoutView.findViewById(R.id.txt_tglmasalah);
             jammasalah = (TextView) itemLayoutView.findViewById(R.id.txt_jammasalah);
-            chipIn = (Chip) itemLayoutView.findViewById(R.id.indonesia);
-            chipJb = (Chip) itemLayoutView.findViewById(R.id.jabar);
+            //chipIn = (Chip) itemLayoutView.findViewById(R.id.indonesia);
+            //chipJb = (Chip) itemLayoutView.findViewById(R.id.jabar);
 
 
 

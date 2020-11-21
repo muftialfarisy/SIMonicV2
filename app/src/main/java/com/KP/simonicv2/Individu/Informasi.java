@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,7 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
     private ArrayList<Individu> dataList = new ArrayList<>();
     private ArrayList<Registrasi_gs> registrasilist = new ArrayList<>();
     private ShimmerRecyclerView recyclerView;
+    private TextView di;
      IndividuAdapter adapter;
     private DatabaseReference reference;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -64,8 +66,9 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         recyclerView = (ShimmerRecyclerView) findViewById(R.id.recycler_view);
         auth = FirebaseAuth.getInstance();
+        di = findViewById(R.id.di);
         getdata();
-
+        getdata2();
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
@@ -116,37 +119,21 @@ public class Informasi extends AppCompatActivity implements IndividuAdapter.Onin
                 DynamicToast.makeError(Informasi.this, "eror");
             }
         });
-        /*FirebaseRecyclerOptions<Individu> options=
-                new FirebaseRecyclerOptions.Builder<Individu>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Data ODP").child(auth.getUid()),Individu.class)
-                        .build();
-
-        adapter=new IndividuAdapter(options);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(Informasi.this);
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);*/
     }
 
 public void getdata2(){
     String getUserID = auth.getCurrentUser().getUid();
     reference = FirebaseDatabase.getInstance().getReference();
 
-    reference.child("Data ODP").push().addValueEventListener(new ValueEventListener() {
+    reference.child("Data ODP").child("1687ddcc345432e5").addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-            for (DataSnapshot Snapshot : snapshot.getChildren()) {
+            //for (DataSnapshot Snapshot : snapshot.getChildren()) {
+            String device = snapshot.child("device_id").getValue(String.class);
+            di.setText(device);
 
-                Individu individu = Snapshot.getValue(Individu.class);
-
-                dataList.add(individu);
-
-                adapter = new IndividuAdapter(dataList, Informasi.this);
-
-
-                recyclerView.setAdapter(adapter);
-            }
+            //}
 
 
         }
@@ -214,6 +201,7 @@ public void getdata2(){
         intent.putExtra("tgl_selesai", dataList.get(position).getSelesai());
         intent.putExtra("lat", dataList.get(position).getLat());
         intent.putExtra("lng", dataList.get(position).getLng());
+        intent.putExtra("device_id", dataList.get(position).getDevice_Id());
         intent.putExtra("uuid", dataList.get(position).getUuid());
         intent.putExtra("device_id",dataList.get(position).getDevice_Id());
         startActivity(intent);
@@ -247,7 +235,7 @@ public void getdata2(){
                     Bundle bundle = new Bundle();
                     Bundle bundle2 = new Bundle();
                     bundle.getString("nama",dataList.get(position).getNama());
-                    bundle2.getString("device",dataList.get(position).getUuid());
+                    bundle2.getString("device",dataList.get(position).getDevice_Id());
                     fragmentB.setArguments(bundle);
                     fragmentC.setArguments(bundle2);
                 }
