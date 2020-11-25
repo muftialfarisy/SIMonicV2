@@ -214,6 +214,8 @@ public void getdata2(){
         intent.putExtra("tgl_selesai", dataList.get(position).getSelesai());
         intent.putExtra("lat", dataList.get(position).getLat());
         intent.putExtra("lng", dataList.get(position).getLng());
+        intent.putExtra("lat_me", dataList.get(position).getLat_Me());
+        intent.putExtra("lng_me", dataList.get(position).getLng_Me());
         intent.putExtra("uuid", dataList.get(position).getUuid());
         intent.putExtra("device_id",dataList.get(position).getDevice_Id());
         startActivity(intent);

@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -91,11 +92,13 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
     private LocationChangeListeningActivityLocationCallback callback =
             new LocationChangeListeningActivityLocationCallback(this);
     DatabaseReference reff,zona;
+    private EditText test;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(getContext(),getString(R.string.mapbox_access_token));
         View view = inflater.inflate (R.layout.fragment_position,container,false);
 
+        test = view.findViewById(R.id.test);
         mapView = view.findViewById(R.id.mapview2);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -122,13 +125,10 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
 
                             final LatLng mapTargetLatLng = mapboxMap.getCameraPosition().target;
 
-                            /*
-                            Double lat_me = Double.valueOf(latt_me);
-                            Double lng_me = Double.valueOf(lngg_me);
-
-                             */
-                            Double lat_me = -6.865762;
-                            Double lng_me = 107.647618;
+                            Double lat_me = Double.parseDouble(latt_me);
+                            Double lng_me = Double.parseDouble(lngg_me);
+                            //Double lat_me = -6.865762;
+                            //Double lng_me = 107.647618;
                             SymbolManager symbolManager = new SymbolManager(mapView, mapboxMap, style);
                             symbolManager.create(new SymbolOptions()
                                     .withLatLng(new LatLng(lat_me, lng_me))
@@ -190,7 +190,7 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
                 background.setText("Di luar Zona");
 
                 //notif
-                show_Notification();
+                //show_Notification();
 
             }
             position = new LatLng(centerCoordinates.getLatitude() + y,

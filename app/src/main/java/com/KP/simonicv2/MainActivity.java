@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -49,13 +51,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import org.altbeacon.beacon.BeaconManager;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements IndividuAdapter.OnindListener extends FirebaseMessagingService {
+public class MainActivity extends AppCompatActivity implements IndividuAdapter.OnindListener {
 
     CardView cd_regis,cd_info,cd_radar,cd_setting;
     private FirebaseUser mUser;
@@ -92,6 +95,11 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
         checkPermission();
         test = findViewById(R.id.test);
         auth = FirebaseAuth.getInstance();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("My Notification", "My Notification",NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
         getdata();
         cd_regis = (CardView) findViewById(R.id.cd_register);
         cd_regis.setOnClickListener(new View.OnClickListener()
@@ -309,8 +317,7 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot Snapshot : snapshot.getChildren()) {
-
-                    Individu individu = Snapshot.getValue(Individu.class);
+                                        Individu individu = Snapshot.getValue(Individu.class);
 
                     dataList.add(individu);
 
@@ -319,34 +326,52 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
                     String lng = (String) Snapshot.child("lng").getValue();
                     String lat_me = (String) Snapshot.child("lat_me").getValue();
                     String lng_me = (String) Snapshot.child("lng_me").getValue();
-
-
-                    Double lat2 = Double.valueOf(lat);
-                    Double lng2 = Double.valueOf(lng);
-                    Double lat_me2 = Double.valueOf(lat_me);
-                    Double lng_me2 = Double.valueOf(lng_me);
+                    String nama = (String) Snapshot.child("nama").getValue();
 
 
 
-                    FirebaseMessaging.getInstance().getToken()
-                            .addOnCompleteListener(new OnCompleteListener<String>() {
-                                @Override
-                                public void onComplete(@NonNull Task<String> task) {
-                                    if (!task.isSuccessful()) {
-                                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                                        return;
-                                    }
+                    Double lat2 = Double.parseDouble(lat);
+                    Double lng2 = Double.parseDouble(lng);
+                    //Double lat_me2 = Double.parseDouble(lat_me);
+                    //Double lng_me2 = Double.parseDouble(lng_me);
 
-                                    // Get new FCM registration token
-                                    String token = task.getResult();
+                    Double lat_me2 = -6.865762;
+                    Double lng_me2 = 107.647618;
+                    //test.setText(lat2+" ,"+lng2);
+                    test.setText(lat2+" ,"+lng2+" ,"+lat_me2+" ,"+lng_me2+" ,"+nama);
+                    //test.setText(lat+" ,"+lng+" ,"+lat_me+" ,"+lng_me);
 
-                                    // Log and toast
-                                    String msg = getString(R.string.msg_token_fmt, token);
-                                    Log.d(TAG, msg);
-                                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                    //test.setText(lat2+" ,"+lng2+" ,"+lat_me2+" ,"+lng_me2);
+                    double radiusInKilometers = 1;
+                    double numberOfSides = 64;
+                    double distanceX = radiusInKilometers / (111.319 * Math.cos(lat2 * Math.PI / 180));
+                    double distanceY = radiusInKilometers / 110.574;
+                    int id = 1;
+
+                    double slice = (2 * Math.PI) / numberOfSides;
+                    double theta;
+                    double x1,y1,a1,b1,a2,b2;
+                        theta = 64 * slice;
+                        x1 = distanceX * Math.cos(theta);
+                        y1 = distanceY * Math.sin(theta);
+
+                        a1 = lat2 + y1;
+                        a2 = lat2 - y1;
+                        b1 = lng2 + x1;
+                        b2 = lng2 - x1;
+                        if (((a1 > lat_me2) && (lat_me2 > a2)) || ((b1 > lng_me2) && (lng_me2 > b2))) {
+
+                        }else{
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "My Notification");
+                            builder.setContentTitle("My title");
+                            builder.setContentText(nama+" test");
+                            builder.setSmallIcon(android.R.drawable.sym_action_chat);
+                            builder.setAutoCancel(true);
+
+                            NotificationManagerCompat managerCompat = NotificationManagerCompat.from(MainActivity.this);
+                            managerCompat.notify(id, builder.build());
+                        }
+
+
                 }
 
 
@@ -360,14 +385,6 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
 
     }
 
-    public void onNewToken(String token) {
-        Log.d(TAG, "Refreshed token: " + token);
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // FCM registration token to your app server.
-        sendRegistrationToServer(token);
-    }
 
     @Override
     public void onindClick(int position) {
