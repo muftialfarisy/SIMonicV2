@@ -5,12 +5,15 @@ public class Report_m{
     private String tgl;
     private String jam;
 
+    public Report_m(){
 
+    }
     public Report_m(String masalah, String tgl, String jam){
         this.masalah = masalah;
         this.tgl = tgl;
         this.jam = jam;
     }
+
     public String getMasalah() {
         return masalah;
     }
@@ -19,11 +22,11 @@ public class Report_m{
         this.masalah = masalah;
     }
 
-    public String getTgl() {
+    public String getTanggal() {
         return tgl;
     }
 
-    public void setTgl(String tgl) {
+    public void setTanggal(String tgl) {
         this.tgl = tgl;
     }
 

@@ -15,14 +15,19 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
     </androidx.appcompat.widget.Toolbar>
-
+<TextView
+    android:id="@+id/di"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/my_toolbar"
+    android:gravity="center"/>
     <TextView
         android:id="@+id/jdl_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="LIST INDIVIDU DALAM \n PENGAWASAN"
         android:gravity="center"
-        android:layout_below="@+id/my_toolbar"
+        android:layout_below="@+id/di"
         android:textSize="25dp"
         android:textColor="#FFFF"
         />

@@ -10,19 +10,22 @@ public class Report_sos {
         this.tgl = tgl;
         this.jam = jam;
     }
-    public String getSos() {
+    public Report_sos(){
+
+    }
+    public String getMasalah() {
         return sos;
     }
 
-    public void setSos(String sos) {
+    public void setMasalah(String sos) {
         this.sos = sos;
     }
 
-    public String getTgl() {
+    public String getTanggal() {
         return tgl;
     }
 
-    public void setTgl(String tgl) {
+    public void setTanggal(String tgl) {
         this.tgl = tgl;
     }
 

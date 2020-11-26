@@ -4,38 +4,32 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.KP.simonicv2.R;
-import com.KP.simonicv2.Reportc.Report_c;
-import com.KP.simonicv2.Reportc.ReportcAdapter;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
-public class ReportmAdapter extends RecyclerView.Adapter<ReportmAdapter.ViewHolder> {
-    public ArrayList<Report_m> reportmlist;
-    //public ArrayList<Report_sos> reportsoslist;
+public class ReportsAdapter extends RecyclerView.Adapter<ReportmAdapter.ViewHolder> {
+    //public ArrayList<Report_m> reportmlist;
+    public ArrayList<Report_sos> reportsoslist;
     Activity activity;
 
-    public ReportmAdapter(Activity activity, ArrayList<Report_m> reportmlist) {
+    public ReportsAdapter(Activity activity, ArrayList<Report_sos> reportsoslist) {
         super();
         this.activity = activity;
-        this.reportmlist = reportmlist;
-        //this.reportsoslist = reportsoslist;
+        //this.reportmlist = reportmlist;
+        this.reportsoslist = reportsoslist;
     }
 
     @Override
     public ReportmAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                         int viewType) {
-        // create a new view
+        // create a new views
         /*View itemLayoutView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.custom_reportc,parent, null);*/
         View itemLayoutView= LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_reportm, parent, false);
@@ -46,15 +40,15 @@ public class ReportmAdapter extends RecyclerView.Adapter<ReportmAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ReportmAdapter.ViewHolder holder, final int position) {
 
         /*holder.chipIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {*/
-                holder.masalah.setText(reportmlist.get(position).getMasalah());
-                holder.tglmasalah.setText(reportmlist.get(position).getTanggal());
-                holder.jammasalah.setText(reportmlist.get(position).getJam());
-            //}
+        holder.masalah.setText(reportsoslist.get(position).getMasalah());
+        holder.tglmasalah.setText(reportsoslist.get(position).getTanggal());
+        holder.jammasalah.setText(reportsoslist.get(position).getJam());
+        //}
         //});
         /*holder.chipJb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +70,7 @@ public class ReportmAdapter extends RecyclerView.Adapter<ReportmAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return (reportmlist != null) ? reportmlist.size() : 0;
+        return (reportsoslist != null) ? reportsoslist.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -98,4 +92,3 @@ public class ReportmAdapter extends RecyclerView.Adapter<ReportmAdapter.ViewHold
     }
 
 }
-

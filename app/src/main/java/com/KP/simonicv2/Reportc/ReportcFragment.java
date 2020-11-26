@@ -103,7 +103,7 @@ public class ReportcFragment extends Fragment   {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (!snapshot.exists()) {
-                            mid = mid + 1;
+                            //mid = mid + 1;
 
                         } else {
 
