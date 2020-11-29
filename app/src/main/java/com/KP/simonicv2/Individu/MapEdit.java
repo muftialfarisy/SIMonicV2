@@ -89,7 +89,7 @@ public class MapEdit extends AppCompatActivity implements OnMapReadyCallback, Pe
     private MapboxMap map;
     TextView txtlat,txtlng,geocode;
     Button btnlatlng;
-    String nama,nik,alamat,jk,id,tglmulai,tglselesai,riwayat,provinsi,kota,kecamatan,kelurahan,uuid;
+    String nama,nik,alamat,jk,id,tglmulai,tglselesai,riwayat,provinsi,kota,kecamatan,kelurahan,uuid,coordinate;
     private LocationEngine locationEngine;
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
     private static final String TAG = "detail rumah sakit";
@@ -140,6 +140,7 @@ public class MapEdit extends AppCompatActivity implements OnMapReadyCallback, Pe
             kecamatan = a.getString("kecamatan");
             kelurahan = a.getString("kelurahan");
             uuid = a.getString("uuid");
+            coordinate = a.getString("coordinate");
         }
         /*
         btnlatlng.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +308,7 @@ public class MapEdit extends AppCompatActivity implements OnMapReadyCallback, Pe
                 intent.putExtra("kecamatan",kecamatan);
                 intent.putExtra("kelurahan",kelurahan);
                 intent.putExtra("uuid",uuid);
+                intent.putExtra("coordinate",coordinate);
                 //nama,nik,alamat,jk,id,tglmulai,tglselesai,riwayat,provinsi,kota,kecamatan,kelurahan,uuid
 
                 startActivity(intent);

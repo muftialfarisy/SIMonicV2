@@ -98,7 +98,6 @@ public class PositionFragment extends Fragment implements OnMapReadyCallback, Pe
         Mapbox.getInstance(getContext(),getString(R.string.mapbox_access_token));
         View view = inflater.inflate (R.layout.fragment_position,container,false);
 
-        test = view.findViewById(R.id.test);
         mapView = view.findViewById(R.id.mapview2);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);

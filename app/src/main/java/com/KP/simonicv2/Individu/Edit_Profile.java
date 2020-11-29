@@ -63,7 +63,7 @@ public class Edit_Profile extends AppCompatActivity {
     TextView tglmulai,tglselesai,jdl_coordinate;
     ImageButton exit;
     Button edit;
-    String namaa,nikk,alamatt,jk,idd,tgl1,tgl2,riwayatt,provinsii,kotaa,kecamatann,kelurahann,uuidd,text;
+    String namaa,nikk,alamatt,jk,idd,tgl1,tgl2,riwayatt,provinsii,kotaa,kecamatann,kelurahann,uuidd,text,coordinate_lama;
     EditText nama,nik,alamat,riwayat,coordinate,uuid,id,coordinate_baru;
     double lat3,lng3;
     int i;
@@ -132,7 +132,9 @@ public class Edit_Profile extends AppCompatActivity {
                 kecamatann = b.getString("kecamatan");
                 kelurahann = b.getString("kelurahan");
                 uuidd = b.getString("uuid");
+                coordinate_lama = b.getString("coordinate");
                 coordinate_baru.setText(lat2+" ,"+lng2);
+                coordinate.setText(coordinate_lama);
                 nama.setText(namaa);
                 nik.setText(nikk);
                 alamat.setText(alamatt);
@@ -200,6 +202,7 @@ public class Edit_Profile extends AppCompatActivity {
                 intent.putExtra("kecamatan", spKecamatan.getSelectedItem().toString());
                 intent.putExtra("keluruhan", spKeluruhan.getSelectedItem().toString());
                 intent.putExtra("uuid", uuid.getText().toString());
+                intent.putExtra("coordinate", coordinate.getText().toString());
                 startActivity(intent);
             }
         });
@@ -324,7 +327,6 @@ public void ambildata(){
                     nik.setText(niks);
                     alamat.setText(alamats);
                     spinner.setSelection(getIndex(spinner, jks));
-                    //id masih error
                     id.setText(uuidd);
                     tglmulai.setText(mulais);
                     tglselesai.setText(selesais);

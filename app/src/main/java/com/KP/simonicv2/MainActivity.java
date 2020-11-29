@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
         setContentView(R.layout.activity_main);
         validasi();
         checkPermission();
-        test = findViewById(R.id.test);
         auth = FirebaseAuth.getInstance();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel("My Notification", "My Notification",NotificationManager.IMPORTANCE_DEFAULT);
@@ -332,14 +331,8 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
 
                     Double lat2 = Double.parseDouble(lat);
                     Double lng2 = Double.parseDouble(lng);
-                    //Double lat_me2 = Double.parseDouble(lat_me);
-                    //Double lng_me2 = Double.parseDouble(lng_me);
-
-                    Double lat_me2 = -6.865762;
-                    Double lng_me2 = 107.647618;
-                    //test.setText(lat2+" ,"+lng2);
-                    test.setText(lat2+" ,"+lng2+" ,"+lat_me2+" ,"+lng_me2+" ,"+nama);
-                    //test.setText(lat+" ,"+lng+" ,"+lat_me+" ,"+lng_me);
+                    Double lat_me2 = Double.parseDouble(lat_me);
+                    Double lng_me2 = Double.parseDouble(lng_me);
 
                     double radiusInKilometers = 1;
                     double numberOfSides = 64;
