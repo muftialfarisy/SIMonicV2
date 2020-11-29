@@ -150,7 +150,6 @@ public class Detail_Individu extends AppCompatActivity {
         {
             case 0 :
                 replaceFragment(profile);
-
                 break;
             case 1 :
                 replaceFragment(reportc);

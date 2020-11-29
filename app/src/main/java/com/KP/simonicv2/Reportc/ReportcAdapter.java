@@ -73,7 +73,7 @@ public class ReportcAdapter extends RecyclerView.Adapter<ReportcAdapter.ViewHold
 
                 movie.setExpanded(!movie.isExpanded());
                 holder.btncolapse.setRotation(270f);
-                notifyItemChanged(position);
+                //notifyItemChanged(position);
 
             }
         });
@@ -91,7 +91,8 @@ public class ReportcAdapter extends RecyclerView.Adapter<ReportcAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return (reportlist != null) ? reportlist.size() : 0;
+        //return (reportlist != null) ? reportlist.size() : 0;
+        return  reportlist.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -12,9 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.KP.simonicv2.R;
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,59 +30,18 @@ import com.skyhope.expandcollapsecardview.ExpandCollapseListener;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ReportcFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ReportcFragment extends Fragment   {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    public ReportcFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ReportFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ReportcFragment newInstance(String param1, String param2) {
-        ReportcFragment fragment = new ReportcFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
     ArrayList<Report_c> reportlist = new ArrayList<>();
-     RecyclerView Rv_reportc;
+    RecyclerView Rv_reportc;
      ReportcAdapter adapter;
     private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseAuth auth;
+    private DatabaseReference reference;
     int i;
-    long mid = 0;
+    long mid;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -87,36 +49,33 @@ public class ReportcFragment extends Fragment   {
         View view = inflater.inflate(R.layout.fragment_report, container, false);
         String uuid = getActivity().getIntent().getStringExtra("device_id");
         Rv_reportc = (RecyclerView) view.findViewById(R.id.rv_reportc);
-
+addData();
         Rv_reportc.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
         Rv_reportc.setLayoutManager(layoutManager);
 
 
-        if (i < 0){
-
-        }else{
-            for (i=0;i<50;i++) {
-                final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Data ODP").child(uuid).child("laporan_checkup").child(String.valueOf(i));
+            /*for (i=0;i<50;i++) {
+                final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Data ODP").child(uuid).child("laporan_checkup");
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (!snapshot.exists()) {
-                            //mid = mid + 1;
+                        for (DataSnapshot Snapshot : snapshot.getChildren()) {
+                            if (!Snapshot.exists()) {
+                                mid = mid + 1;
 
-                        } else {
+                            } else {
+                                mid = (Snapshot.getChildrenCount());
+                                Report_c individu = Snapshot.getValue(Report_c.class);
+                                reportlist.add(individu);
 
-                            //mid = (snapshot.getChildrenCount());
-                            Report_c individu = snapshot.getValue(Report_c.class);
-                            reportlist.add(individu);
+                                adapter = new ReportcAdapter(getActivity(), reportlist);
+                                Rv_reportc.setAdapter(adapter);
 
-                            adapter = new ReportcAdapter(getActivity(), reportlist);
-                            Rv_reportc.setAdapter(adapter);
-
-                            adapter.notifyDataSetChanged();
+                            }
                         }
-                    }
+                   }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -124,13 +83,41 @@ public class ReportcFragment extends Fragment   {
                     }
                 });
 
-            }
-        }
+            }*/
+
 
         return view;
     }
 
-    private void addData(){
+    public void addData(){
+        String uuid = getActivity().getIntent().getStringExtra("device_id");
+        reference = FirebaseDatabase.getInstance().getReference();
+        //for (i=0;i<50;i++) {
+      reference.child("Data ODP").child(uuid).child("laporan_checkup").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot Snapshot : snapshot.getChildren()) {
+                    if (!Snapshot.exists()) {
+                        //mid = mid + 1;
+
+                    } else {
+                        mid = (Snapshot.getChildrenCount());
+                        Report_c individu = Snapshot.getValue(Report_c.class);
+                        reportlist.add(individu);
+                        adapter = new ReportcAdapter(getActivity(), reportlist);
+                        Rv_reportc.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //}
 
 
     }

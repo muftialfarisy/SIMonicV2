@@ -100,26 +100,26 @@ public class ReportmFragment extends Fragment {
     private void adddata(){
         String uuid = getActivity().getIntent().getStringExtra("device_id");
 
-            if (i < 0){
 
-            }else{
-                for (i=0;i<50;i++) {
-                    final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Data ODP").child(uuid).child("laporan_masalah").child(String.valueOf(i));
+                //for (i=0;i<50;i++) {
+                    final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Data ODP").child(uuid).child("laporan_masalah");
                     reference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (!snapshot.exists()) {
-                                //mid = mid + 1;
+                            for (DataSnapshot Snapshot : snapshot.getChildren()) {
+                                if (!Snapshot.exists()) {
+                                    //mid = mid + 1;
 
-                            } else {
+                                } else {
 
-                                mid = (snapshot.getChildrenCount());
-                                Report_m individu = snapshot.getValue(Report_m.class);
-                                reportmlist.add(individu);
+                                    mid = (Snapshot.getChildrenCount());
+                                    Report_m individu = Snapshot.getValue(Report_m.class);
+                                    reportmlist.add(individu);
 
-                                adapter = new ReportmAdapter(getActivity(), reportmlist);
-                                Rv_reportm.setAdapter(adapter);
-                                adapter.notifyDataSetChanged();
+                                    adapter = new ReportmAdapter(getActivity(), reportmlist);
+                                    Rv_reportm.setAdapter(adapter);
+                                    adapter.notifyDataSetChanged();
+                                }
                             }
                         }
 
@@ -129,8 +129,8 @@ public class ReportmFragment extends Fragment {
                         }
                     });
 
-                }
-            }
+                //}
+
 
          /*else if (chipJb.isChecked()){
             if (i < 0){
