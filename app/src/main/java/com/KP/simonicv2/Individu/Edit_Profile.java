@@ -294,54 +294,57 @@ public class Edit_Profile extends AppCompatActivity {
 public void ambildata(){
 
     String uuidd = getIntent().getStringExtra("device_id");
-
     reference = FirebaseDatabase.getInstance().getReference();
 
-    reference.child("Data ODP").child(uuidd).addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
+    if(uuidd != null) {
+        reference.child("Data ODP").child(uuidd).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-            for (DataSnapshot Snapshot : snapshot.getChildren()) {
+                for (DataSnapshot Snapshot : snapshot.getChildren()) {
 
-               // Individu individu = Snapshot.getValue(Individu.class);
-                String namas = snapshot.child("nama").getValue(String.class);
-                String niks = snapshot.child("nik").getValue(String.class);
-                String alamats = snapshot.child("alamat").getValue(String.class);
-                String mulais = snapshot.child("durasi").getValue(String.class);
-                String selesais = snapshot.child("selesai").getValue(String.class);
-                String provinsis = snapshot.child("provinsi").getValue(String.class);
-                String kotas = snapshot.child("kota").getValue(String.class);
-                String kecamatans = snapshot.child("kecamatan").getValue(String.class);
-                String kelurahans = snapshot.child("kelurahan").getValue(String.class);
-                String jks = snapshot.child("jenis_kelamin").getValue(String.class);
-                String lats = snapshot.child("lat").getValue(String.class);
-                String lngs = snapshot.child("lng").getValue(String.class);
-                String uuids = snapshot.child("uuid").getValue(String.class);
+                    // Individu individu = Snapshot.getValue(Individu.class);
 
-                coordinate.setText(lats + " ," + lngs);
-                nama.setText(namas);
-                nik.setText(niks);
-                alamat.setText(alamats);
-                spinner.setSelection(getIndex(spinner, jks));
-                //id masih error
-                id.setText(uuidd);
-                tglmulai.setText(mulais);
-                tglselesai.setText(selesais);
-                spProvinsi.setSelection(getIndex(spProvinsi, provinsis));
-                spKota.setSelection(getIndex(spKota, kotas));
-                spKecamatan.setSelection(getIndex(spKecamatan, kecamatans));
-                spKeluruhan.setSelection(getIndex(spKeluruhan, kelurahans));
-                uuid.setText(uuids);
+                    String namas = snapshot.child("nama").getValue(String.class);
+                    String niks = snapshot.child("nik").getValue(String.class);
+                    String alamats = snapshot.child("alamat").getValue(String.class);
+                    String mulais = snapshot.child("durasi").getValue(String.class);
+                    String selesais = snapshot.child("selesai").getValue(String.class);
+                    String provinsis = snapshot.child("provinsi").getValue(String.class);
+                    String kotas = snapshot.child("kota").getValue(String.class);
+                    String kecamatans = snapshot.child("kecamatan").getValue(String.class);
+                    String kelurahans = snapshot.child("kelurahan").getValue(String.class);
+                    String jks = snapshot.child("jenis_kelamin").getValue(String.class);
+                    String lats = snapshot.child("lat").getValue(String.class);
+                    String lngs = snapshot.child("lng").getValue(String.class);
+                    String uuids = snapshot.child("uuid").getValue(String.class);
+
+
+                    coordinate.setText(lats + " ," + lngs);
+                    nama.setText(namas);
+                    nik.setText(niks);
+                    alamat.setText(alamats);
+                    spinner.setSelection(getIndex(spinner, jks));
+                    //id masih error
+                    id.setText(uuidd);
+                    tglmulai.setText(mulais);
+                    tglselesai.setText(selesais);
+                    spProvinsi.setSelection(getIndex(spProvinsi, provinsis));
+                    spKota.setSelection(getIndex(spKota, kotas));
+                    spKecamatan.setSelection(getIndex(spKecamatan, kecamatans));
+                    spKeluruhan.setSelection(getIndex(spKeluruhan, kelurahans));
+                    uuid.setText(uuids);
+                }
+
+
             }
 
-
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
-            DynamicToast.makeError(Edit_Profile.this, "eror");
-        }
-    });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                DynamicToast.makeError(Edit_Profile.this, "eror");
+            }
+        });
+    }
 }
 
         public void emptydata () {
