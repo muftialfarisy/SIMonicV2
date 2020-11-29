@@ -107,7 +107,7 @@ public class ReportcFragment extends Fragment   {
 
                         } else {
 
-                            mid = (snapshot.getChildrenCount());
+                            //mid = (snapshot.getChildrenCount());
                             Report_c individu = snapshot.getValue(Report_c.class);
                             reportlist.add(individu);
 

@@ -41,7 +41,7 @@ public class Detail_Individu extends AppCompatActivity {
     private ReportmFragment reportm;
     private SuhuFragment suhu;
     private PositionFragment posisi;
-    TextView txtnama,durasi;
+    TextView txtnama,durasi,dvc;
     private int[] tabIcons = {
             R.drawable.ic_note,
             R.drawable.ic_suhu,
@@ -60,6 +60,7 @@ public class Detail_Individu extends AppCompatActivity {
         viewPager = findViewById(R.id.pager);
         txtnama = findViewById(R.id.txt_nama2);
         durasi = findViewById(R.id.txt_time);
+        dvc = findViewById(R.id.txt_dvc);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         profile = new ProfileFragment();
         reportc = new ReportcFragment();
@@ -108,7 +109,7 @@ public class Detail_Individu extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.tmbl_edit:
                 Intent edit = new Intent(Detail_Individu.this, Edit_Profile.class);
-
+                edit.putExtra("device_id",dvc.getText());
                 startActivity(edit);
 
                 return true;
@@ -119,10 +120,10 @@ public class Detail_Individu extends AppCompatActivity {
     private void getIncomingIntent(){
         if (getIntent().hasExtra("nama")&& getIntent().hasExtra("wilayah")){
             String nama = getIntent().getStringExtra("nama");
-
+            String uuid = getIntent().getStringExtra("device_id");
             Log.d(TAG,"On Create:" +nama.toString());
             txtnama.setText(""+nama);
-
+            dvc.setText(""+uuid);
         }
 
     }

@@ -2,15 +2,15 @@ package com.KP.simonicv2.Reportm;
 
 public class Report_m{
     private String masalah;
-    private String tgl;
+    private String tanggal;
     private String jam;
 
     public Report_m(){
 
     }
-    public Report_m(String masalah, String tgl, String jam){
+    public Report_m(String masalah, String tanggal, String jam){
         this.masalah = masalah;
-        this.tgl = tgl;
+        this.tanggal = tanggal;
         this.jam = jam;
     }
 
@@ -23,11 +23,11 @@ public class Report_m{
     }
 
     public String getTanggal() {
-        return tgl;
+        return tanggal;
     }
 
     public void setTanggal(String tgl) {
-        this.tgl = tgl;
+        this.tanggal = tgl;
     }
 
     public String getJam() {

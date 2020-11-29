@@ -20,7 +20,7 @@
                 android:id="@+id/ln_nama"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
                 android:orientation="horizontal"
                 android:layout_below="@+id/my_toolbar"
                 android:padding="5dp">
@@ -36,7 +36,25 @@
                     android:textStyle="bold"/>
             </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ln_deviceid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/ln_nama"
+        android:padding="5dp">
 
+        <TextView
+            android:id="@+id/txt_dvc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="@dimen/_5sdp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/rl_tab"
         android:layout_width="match_parent"
@@ -44,7 +62,7 @@
         android:layout_gravity="bottom"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        android:layout_below="@id/ln_nama">
+        android:layout_below="@id/ln_deviceid">
         <LinearLayout
             android:id="@+id/ln_time"
             android:layout_width="@dimen/_150sdp"

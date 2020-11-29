@@ -48,23 +48,10 @@ public class ReportmAdapter extends RecyclerView.Adapter<ReportmAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        /*holder.chipIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {*/
+
                 holder.masalah.setText(reportmlist.get(position).getMasalah());
                 holder.tglmasalah.setText(reportmlist.get(position).getTanggal());
                 holder.jammasalah.setText(reportmlist.get(position).getJam());
-            //}
-        //});
-        /*holder.chipJb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.masalah.setText(reportsoslist.get(position).getMasalah());
-                holder.tglmasalah.setText(reportsoslist.get(position).getTanggal());
-                holder.jammasalah.setText(reportsoslist.get(position).getJam());
-            }
-        });*/
-
 
     }
 

@@ -18,6 +18,16 @@ public class Individu implements Parcelable {
     String lng;
     String lat_me;
     String lng_me;
+
+    public String getJenis_kelamin() {
+        return jenis_kelamin;
+    }
+
+    public void setJenis_kelamin(String jenis_kelamin) {
+        this.jenis_kelamin = jenis_kelamin;
+    }
+
+    String jenis_kelamin;
     public Individu() {}
     public String getUuid() {
         return uuid;
@@ -102,7 +112,7 @@ public class Individu implements Parcelable {
 
     String key;
     public Individu(String device_id,String nama, String nik,String alamat, String provinsi, String kota, String kecamatan,
-                    String kelurahan,String durasi, String selesai ,String lat ,String lng, String lat_me, String lng_me){
+                    String kelurahan,String durasi, String selesai ,String lat ,String lng, String lat_me, String lng_me,String jenis_kelamin){
         this.device_id = device_id;
         this.nama = nama;
         this.nik = nik;
@@ -117,6 +127,7 @@ public class Individu implements Parcelable {
         this.lat_me = lat_me;
         this.lng = lng;
         this.lng_me = lng_me;
+        this.jenis_kelamin = jenis_kelamin;
     }
     protected Individu(Parcel in) {
         nama = in.readString();

@@ -206,6 +206,7 @@ public void getdata2(){
         intent.putExtra("wilayah", dataList.get(position).getWilayah());
         intent.putExtra("nik", dataList.get(position).getNik());
         intent.putExtra("alamat", dataList.get(position).getAlamat());
+        intent.putExtra("jk", dataList.get(position).getJenis_kelamin());
         intent.putExtra("provinsi", dataList.get(position).getProvinsi());
         intent.putExtra("kota", dataList.get(position).getKota());
         intent.putExtra("kecamatan", dataList.get(position).getKecamatan());
@@ -219,6 +220,24 @@ public void getdata2(){
         intent.putExtra("uuid", dataList.get(position).getUuid());
         intent.putExtra("device_id",dataList.get(position).getDevice_Id());
         startActivity(intent);
+
+        Intent intent2 = new Intent(Informasi.this, Edit_Profile.class);
+        intent2.putExtra("nama", dataList.get(position).getNama());
+        intent2.putExtra("wilayah", dataList.get(position).getWilayah());
+        intent2.putExtra("nik", dataList.get(position).getNik());
+        intent2.putExtra("alamat", dataList.get(position).getAlamat());
+        intent2.putExtra("jk", dataList.get(position).getJenis_kelamin());
+        intent2.putExtra("provinsi", dataList.get(position).getProvinsi());
+        intent2.putExtra("kota", dataList.get(position).getKota());
+        intent2.putExtra("kecamatan", dataList.get(position).getKecamatan());
+        intent2.putExtra("kelurahan", dataList.get(position).getKelurahan());
+        intent2.putExtra("tgl_mulai", dataList.get(position).getDurasi());
+        intent2.putExtra("tgl_selesai", dataList.get(position).getSelesai());
+        intent2.putExtra("lat", dataList.get(position).getLat());
+        intent2.putExtra("lng", dataList.get(position).getLng());
+        intent2.putExtra("device_id", dataList.get(position).getDevice_Id());
+        intent2.putExtra("uuid", dataList.get(position).getUuid());
+        intent2.putExtra("device_id",dataList.get(position).getDevice_Id());
 /*
         Intent intent2 = new Intent(getApplicationContext(), ProfileFragment.class);
         intent2.putExtra("nama", dataList.get(position).getNama());

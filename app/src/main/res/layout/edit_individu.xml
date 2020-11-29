@@ -95,28 +95,23 @@
                 android:layout_below="@+id/txt_alamat"
                 android:textColor="#ffffff"
                 />
-            <RadioGroup
+            <LinearLayout
                 android:id="@+id/group_jk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40px"
                 android:layout_below="@+id/jdl_jk"
-                android:textColorHint="#FFFFFF"
+                android:layout_marginLeft="40px"
+                android:backgroundTint="#FFFFFF"
                 android:orientation="horizontal"
-                android:backgroundTint="#FFFFFF">
-                <RadioButton
-                    android:id="@+id/pria"
-                    android:textColor="#ffffff"
+                android:textColorHint="#FFFFFF">
+                <Spinner
+                    android:id="@+id/sp_jk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pria"/>
-                <RadioButton
-                    android:id="@+id/wanita"
-                    android:textColor="#ffffff"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Wanita"/>
-            </RadioGroup>
+                    android:entries="@array/Jenis_Kelamin"
+                    android:spinnerMode="dropdown"/>
+
+            </LinearLayout>
             <TextView
                 android:id="@+id/jdl_device"
                 android:layout_width="wrap_content"
@@ -130,54 +125,59 @@
                 android:id="@+id/txt_device"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40px"
-                android:hint="                                                                 "
                 android:layout_below="@+id/jdl_device"
-                android:textColorHint="#FFFFFF"
-                android:backgroundTint="#FFFFFF"/>
+                android:hint="                                                          "
+                android:layout_marginLeft="40px" />
             <TextView
                 android:id="@+id/jdl_durasi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50px"
-                android:text="Durasi Pengawasan"
                 android:layout_below="@+id/txt_device"
-                android:textColor="#ffffff"
-                />
-            <EditText
+                android:layout_marginLeft="50px"
+                android:text="Tanggal Mulai"
+                android:textColor="#ffffff" />
+            //https://www.youtube.com/watch?v=vYBskgk6on0
+
+            <TextView
                 android:id="@+id/txt_durasi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40px"
-                android:hint="                                                                 "
                 android:layout_below="@+id/jdl_durasi"
-                android:textColorHint="#FFFFFF"
-                android:backgroundTint="#FFFFFF"/>
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+
+                android:text="show Calendar"
+                android:textColor="#000000" />
+
             <TextView
-                android:id="@+id/jdl_riwayat"
+                android:id="@+id/jdl_selesai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50px"
-                android:text="Riwayat Kesehatan"
                 android:layout_below="@+id/txt_durasi"
-                android:textColor="#ffffff"
-                />
-            <EditText
-                android:id="@+id/txt_riwayat"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Tanggal Selesai"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/txt_selesai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40px"
-                android:hint="                                                                 "
-                android:layout_below="@+id/jdl_riwayat"
-                android:textColorHint="#FFFFFF"
-                android:backgroundTint="#FFFFFF"/>
+                android:layout_below="@+id/jdl_selesai"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+
+                android:text="Show Calendar"
+                android:textColor="#000000" />
+
+
             <TextView
                 android:id="@+id/jdl_coordinate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50px"
                 android:text="Coordinate"
-                android:layout_below="@+id/txt_riwayat"
+                android:layout_below="@+id/txt_selesai"
                 android:textColor="#ffffff"
                 />
             <EditText
@@ -190,19 +190,37 @@
                 android:textColorHint="#FFFFFF"
                 android:backgroundTint="#FFFFFF"/>
             <TextView
+                android:id="@+id/jdl_coordinate_baru"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50px"
+                android:text="Coordinate Baru"
+                android:layout_below="@+id/txt_coordinate"
+                android:textColor="#ffffff"
+                />
+            <EditText
+                android:id="@+id/txt_coordinate_baru"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40px"
+                android:hint="                                                                 "
+                android:layout_below="@+id/jdl_coordinate_baru"
+                android:textColorHint="#FFFFFF"
+                android:backgroundTint="#FFFFFF"/>
+            <TextView
                 android:id="@+id/jdl_provinsi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50px"
                 android:text="Provinsi"
-                android:layout_below="@+id/txt_coordinate"
+                android:layout_below="@+id/txt_coordinate_baru"
                 android:textColor="#ffffff" />
             <Spinner
                 android:padding="@dimen/_10sdp"
                 android:id="@+id/sp_name"
                 android:spinnerMode="dropdown"
                 android:entries="@array/provinsi"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_105sdp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/jdl_provinsi"></Spinner>
             <TextView
@@ -213,7 +231,7 @@
                 android:text="Kota/Kabupaten"
                 android:layout_marginStart="100dp"
                 android:layout_toRightOf="@+id/jdl_provinsi"
-                android:layout_below="@+id/txt_coordinate"
+                android:layout_below="@+id/txt_coordinate_baru"
                 android:textColor="#ffffff" />
             <Spinner
                 android:padding="10dp"
@@ -268,19 +286,20 @@
                 android:text="UUID"
                 android:layout_below="@+id/sp_name4"
                 android:textColor="#ffffff" />
-            <Spinner
-                android:padding="10dp"
-                android:id="@+id/sp_name5"
-                android:spinnerMode="dropdown"
-                android:entries="@array/provinsi"
+            <EditText
+                android:id="@+id/txt_uuid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/jdl_uuid"></Spinner>
+                android:layout_below="@+id/jdl_uuid"
+                android:layout_marginLeft="40px"
+                android:backgroundTint="#FFFFFF"
+                android:hint="                                                                 "
+                android:textColorHint="#FFFFFF" />
             <Button
                 android:id="@+id/btn_edit"
                 android:layout_width="@dimen/_200sdp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/sp_name5"
+                android:layout_below="@+id/txt_uuid"
                 android:gravity="center"
                 android:background="#3BE57F"
                 android:text="Edit"

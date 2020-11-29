@@ -251,6 +251,7 @@ public class Registrasi extends AppCompatActivity {
                 String coordinatee = coordinate.getText().toString();
                 String lat = String.valueOf(lat2);
                 String lng = String.valueOf(lng2);
+                String jk2 = spinner.getSelectedItem().toString();
                 if (nama2.isEmpty() || nik2.isEmpty() || alamat2.isEmpty() ||
                        //idd.isEmpty() ||
                         riwayat2.isEmpty() || coordinatee.isEmpty() ||
@@ -286,7 +287,7 @@ public class Registrasi extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Object o) {
                                     //Peristiwa ini terjadi saat user berhasil menyimpan datanya kedalam Database
-                                    dataList.add(new Individu(id2,namaa,nikk,alamatt,provinsi,kota,kecamatan,kelurahan,tglmulai.getText().toString(),tglselesai.getText().toString(),lat,lng,lat_me,lng_me));
+                                    dataList.add(new Individu(id2,namaa,nikk,alamatt,provinsi,kota,kecamatan,kelurahan,tglmulai.getText().toString(),tglselesai.getText().toString(),lat,lng,lat_me,lng_me,jk2));
 
                                     emptydata();
                                     DynamicToast.makeSuccess(Registrasi.this, "Data Tersimpan", Toast.LENGTH_SHORT).show();
