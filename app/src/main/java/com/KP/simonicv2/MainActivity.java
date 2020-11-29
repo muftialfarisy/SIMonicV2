@@ -94,11 +94,14 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
         validasi();
         checkPermission();
         auth = FirebaseAuth.getInstance();
+        /*
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel("My Notification", "My Notification",NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
+
+         */
         getdata();
         cd_regis = (CardView) findViewById(R.id.cd_register);
         cd_regis.setOnClickListener(new View.OnClickListener()
@@ -314,9 +317,11 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
         reference.child("Data ODP").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                int SUMMARY_ID = 0;
+                String GROUP_KEY_WORK_EMAIL = "com.android.example.WORK_EMAIL";
+                String CHANNEL_ID = "MYCHANNEL";
                 for (DataSnapshot Snapshot : snapshot.getChildren()) {
-                                        Individu individu = Snapshot.getValue(Individu.class);
+                    Individu individu = Snapshot.getValue(Individu.class);
 
                     dataList.add(individu);
 
@@ -354,6 +359,45 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
                         if (((a1 > lat_me2) && (lat_me2 > a2)) || ((b1 > lng_me2) && (lng_me2 > b2))) {
 
                         }else{
+                            Notification newMessageNotification1 =
+                                    new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+                                            .setSmallIcon(android.R.drawable.sym_action_chat)
+                                            .setContentTitle("Alert ODP")
+                                            .setContentText("Nama : "+nama+" sedang di luar zona")
+                                            .setGroup(GROUP_KEY_WORK_EMAIL)
+                                            .build();
+
+                            Notification newMessageNotification2 =
+                                    new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+                                            .setSmallIcon(android.R.drawable.sym_action_chat)
+                                            .setContentTitle("Alert ODP")
+                                            .setContentText("Nama : "+nama+" sedang di luar zona")
+                                            .setGroup(GROUP_KEY_WORK_EMAIL)
+                                            .build();
+
+                            Notification summaryNotification =
+                                    new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+                                            .setContentTitle("Alert ODP")
+                                            //set content text to support devices running API level < 24
+                                            .setContentText("Two new messages")
+                                            .setSmallIcon(android.R.drawable.sym_action_chat)
+                                            //build summary info into InboxStyle template
+                                            .setStyle(new NotificationCompat.InboxStyle()
+                                                    .addLine("test 1")
+                                                    .addLine("test 2")
+                                                    .setBigContentTitle("2 new messages")
+                                                    .setSummaryText("test"))
+                                            //specify which group this notification belongs to
+                                            .setGroup(GROUP_KEY_WORK_EMAIL)
+                                            //set this notification as the summary for the group
+                                            .setGroupSummary(true)
+                                            .build();
+
+                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MainActivity.this);
+                            notificationManager.notify(1, newMessageNotification1);
+                            notificationManager.notify(2, newMessageNotification2);
+                            notificationManager.notify(SUMMARY_ID, summaryNotification);
+                            /*
                             NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "My Notification");
                             builder.setContentTitle("My title");
                             builder.setContentText(nama+" test");
@@ -362,6 +406,8 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
 
                             NotificationManagerCompat managerCompat = NotificationManagerCompat.from(MainActivity.this);
                             managerCompat.notify(id, builder.build());
+
+                             */
                         }
 
 
