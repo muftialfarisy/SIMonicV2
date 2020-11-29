@@ -137,7 +137,6 @@ public class Edit_Profile extends AppCompatActivity {
                 nik.setText(nikk);
                 alamat.setText(alamatt);
                 spinner.setSelection(getIndex(spinner, jk));
-                //id masih error
                 id.setText(idd);
                 tglmulai.setText(tgl1);
                 tglselesai.setText(tgl2);
@@ -193,7 +192,7 @@ public class Edit_Profile extends AppCompatActivity {
                 intent.putExtra("nik", nik.getText().toString());
                 intent.putExtra("alamat", alamat.getText().toString());
                 intent.putExtra("jk", spinner.getSelectedItem().toString());
-                //intent.putExtra("id", id.getText().toString());
+                intent.putExtra("id", id.getText().toString());
                 intent.putExtra("tglmulai", tglmulai.getText().toString());
                 intent.putExtra("tglselesai", tglselesai.getText().toString());
                 intent.putExtra("provinsi", spProvinsi.getSelectedItem().toString());
