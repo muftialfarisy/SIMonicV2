@@ -92,23 +92,25 @@ addData();
     public void addData(){
         String uuid = getActivity().getIntent().getStringExtra("device_id");
         reference = FirebaseDatabase.getInstance().getReference();
+        reportlist.clear();
         //for (i=0;i<50;i++) {
       reference.child("Data ODP").child(uuid).child("laporan_checkup").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot Snapshot : snapshot.getChildren()) {
-                    if (!Snapshot.exists()) {
-                        //mid = mid + 1;
+                        if (!Snapshot.exists()) {
+                            //mid = mid + 1;
 
-                    } else {
-                        mid = (Snapshot.getChildrenCount());
-                        Report_c individu = Snapshot.getValue(Report_c.class);
-                        reportlist.add(individu);
-                        adapter = new ReportcAdapter(getActivity(), reportlist);
-                        Rv_reportc.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    }
+                        } else {
+                            mid = (Snapshot.getChildrenCount());
+                            Report_c individu = Snapshot.getValue(Report_c.class);
+                            reportlist.add(individu);
+                            adapter = new ReportcAdapter(getActivity(), reportlist);
+                            Rv_reportc.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
                 }
+
             }
 
             @Override
