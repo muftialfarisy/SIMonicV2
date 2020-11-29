@@ -55,7 +55,6 @@ addData();
 
         Rv_reportc.setLayoutManager(layoutManager);
 
-
             /*for (i=0;i<50;i++) {
                 final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Data ODP").child(uuid).child("laporan_checkup");
                 reference.addValueEventListener(new ValueEventListener() {

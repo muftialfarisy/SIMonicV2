@@ -73,7 +73,7 @@ public class ReportcAdapter extends RecyclerView.Adapter<ReportcAdapter.ViewHold
 
                 movie.setExpanded(!movie.isExpanded());
                 holder.btncolapse.setRotation(270f);
-                //notifyItemChanged(position);
+                notifyItemChanged(position);
 
             }
         });
