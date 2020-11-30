@@ -94,14 +94,11 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
         validasi();
         checkPermission();
         auth = FirebaseAuth.getInstance();
-        /*
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel("My Notification", "My Notification",NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
-
-         */
         getdata();
         cd_regis = (CardView) findViewById(R.id.cd_register);
         cd_regis.setOnClickListener(new View.OnClickListener()
@@ -343,7 +340,6 @@ public class MainActivity extends AppCompatActivity implements IndividuAdapter.O
                     double numberOfSides = 64;
                     double distanceX = radiusInKilometers / (111.319 * Math.cos(lat2 * Math.PI / 180));
                     double distanceY = radiusInKilometers / 110.574;
-                    int id = 1;
 
                     double slice = (2 * Math.PI) / numberOfSides;
                     double theta;
