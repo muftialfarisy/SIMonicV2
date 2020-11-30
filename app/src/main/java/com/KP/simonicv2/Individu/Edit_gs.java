@@ -174,19 +174,19 @@ public class Edit_gs {
     }
 
     String jenis_kelamin;
-    public String getLat_Me() {
+    public String getLat_me() {
         return lat_me;
     }
 
-    public void setLat_Me(String lat_me) {
+    public void setLat_me(String lat_me) {
         this.lat_me = lat_me;
     }
 
-    public String getLng_Me() {
+    public String getLng_me() {
         return lng_me;
     }
 
-    public void setLng_Me(String lng_me) {
+    public void setLng_me(String lng_me) {
         this.lng_me = lng_me;
     }
 

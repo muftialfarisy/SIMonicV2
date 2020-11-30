@@ -1,30 +1,34 @@
 package com.KP.simonicv2.Suhu;
 
 public class Suhu {
-    private String ht;
-    private String keterangan;
+    private Integer suhu;
+    private Integer tanggal;
 
-    public Suhu(String ht ,String keterangan){
-        this.ht = ht;
+    public Suhu(Integer suhu ,Integer tanggal){
+        this.suhu = suhu;
 
-        this.keterangan = keterangan;
+        this.tanggal = tanggal;
 
     }
-    public String getHt() {
-        return ht;
+    public Suhu(){
+
     }
 
-    public void setHt(String ht) {
-        this.ht = ht;
+    public Integer getTanggal() {
+        return tanggal;
+    }
+
+    public void setTanggal(Integer tanggal) {
+        this.tanggal = tanggal;
     }
 
 
-    public String getKeterangan() {
-        return keterangan;
+    public Integer getSuhu() {
+        return suhu;
     }
 
-    public void setKeterangan(String keterangan) {
-        this.keterangan = keterangan;
+    public void setSuhu(Integer suhu) {
+        this.suhu = suhu;
     }
 
 

@@ -2,12 +2,12 @@ package com.KP.simonicv2.Reportm;
 
 public class Report_sos {
     private String sos;
-    private String tgl;
+    private String tanggal;
     private String jam;
 
-    public Report_sos(String sos, String tgl, String jam){
+    public Report_sos(String sos, String tanggal, String jam){
         this.sos = sos;
-        this.tgl = tgl;
+        this.tanggal = tanggal;
         this.jam = jam;
     }
     public Report_sos(){
@@ -22,11 +22,11 @@ public class Report_sos {
     }
 
     public String getTanggal() {
-        return tgl;
+        return tanggal;
     }
 
-    public void setTanggal(String tgl) {
-        this.tgl = tgl;
+    public void setTanggal(String tanggal) {
+        this.tanggal = tanggal;
     }
 
     public String getJam() {

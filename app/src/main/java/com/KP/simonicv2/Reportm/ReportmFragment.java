@@ -98,36 +98,36 @@ public class ReportmFragment extends Fragment {
     }*/
 
     private void adddata(){
-        String uuid = getActivity().getIntent().getStringExtra("device_id");
         reportmlist.clear();
+        String uuid = getActivity().getIntent().getStringExtra("device_id");
+        //for (i=0;i<50;i++) {
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Data ODP").child(uuid).child("laporan_masalah");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot Snapshot : snapshot.getChildren()) {
+                    if (!Snapshot.exists()) {
+                        //mid = mid + 1;
 
-                //for (i=0;i<50;i++) {
-                    final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Data ODP").child(uuid).child("laporan_masalah");
-                    reference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot Snapshot : snapshot.getChildren()) {
-                                if (!Snapshot.exists()) {
-                                    //mid = mid + 1;
+                    } else {
 
-                                } else {
+                        mid = (Snapshot.getChildrenCount());
+                        Report_m individu = Snapshot.getValue(Report_m.class);
+                        reportmlist.add(individu);
 
-                                    mid = (Snapshot.getChildrenCount());
-                                    Report_m individu = Snapshot.getValue(Report_m.class);
-                                    reportmlist.add(individu);
+                        adapter = new ReportmAdapter(getActivity(), reportmlist);
+                        Rv_reportm.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
 
-                                    adapter = new ReportmAdapter(getActivity(), reportmlist);
-                                    Rv_reportm.setAdapter(adapter);
-                                    adapter.notifyDataSetChanged();
-                                }
-                            }
-                        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
-                        }
-                    });
 
                 //}
 
@@ -168,27 +168,29 @@ public class ReportmFragment extends Fragment {
     }
     private void adddata2(){
         String uuid = getActivity().getIntent().getStringExtra("device_id");
+        reportsoslist.clear();
         if (chipJb.isChecked()){
-            if (i < 0){
-            }else{
-                for (i=0;i<50;i++) {
-                    final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Data ODP").child(uuid).child("laporan_sos").child(String.valueOf(i));
+
+                //for (i=0;i<50;i++) {
+                    final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Data ODP").child(uuid).child("laporan_sos");
                     reference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (!snapshot.exists()) {
-                                //mid = mid + 1;
+                            for (DataSnapshot Snapshot : snapshot.getChildren()) {
+                                if (!snapshot.exists()) {
+                                    //mid = mid + 1;
 
-                            } else {
+                                } else {
 
-                                mid = (snapshot.getChildrenCount());
-                                Report_sos individu2 = snapshot.getValue(Report_sos.class);
-                                reportsoslist.add(individu2);
+                                    mid = (Snapshot.getChildrenCount());
+                                    Report_sos individu2 = Snapshot.getValue(Report_sos.class);
+                                    reportsoslist.add(individu2);
 
-                                adapters = new ReportsAdapter(getActivity(),reportsoslist);
-                                Rv_reportm.setAdapter(adapters);
+                                    adapters = new ReportsAdapter(getActivity(), reportsoslist);
+                                    Rv_reportm.setAdapter(adapters);
 
-                                adapters.notifyDataSetChanged();
+                                    adapters.notifyDataSetChanged();
+                                }
                             }
                         }
 
@@ -198,8 +200,8 @@ public class ReportmFragment extends Fragment {
                         }
                     });
 
-                }
-            }
+                //}
+
         }
     }
 }

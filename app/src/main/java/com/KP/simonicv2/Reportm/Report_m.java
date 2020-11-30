@@ -26,8 +26,8 @@ public class Report_m{
         return tanggal;
     }
 
-    public void setTanggal(String tgl) {
-        this.tanggal = tgl;
+    public void setTanggal(String tanggal) {
+        this.tanggal = tanggal;
     }
 
     public String getJam() {
