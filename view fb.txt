@@ -1,5 +1,5 @@
 package com.wildan.firebasecrud.adapter;
-
+//kntl
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
